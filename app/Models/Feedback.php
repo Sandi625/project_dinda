@@ -33,4 +33,6 @@ class Feedback extends Model
     {
         return $this->belongsTo(Penilaian::class, 'id_penilaian', 'id_penilaian');
     }
+
+
 }

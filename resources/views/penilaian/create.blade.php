@@ -28,17 +28,18 @@
         </div>
 
         <h5>Detail Penilaian</h5>
-        <div id="detail-penilaian">
-            @foreach ($kriterias as $kriteria)
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label class="form-label">{{ $kriteria->nama_kriteria }}</label>
-                        <input type="hidden" name="detail[{{ $loop->index }}][id_kriteria]" value="{{ $kriteria->id_kriteria }}">
-                        <input type="number" name="detail[{{ $loop->index }}][nilai]" class="form-control" placeholder="Nilai" required>
-                    </div>
-                </div>
-            @endforeach
+       <div id="detail-penilaian">
+    @foreach ($kriterias as $kriteria)
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Nama Kriteria: {{ $kriteria->nama }}</label>
+                <input type="hidden" name="detail[{{ $loop->index }}][id_kriteria]" value="{{ $kriteria->id_kriteria }}">
+                <input type="number" name="detail[{{ $loop->index }}][nilai]" class="form-control" placeholder="Nilai untuk {{ $kriteria->nama }}" required>
+            </div>
         </div>
+    @endforeach
+</div>
+
 
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>

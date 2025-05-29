@@ -40,4 +40,6 @@ class DetailPenilaian extends Model
         return $this->belongsTo(KriteriaPenilaian::class, 'id_kriteria', 'id_kriteria');
     }
 
+
+
 }
