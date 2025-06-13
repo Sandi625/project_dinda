@@ -33,11 +33,11 @@
 
             <!-- Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="/dashboard">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
+    <a class="nav-link" href="{{ route('dashboard.kepsek') }}">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+    </a>
+</li>
 
             <hr class="sidebar-divider">
 
@@ -50,23 +50,23 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="{{ url('/laporan') }}">
                     <i class="fas fa-chart-line"></i>
                     <span>Laporan</span>
                 </a>
-            </li>
+            </li> --}}
 
             <hr class="sidebar-divider">
 
             <div class="sidebar-heading">Pengaturan</div>
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="{{ url('/pengguna') }}">
                     <i class="fas fa-users-cog"></i>
                     <span>Kelola Pengguna</span>
                 </a>
-            </li>
+            </li> --}}
 
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -117,10 +117,10 @@
                                     src="{{ asset('assets/sb-admin/img/undraw_profile.svg') }}">
                             </a>
                             <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in">
-                                <a class="dropdown-item" href="#">
+                                {{-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profil
-                                </a>
+                                </a> --}}
                                 <div class="dropdown-divider"></div>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf

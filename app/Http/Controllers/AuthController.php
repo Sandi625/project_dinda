@@ -21,20 +21,23 @@ public function login(Request $request)
         'password' => 'required',
     ]);
 
-    if (Auth::attempt($credentials)) {
-        $user = Auth::user();
+ if (Auth::attempt($credentials)) {
+    $user = Auth::user();
 
-        if ($user->role === 'admin') {
-            return redirect()->intended('/guru');
-        } elseif ($user->role === 'kepala_sekolah') {
-            return redirect()->intended('/kepsek');  // arahkan ke dashboard kepala sekolah
-        } elseif ($user->role === 'guru') {
-            return redirect()->intended('/halamanguru');
-        }
-
-        Auth::logout();
-        return back()->with('error', 'Role tidak dikenali.');
+    if ($user->role === 'admin') {
+        return redirect()->intended(route('dashboard.admin'));
+    } elseif ($user->role === 'kepala_sekolah') {
+        return redirect()->intended(route('dashboard.kepsek'));
+    } elseif ($user->role === 'guru') {
+        return redirect()->intended(route('dashboard.guru'));
     }
+
+    Auth::logout();
+    return back()->with('error', 'Role tidak dikenali.');
+}
+
+
+
 
     return back()->with('error', 'Email atau password salah.');
 }

@@ -23,6 +23,13 @@ class HalamanKepsekController extends Controller
         $kriteria = KriteriaPenilaian::all();
         return view('kepsek.create', compact('guru', 'kriteria'));
     }
+    public function show($id)
+{
+    // Misal tampilkan detail penilaian atau redirect ke index
+    $penilaian = Penilaian::with('detailPenilaian')->findOrFail($id);
+    return view('kepsek.show', compact('penilaian'));
+}
+
 
     public function store(Request $request)
     {

@@ -17,6 +17,13 @@ class GuruController extends Controller
         return view('guru.index', compact('guru'));
     }
 
+    public function show($id)
+{
+    $guru = Guru::findOrFail($id);
+    return view('guru.show', compact('guru'));
+}
+
+
     /**
      * Show the form for creating a new resource.
      */

@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Feedback;
 use App\Models\Penilaian;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Auth;
+
 
 class HalamanGuruController extends Controller
 {
@@ -17,6 +21,16 @@ class HalamanGuruController extends Controller
 
         return view('halamanguru.index', compact('penilaians'));
     }
+
+    public function show($id)
+{
+    // Ambil data guru berdasarkan ID
+    $guru = Penilaian::findOrFail($id);
+
+    // Tampilkan ke view
+    return view('guru.show', compact('guru'));
+}
+
 
     // Form Tambah Feedback
     public function create(Request $request)
@@ -87,4 +101,28 @@ public function edit($id)
         return redirect()->route('halamanguru.index')
             ->with('success', 'Feedback berhasil dihapus.');
     }
+
+    public function dashboard()
+{
+   $guru = Auth::user();
+
+
+    // Total penilaian yang dilakukan guru ini
+    $totalPenilaian = Penilaian::where('guru_id', $guru->id)->count();
+
+    // Total feedback yang sudah diberikan untuk penilaian guru ini
+    $totalFeedback = Feedback::whereHas('penilaian', function($q) use ($guru) {
+        $q->where('guru_id', $guru->id);
+    })->count();
+
+    // Ambil beberapa penilaian terakhir untuk ditampilkan di dashboard
+    $penilaianTerbaru = Penilaian::with('detailPenilaian.kriteria', 'feedback')
+        ->where('guru_id', $guru->id)
+        ->latest()
+        ->take(5)
+        ->get();
+
+    return view('halamanguru.dashboard', compact('guru', 'totalPenilaian', 'totalFeedback', 'penilaianTerbaru'));
+}
+
 }
