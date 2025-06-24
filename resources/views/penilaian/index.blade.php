@@ -12,6 +12,8 @@
     @endif
 
     <a href="{{ route('penilaian.create') }}" class="btn btn-primary mb-3">Tambah Penilaian</a>
+<a href="{{ route('penilaian.pdf') }}" class="btn btn-danger mb-3">Export PDF</a>
+
 
     <table class="table table-bordered table-striped align-middle">
         <thead class="table-primary">

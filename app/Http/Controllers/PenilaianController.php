@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 use App\Models\Penilaian;
 use App\Models\DetailPenilaian;
@@ -17,6 +18,13 @@ class PenilaianController extends Controller
     $penilaian = Penilaian::with(['guru', 'detailPenilaian.kriteria'])->get();
     return view('penilaian.index', compact('penilaian'));
 }
+
+public function show($id)
+{
+    $penilaian = Penilaian::with(['guru', 'detailPenilaian.kriteria'])->findOrFail($id);
+    return view('penilaian.show', compact('penilaian'));
+}
+
 
 
 
@@ -112,4 +120,15 @@ class PenilaianController extends Controller
 
         return redirect()->route('penilaian.index')->with('success', 'Penilaian berhasil dihapus.');
     }
+
+
+
+public function exportPdf()
+{
+    $penilaian = Penilaian::with(['guru', 'detailPenilaian.kriteria'])->get();
+
+    $pdf = Pdf::loadView('penilaian.pdf', compact('penilaian'))->setPaper('A4', 'landscape');
+    return $pdf->download('data-penilaian.pdf');
+}
+
 }

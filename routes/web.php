@@ -16,6 +16,7 @@ use App\Http\Controllers\KriteriaPenilaianController;
 Route::get('/', function () {
     return view('index');
 });
+Route::get('/penilaian/cetak-pdf', [PenilaianController::class, 'exportPdf'])->name('penilaian.pdf');
 
 // Route hanya bisa diakses admin - sementara di-nonaktifkan middleware-nya
 Route::resource('guru', GuruController::class);
@@ -79,3 +80,5 @@ Route::middleware(['auth', 'role:kepala_sekolah'])->group(function () {
 
 
 Route::get('/halamanguru/dashboard', [HalamanGuruController::class, 'dashboard'])->name('halamanguru.dashboard');
+
+
