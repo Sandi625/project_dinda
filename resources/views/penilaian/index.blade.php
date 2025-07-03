@@ -13,6 +13,18 @@
 
     <a href="{{ route('penilaian.create') }}" class="btn btn-primary mb-3">Tambah Penilaian</a>
 <a href="{{ route('penilaian.pdf') }}" class="btn btn-danger mb-3">Export PDF</a>
+<form method="GET" action="{{ route('penilaian.index') }}" class="mb-3 d-flex align-items-center gap-2">
+    <label for="periode" class="form-label mb-0">Filter Periode:</label>
+    <select name="periode" id="periode" class="form-select w-auto">
+        <option value="">-- Semua --</option>
+        @foreach ($daftarPeriode as $periodeOption)
+            <option value="{{ $periodeOption }}" {{ request('periode') == $periodeOption ? 'selected' : '' }}>
+                {{ $periodeOption }}
+            </option>
+        @endforeach
+    </select>
+    <button type="submit" class="btn btn-outline-primary btn-sm">Tampilkan</button>
+</form>
 
 
     <table class="table table-bordered table-striped align-middle">
@@ -44,6 +56,9 @@
                     </ul>
                 </td>
                 <td>
+                      <a href="{{ route('penilaian.download', $p->id_penilaian) }}" class="btn btn-sm btn-info">
+        Download
+    </a>
                     <a href="{{ route('penilaian.edit', $p->id_penilaian) }}" class="btn btn-sm btn-warning">Edit</a>
 
                     <form action="{{ route('penilaian.destroy', $p->id_penilaian) }}" method="POST" class="d-inline"

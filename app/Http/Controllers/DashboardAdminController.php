@@ -17,14 +17,30 @@ class DashboardAdminController extends Controller
 public function index()
 {
     $penilaian = DB::table('detail_penilaian')
+        ->join('penilaian', 'detail_penilaian.id_penilaian', '=', 'penilaian.id_penilaian')
+        ->join('guru', 'penilaian.id_guru', '=', 'guru.id_guru')
         ->join('kriteria_penilaian', 'detail_penilaian.id_kriteria', '=', 'kriteria_penilaian.id_kriteria')
-        ->select('kriteria_penilaian.nama as kriteria', DB::raw('AVG(detail_penilaian.nilai) as rata_rata'))
-        ->groupBy('detail_penilaian.id_kriteria', 'kriteria_penilaian.nama')
+        ->select(
+            'guru.nama as nama_guru',
+            'kriteria_penilaian.nama as kriteria',
+            DB::raw("DATE_FORMAT(penilaian.created_at, '%Y-%m') as periode"),
+            DB::raw('AVG(detail_penilaian.nilai) as rata_rata')
+        )
+        ->groupBy(
+            'guru.id_guru',
+            'guru.nama',
+            'kriteria_penilaian.id_kriteria',
+            'kriteria_penilaian.nama',
+            DB::raw("DATE_FORMAT(penilaian.created_at, '%Y-%m')")
+        )
+        ->orderBy('periode')
         ->get()
         ->map(function ($item) {
             return (object)[
+                'guru' => $item->nama_guru,
                 'kriteria' => $item->kriteria,
-                'rata_rata' => (float) $item->rata_rata,
+                'periode' => $item->periode,
+                'rata_rata' => round($item->rata_rata, 2),
             ];
         });
 
@@ -33,6 +49,7 @@ public function index()
 
     return view('dashboard.admin', compact('penilaian', 'totalFeedback', 'totalGuru'));
 }
+
 
 
 

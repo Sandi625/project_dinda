@@ -78,8 +78,8 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Kelola</h6>
                         <a class="collapse-item" href="{{ url('/guru') }}">Guru</a>
+                        <a class="collapse-item" href="{{ url('/kriteria_penilaian') }}">Kriteria</a>
                         <a class="collapse-item" href="{{ url('/penilaian') }}">Penilaian</a>
-                         <a class="collapse-item" href="{{ url('/kriteria_penilaian') }}">Kriteria</a>
                            <a class="collapse-item" href="{{ url('/feedback') }}">Feedback</a>
 
 
@@ -91,6 +91,29 @@
                     </div>
                 </div>
             </li>
+
+                       <li class="nav-item">
+    <a class="nav-link" href="{{ route('berita.index') }}">
+        <i class="fas fa-user-circle"></i>
+        <span>Berita</span>
+    </a>
+</li>
+       <li class="nav-item">
+    <a class="nav-link" href="{{ route('users.index') }}">
+        <i class="fas fa-user-circle"></i>
+        <span>Users</span>
+    </a>
+</li>
+
+            <li class="nav-item">
+    <a class="nav-link" href="{{ route('profile.show') }}">
+        <i class="fas fa-user-circle"></i>
+        <span>Profil Saya</span>
+    </a>
+</li>
+
+
+
 
 
 

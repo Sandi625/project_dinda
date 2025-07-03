@@ -308,83 +308,23 @@
     </div>
 
 
-    <div class="containerArtikelHome container">
-        <h2>Artikel Terbaru</h2>
+ <div class="containerArtikelHome container">
+    <h2>Artikel Terbaru</h2>
 
-        <div class="artikelHome">
-
-
-            <a class="perArtikelHome">
-                <img src="images/1.jpg" alt="Foto Artikel">
-                <h3>Tutorial Login Laravel 8</h3>
-                <small>Di tulis oleh : <span>dinda</span></small>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti quo, iure repellendus explicabo
-                    delectus quasi amet libero iusto sequi at.
-                </p>
+    <div class="artikelHome">
+        @forelse ($beritaTerbaru as $berita)
+            <a class="perArtikelHome" href="{{ route('berita.user.show', $berita) }}">
+                <img src="{{ asset('storage/' . $berita->gambar) }}" alt="{{ $berita->judul }}">
+                <h3>{{ $berita->judul }}</h3>
+                <small>Di tulis oleh: <span>{{ $berita->creator->name ?? 'Admin' }}</span></small>
+                <p>{{ \Illuminate\Support\Str::limit(strip_tags($berita->ringkasan), 100) }}</p>
             </a>
-
-            <a class="perArtikelHome">
-                <img src="images/1.jpg" alt="Foto Artikel">
-                <h3>Tutorial Login Laravel 8</h3>
-                <small>Di tulis oleh : <span>dinda</span></small>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti quo, iure repellendus explicabo
-                    delectus quasi amet libero iusto sequi at.
-                </p>
-            </a>
-
-
-            <a class="perArtikelHome">
-                <img src="images/1.jpg" alt="Foto Artikel">
-                <h3>Tutorial Login Laravel 8</h3>
-                <small>Di tulis oleh : <span>dinda</span></small>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti quo, iure repellendus explicabo
-                    delectus quasi amet libero iusto sequi at.
-                </p>
-            </a>
-
-
-            <a class="perArtikelHome">
-                <img src="images/1.jpg" alt="Foto Artikel">
-                <h3>Tutorial Login Laravel 8</h3>
-                <small>Di tulis oleh : <span>dinda</span></small>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti quo, iure repellendus
-                    explicabo
-                    delectus quasi amet libero iusto sequi at.
-                </p>
-            </a>
-
-
-            <a class="perArtikelHome">
-                <img src="images/1.jpg" alt="Foto Artikel">
-                <h3>Tutorial Login Laravel 8</h3>
-                <small>Di tulis oleh : <span>dinda</span></small>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti quo, iure repellendus
-                    explicabo
-                    delectus quasi amet libero iusto sequi at.
-                </p>
-            </a>
-
-
-            <a class="perArtikelHome">
-                <img src="images/1.jpg" alt="Foto Artikel">
-                <h3>Tutorial Login Laravel 8</h3>
-                <small>Di tulis oleh : <span>dinda</span></small>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti quo, iure repellendus
-                    explicabo
-                    delectus quasi amet libero iusto sequi at.
-                </p>
-            </a>
-
-
-
-        </div>
+        @empty
+            <p>Tidak ada artikel terbaru saat ini.</p>
+        @endforelse
     </div>
+</div>
+
 
 
 

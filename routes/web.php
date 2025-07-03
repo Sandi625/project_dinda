@@ -5,6 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController; // <- ini error kalau belum ada
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\HalamanGuruController;
 use App\Http\Controllers\DashboardGuruController;
@@ -12,10 +15,10 @@ use App\Http\Controllers\HalamanKepsekController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardKepsekController;
 use App\Http\Controllers\KriteriaPenilaianController;
+use App\Http\Controllers\UsersController;
 
-Route::get('/', function () {
-    return view('index');
-});
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/penilaian/cetak-pdf', [PenilaianController::class, 'exportPdf'])->name('penilaian.pdf');
 
 // Route hanya bisa diakses admin - sementara di-nonaktifkan middleware-nya
@@ -80,5 +83,32 @@ Route::middleware(['auth', 'role:kepala_sekolah'])->group(function () {
 
 
 Route::get('/halamanguru/dashboard', [HalamanGuruController::class, 'dashboard'])->name('halamanguru.dashboard');
+Route::get('/penilaian/{id}/download', [PenilaianController::class, 'downloadPerPenilaian'])->name('penilaian.download');
 
 
+
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+});
+
+Route::get('/berita/{berita:slug}', [BeritaController::class, 'userShow'])->name('berita.user.show');
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::resource('berita', BeritaController::class)->parameters([
+        'berita' => 'berita' // <--- Fix penamaan parameter
+    ]);
+});
+
+
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::resource('users', UsersController::class)->parameters([
+        'users' => 'user' // Ini agar Laravel pakai `id_user` di URL, bukan `id`
+    ]);
+});

@@ -29,6 +29,11 @@
                     <label for="nama" class="form-label">Nama</label>
                     <input type="text" name="nama" id="nama" class="form-control" placeholder="Masukkan Nama" required>
                 </div>
+                {{-- Tambahan Mapel --}}
+                <div class="mb-3">
+                    <label for="mapel" class="form-label">Mata Pelajaran (Mapel)</label>
+                    <input type="text" name="mapel" id="mapel" class="form-control" placeholder="Masukkan Mata Pelajaran">
+                </div>
 
                 <div class="mb-3">
                     <label for="alamat" class="form-label">Alamat</label>

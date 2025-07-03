@@ -27,6 +27,7 @@ class Guru extends Model
         'nip',
         'nama',
         'alamat',
+        'mapel',
     ];
 
     // Relasi ke User (assuming model User ada di App\Models\User)

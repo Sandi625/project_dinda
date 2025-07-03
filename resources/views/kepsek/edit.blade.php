@@ -23,6 +23,19 @@
             </select>
             <input type="hidden" name="id_guru" value="{{ $penilaian->id_guru }}">
         </div>
+             <div class="mb-3">
+    <label for="id_user" class="form-label">User Pembuat</label>
+    <select name="id_user" class="form-select" required>
+        <option value="">-- Pilih User --</option>
+        @foreach ($users as $user)
+            <option value="{{ $user->id_user }}"
+                {{ $penilaian->id_user == $user->id_user ? 'selected' : '' }}>
+                {{ $user->name }} ({{ $user->role }})
+            </option>
+        @endforeach
+    </select>
+</div>
+
 
         <div class="mb-3">
             <label for="periode" class="form-label">Periode</label>

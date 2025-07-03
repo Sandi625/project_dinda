@@ -17,6 +17,7 @@ return new class extends Migration
     $table->string('nip', 20)->nullable();
     $table->string('nama', 100);
     $table->text('alamat')->nullable();
+      $table->string('mapel', 100)->nullable(); // <-- Tambahkan ini
     $table->timestamps();
 
     $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');

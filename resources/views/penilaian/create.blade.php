@@ -16,6 +16,16 @@
                 @endforeach
             </select>
         </div>
+        <div class="mb-3">
+    <label for="id_user" class="form-label">User Pembuat</label>
+    <select name="id_user" class="form-select" required>
+        <option value="">-- Pilih User --</option>
+        @foreach ($users as $user)
+            <option value="{{ $user->id_user }}">{{ $user->name }} ({{ $user->role }})</option>
+        @endforeach
+    </select>
+</div>
+
 
         <div class="mb-3">
             <label for="periode" class="form-label">Periode</label>

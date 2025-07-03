@@ -13,14 +13,22 @@ use Illuminate\Support\Facades\Auth;
 class HalamanGuruController extends Controller
 {
     // Tampilkan daftar penilaian dengan relasi
-    public function index()
-    {
-        $penilaians = Penilaian::with(['guru', 'detailPenilaian.kriteria', 'feedback'])
-            ->latest()
-            ->get();
+public function index()
+{
+    $user = Auth::user();
 
-        return view('halamanguru.index', compact('penilaians'));
+    $query = Penilaian::with(['guru', 'detailPenilaian.kriteria', 'feedback'])->latest();
+
+    // Jika role adalah guru, hanya tampilkan penilaian miliknya
+    if ($user->role === 'guru') {
+        $query->where('id_user', $user->id_user); // ✅ gunakan id_user, bukan id_guru
     }
+
+    $penilaians = $query->get();
+
+    return view('halamanguru.index', compact('penilaians'));
+}
+
 
     public function show($id)
 {

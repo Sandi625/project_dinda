@@ -8,6 +8,8 @@
     </ol>
 
     {{-- Card Statistik --}}
+
+
     <div class="row justify-content-center">
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card bg-info text-white shadow h-100 py-2 text-center">
@@ -27,42 +29,201 @@
             </div>
         </div>
     </div>
-
-    {{-- Tabel Rata-rata Nilai --}}
-    <div class="row justify-content-center">
-        <div class="col-xl-8 col-md-10 mb-5">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white fw-bold">
-                    Rata-rata Nilai Penilaian per Kriteria
+<div class="container-fluid px-4 mt-4">
+    <div class="row">
+        <!-- Grafik Bar (60%) -->
+        <div class="col-lg-7 col-md-12 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header py-3 bg-white">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Rata-Rata Penilaian per Kriteria per Guru
+                    </h6>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover mb-0">
-                            <thead class="table-light">
-                                <tr class="text-center">
-                                    <th>No</th>
-                                    <th>Kriteria</th>
-                                    <th>Rata-rata Nilai</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($penilaian as $index => $item)
-                                <tr class="text-center">
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>{{ $item->kriteria }}</td>
-                                    <td>{{ number_format($item->rata_rata, 2) }}</td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="3" class="text-center text-muted">Tidak ada data penilaian.</td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                    <div style="height: 350px;">
+                        <canvas id="kriteriaPerGuruChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Line Chart (40%) -->
+      <div class="col-lg-5 col-md-12 mb-4">
+    <div class="card shadow h-100">
+        <div class="card-header bg-white py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Grafik Garis - Rata-rata Nilai per Kriteria
+            </h6>
+        </div>
+        <div class="card-body p-3">
+            <div style="height: 100%; min-height: 300px;">
+                <canvas id="lineChartKriteria" style="width: 100%; height: 100%;"></canvas>
+            </div>
+        </div>
     </div>
 </div>
+
+
+    <!-- Grafik Line per Guru per Periode -->
+   <div class="card shadow mb-3">
+    <div class="card-header bg-white py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            Grafik Nilai per Guru per Periode
+        </h6>
+    </div>
+    <div class="card-body">
+        <div style="height: 150px;">
+            <canvas id="chartGuruPeriode"></canvas>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const rawPenilaianBar = @json($penilaian);
+
+    const guruListBar = [...new Set(rawPenilaianBar.map(p => p.guru))];
+    const kriteriaListBar = [...new Set(rawPenilaianBar.map(p => p.kriteria))];
+
+    const warnaBar = [
+        'rgba(75, 192, 192, 0.5)',
+        'rgba(255, 99, 132, 0.5)',
+        'rgba(255, 206, 86, 0.5)',
+        'rgba(54, 162, 235, 0.5)',
+        'rgba(153, 102, 255, 0.5)',
+        'rgba(255, 159, 64, 0.5)',
+    ];
+
+    const datasetBar = kriteriaListBar.map((kriteria, idx) => ({
+        label: kriteria,
+        backgroundColor: warnaBar[idx % warnaBar.length],
+        borderColor: warnaBar[idx % warnaBar.length].replace('0.5', '1'),
+        borderWidth: 1,
+        data: guruListBar.map(guru => {
+            const found = rawPenilaianBar.find(p => p.guru === guru && p.kriteria === kriteria);
+            return found ? found.rata_rata : 0;
+        }),
+    }));
+
+    new Chart(document.getElementById("kriteriaPerGuruChart").getContext("2d"), {
+        type: 'bar',
+        data: {
+            labels: guruListBar,
+            datasets: datasetBar
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Rata-Rata Nilai' }
+                },
+                x: {
+                    title: { display: true, text: 'Nama Guru' }
+                }
+            },
+            plugins: {
+                tooltip: { mode: 'index', intersect: false },
+                title: { display: false }
+            }
+        }
+    });
+</script>
+
+
+<script>
+    const labelsLineKriteria = @json($penilaian->pluck('kriteria'));
+    const dataLineKriteria = @json($penilaian->pluck('rata_rata'));
+
+    new Chart(document.getElementById("lineChartKriteria").getContext("2d"), {
+        type: 'line',
+        data: {
+            labels: labelsLineKriteria,
+            datasets: [{
+                label: 'Rata-rata Nilai',
+                data: dataLineKriteria,
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(54, 162, 235, 1)',
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Nilai' }
+                },
+                x: {
+                    title: { display: true, text: 'Kriteria' }
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+</script>
+
+
+
+<script>
+    const rawLinePeriode = @json($penilaian);
+
+    const guruListLinePeriode = [...new Set(rawLinePeriode.map(d => d.guru))];
+    const periodeListLine = [...new Set(rawLinePeriode.map(d => d.periode))].sort();
+
+    const warnaGuruLine = [
+        '#3b82f6', '#10b981', '#f59e0b', '#ef4444',
+        '#8b5cf6', '#ec4899', '#14b8a6', '#eab308'
+    ];
+
+    const datasetLinePeriode = guruListLinePeriode.map((guru, i) => ({
+        label: guru,
+        data: periodeListLine.map(periode => {
+            const found = rawLinePeriode.find(d => d.guru === guru && d.periode === periode);
+            return found ? found.rata_rata : null;
+        }),
+        borderColor: warnaGuruLine[i % warnaGuruLine.length],
+        backgroundColor: warnaGuruLine[i % warnaGuruLine.length] + '33',
+        fill: false,
+        tension: 0.3
+    }));
+
+    new Chart(document.getElementById("chartGuruPeriode").getContext("2d"), {
+        type: 'line',
+        data: {
+            labels: periodeListLine,
+            datasets: datasetLinePeriode
+        },
+        options: {
+            responsive: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: { mode: 'nearest' }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Periode (Bulan)' }},
+                y: { beginAtZero: true, title: { display: true, text: 'Rata-rata Nilai' }}
+            }
+        }
+    });
+</script>
+
+
+
+
 @endsection
+

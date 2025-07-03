@@ -43,6 +43,7 @@ class GuruController extends Controller
             'nip' => 'nullable|string|max:20',
             'nama' => 'required|string|max:100',
             'alamat' => 'nullable|string',
+            'mapel' => 'nullable|string',
         ]);
 
         Guru::create($request->all());
@@ -69,6 +70,7 @@ class GuruController extends Controller
             'nip' => 'nullable|string|max:20',
             'nama' => 'required|string|max:100',
             'alamat' => 'nullable|string',
+            'mapel' => 'nullable|string',
         ]);
 
         $guru->update($request->all());
