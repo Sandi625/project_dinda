@@ -75,20 +75,21 @@
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Kelola</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Kelola</h6>
+             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+    <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Kelola</h6>
 
-                           <a class="collapse-item" href="{{ url('/halamanguru') }}">Feedback</a>
+        <a class="collapse-item" href="{{ url('/halamanguru') }}">Feedback</a>
+        <a class="collapse-item" href="{{ route('guru.profile.show') }}">Profil</a>
 
+        {{--
+        <a class="collapse-item" href="{{ url('/subkriteria') }}">Sub Kriteria</a>
+        <a class="collapse-item" href=" {{ url('/penilaian') }}">Penilaian</a>
+        <a class="collapse-item" href=" {{ url('/penilaian/all') }}">Hasil Penilaian</a>
+        --}}
+    </div>
+</div>
 
-                        {{-- <a class="collapse-item" href="{{ url('/subkriteria') }}">Sub Kriteria</a>
-                        <a class="collapse-item" href=" {{ url('/penilaian') }}">Penilaian</a>
-                        <a class="collapse-item" href=" {{ url('/penilaian/all') }}">Hasil Penilaian</a> --}}
-
-
-                    </div>
-                </div>
             </li>
 
 

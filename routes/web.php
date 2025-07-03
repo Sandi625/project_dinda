@@ -1,28 +1,30 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileKepsek;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\HomeController; // <- ini error kalau belum ada
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\HalamanGuruController;
+use App\Http\Controllers\ProfileGuruController;
 use App\Http\Controllers\DashboardGuruController;
 use App\Http\Controllers\HalamanKepsekController;
+use App\Http\Controllers\ProfileKepsekController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardKepsekController;
 use App\Http\Controllers\KriteriaPenilaianController;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\HomeController; // <- ini error kalau belum ada
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/penilaian/cetak-pdf', [PenilaianController::class, 'exportPdf'])->name('penilaian.pdf');
 
 // Route hanya bisa diakses admin - sementara di-nonaktifkan middleware-nya
-Route::resource('guru', GuruController::class);
 Route::resource('penilaian', PenilaianController::class);
 Route::resource('kriteria_penilaian', KriteriaPenilaianController::class);
 Route::resource('feedback', FeedbackController::class);
@@ -31,7 +33,7 @@ Route::resource('feedback', FeedbackController::class);
 Route::resource('halamanguru', HalamanGuruController::class);
 
 // Route hanya bisa diakses kepala sekolah - sementara di-nonaktifkan middleware-nya
-Route::resource('kepsek', HalamanKepsekController::class);
+
 
 
 
@@ -90,12 +92,7 @@ Route::get('/penilaian/{id}/download', [PenilaianController::class, 'downloadPer
 
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
-});
+
 
 Route::get('/berita/{berita:slug}', [BeritaController::class, 'userShow'])->name('berita.user.show');
 
@@ -112,3 +109,36 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         'users' => 'user' // Ini agar Laravel pakai `id_user` di URL, bukan `id`
     ]);
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+});
+
+
+
+
+
+Route::middleware(['auth', 'role:kepala_sekolah'])->name('kepsek.profile.')->group(function () {
+    Route::get('/kepsek/profile', [ProfileKepsekController::class, 'show'])->name('show');
+    Route::get('/kepsek/profile/edit', [ProfileKepsekController::class, 'edit'])->name('edit');
+    Route::put('/kepsek/profile', [ProfileKepsekController::class, 'update'])->name('update');
+    Route::put('/kepsek/profile/password', [ProfileKepsekController::class, 'updatePassword'])->name('password.update');
+});
+
+Route::resource('kepsek', HalamanKepsekController::class);
+
+
+Route::middleware(['auth', 'role:guru'])->name('guru.profile.')->group(function () {
+    Route::get('/guru/profile', [ProfileGuruController::class, 'show'])->name('show');
+    Route::get('/guru/profile/edit', [ProfileGuruController::class, 'edit'])->name('edit');
+    Route::put('/guru/profile', [ProfileGuruController::class, 'update'])->name('update');
+    Route::put('/guru/profile/password', [ProfileGuruController::class, 'updatePassword'])->name('password.update');
+});
+
+
+Route::resource('guru', GuruController::class);
+
+

@@ -28,4 +28,14 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+
+
+
+    // App\Models\User.php
+public function profile()
+{
+    return $this->hasOne(Profile::class, 'user_id', 'id_user'); // sesuaikan foreign key
+}
+
 }

@@ -50,12 +50,14 @@
                 </a>
             </li>
 
-            {{-- <li class="nav-item">
-                <a class="nav-link" href="{{ url('/laporan') }}">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Laporan</span>
-                </a>
-            </li> --}}
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('kepsek.profile.show') }}">
+        <i class="fas fa-user-tie"></i>
+        <span>Profil Kepala Sekolah</span>
+    </a>
+</li>
+
+
 
             <hr class="sidebar-divider">
 
