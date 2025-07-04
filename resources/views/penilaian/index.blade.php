@@ -15,7 +15,8 @@
 <a href="{{ route('penilaian.pdf') }}" class="btn btn-danger mb-3">Export PDF</a>
 <form method="GET" action="{{ route('penilaian.index') }}" class="mb-3 d-flex align-items-center gap-2">
     <label for="periode" class="form-label mb-0">Filter Periode:</label>
-    <select name="periode" id="periode" class="form-select w-auto">
+  <form method="GET" action="{{ route('kepsek.index') }}" class="d-inline-block">
+    <select name="periode" id="periode" class="form-select w-auto d-inline-block" onchange="this.form.submit()">
         <option value="">-- Semua --</option>
         @foreach ($daftarPeriode as $periodeOption)
             <option value="{{ $periodeOption }}" {{ request('periode') == $periodeOption ? 'selected' : '' }}>
@@ -23,7 +24,8 @@
             </option>
         @endforeach
     </select>
-    <button type="submit" class="btn btn-outline-primary btn-sm">Tampilkan</button>
+</form>
+
 </form>
 
 

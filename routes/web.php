@@ -141,4 +141,5 @@ Route::middleware(['auth', 'role:guru'])->name('guru.profile.')->group(function 
 
 Route::resource('guru', GuruController::class);
 
+Route::get('/penilaian/kepsek-download/{id}', [HalamanKepsekController::class, 'downloadUntukKepalaSekolah'])->name('penilaian.kepsek.download');
 

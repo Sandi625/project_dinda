@@ -14,6 +14,21 @@
     @endif
 
     <a href="{{ route('kepsek.create') }}" class="btn btn-primary mb-3">Tambah Penilaian</a>
+    <form method="GET" action="{{ route('kepsek.index') }}" class="mb-3">
+    <div class="row">
+        <div class="col-md-4">
+            <select name="periode" class="form-select" onchange="this.form.submit()">
+                <option value="">-- Semua Periode --</option>
+                @foreach ($daftarPeriode as $periode)
+                    <option value="{{ $periode }}" {{ request('periode') == $periode ? 'selected' : '' }}>
+                        {{ $periode }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</form>
+
 
     <table class="table table-bordered table-striped">
         <thead>
@@ -40,15 +55,18 @@
                         @endforeach
                     </ul>
                 </td>
-                <td>
-                    <a href="{{ route('kepsek.edit', $item->id_penilaian) }}" class="btn btn-warning btn-sm">Edit</a>
+              <td>
+    <a href="{{ route('kepsek.edit', $item->id_penilaian) }}" class="btn btn-warning btn-sm">Edit</a>
 
-                    <form action="{{ route('kepsek.destroy', $item->id_penilaian) }}" method="POST" style="display:inline-block" onsubmit="return confirm('Yakin ingin menghapus penilaian ini?');">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm">Hapus</button>
-                    </form>
-                </td>
+    <form action="{{ route('kepsek.destroy', $item->id_penilaian) }}" method="POST" style="display:inline-block" onsubmit="return confirm('Yakin ingin menghapus penilaian ini?');">
+        @csrf
+        @method('DELETE')
+        <button class="btn btn-danger btn-sm">Hapus</button>
+    </form>
+
+    <a href="{{ route('penilaian.kepsek.download', $item->id_penilaian) }}" class="btn btn-primary btn-sm" target="_blank">Download PDF</a>
+</td>
+
             </tr>
             @empty
             <tr>

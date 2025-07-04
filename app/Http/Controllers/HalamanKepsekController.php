@@ -5,19 +5,37 @@ namespace App\Http\Controllers;
 use App\Models\Guru;
 use App\Models\User;
 use App\Models\Penilaian;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\DetailPenilaian;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\KriteriaPenilaian;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class HalamanKepsekController extends Controller
 {
-    public function index()
-    {
-        $penilaian = Penilaian::with('guru')->get();
-        return view('kepsek.index', compact('penilaian'));
+   public function index(Request $request)
+{
+    $query = Penilaian::with('guru');
+
+    // Jika ada filter periode
+    if ($request->filled('periode')) {
+        $query->where('periode', $request->periode);
     }
+
+    // Ambil data penilaian terbaru
+    $penilaian = $query->orderByDesc('tanggal')->get();
+
+    // Ambil daftar periode unik untuk filter dropdown
+    $daftarPeriode = Penilaian::select('periode')
+        ->distinct()
+        ->orderByDesc('periode')
+        ->pluck('periode');
+
+    return view('kepsek.index', compact('penilaian', 'daftarPeriode'));
+}
+
 
   public function create()
 {
@@ -129,4 +147,20 @@ public function update(Request $request, $id)
 
         return redirect()->route('kepsek.index')->with('success', 'Penilaian berhasil dihapus.');
     }
+
+
+
+    public function downloadUntukKepalaSekolah($id)
+{
+    $penilaian = Penilaian::with(['guru', 'detailPenilaian.kriteria'])
+        ->findOrFail($id);
+
+    $pdf = Pdf::loadView('kepsek.single', compact('penilaian'))
+        ->setPaper('A4', 'portrait');
+
+    $namaFile = 'penilaian-' . Str::slug($penilaian->guru->nama) . '-' . $penilaian->periode . '.pdf';
+
+    return $pdf->download($namaFile);
+}
+
 }
