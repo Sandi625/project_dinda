@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Notifications\Notifiable;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable; // Pastikan extend-nya benar
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {

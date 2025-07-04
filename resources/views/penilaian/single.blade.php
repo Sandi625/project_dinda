@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Detail Penilaian</title>
+    <title>Detail Penilaian Administrasi</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -26,25 +26,26 @@
             padding: 4px;
         }
 
-        table.observasi {
+        table.komponen {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
         }
 
-        table.observasi th, table.observasi td {
+        table.komponen th, table.komponen td {
             border: 1px solid #000;
             padding: 6px;
             vertical-align: top;
             text-align: center;
         }
 
-        table.observasi td.text-left {
+        table.komponen td.text-left {
             text-align: left;
         }
 
-        .sub-row td {
-            padding-left: 25px;
+        .highlight {
+            font-weight: bold;
+            background-color: #eaeaea;
         }
 
         .footer {
@@ -57,8 +58,8 @@
 </head>
 <body>
 
-    <h4>Lampiran A.1 Format Observasi Kinerja Guru dalam Perencanaan</h4>
-    <h5>Lembar Observasi Kinerja Guru <br> Dalam Perencanaan Pembelajaran</h5>
+    <h4>Lampiran A.2 Format Penilaian Administrasi Pembelajaran</h4>
+    <h5>Instrumen Penilaian Administrasi Guru</h5>
 
     <table class="meta">
         <tr><td width="180">Hari/Tanggal</td><td>: {{ \Carbon\Carbon::parse($penilaian->tanggal)->format('d-m-Y') }}</td></tr>
@@ -70,46 +71,48 @@
         <tr><td>Pertemuan Ke-</td><td>: {{ $penilaian->periode }}</td></tr>
     </table>
 
-<table class="observasi" style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+ <table class="komponen">
     <thead>
         <tr style="background-color: #f0f0f0;">
-            <th style="border: 1px solid #000; padding: 6px;">NO</th>
-            <th style="border: 1px solid #000; padding: 6px;">Kriteria</th>
-            <th style="border: 1px solid #000; padding: 6px;">Nilai</th>
+            <th>NO</th>
+            <th class="text-left">Komponen Administrasi Pembelajaran</th>
+            <th>Maksimal</th>
+            <th>Perolehan</th>
+            <th>Keterangan</th>
         </tr>
     </thead>
-    <tbody>
+<tbody>
+    @php
+        $totalNilai = 0;
+        $jumlahKriteria = $penilaian->detailPenilaian->count();
+    @endphp
+
+    @foreach ($penilaian->detailPenilaian as $i => $detail)
         @php
-            $totalSkala = 0;
-            $jumlahKriteria = 0;
+            $nilai = $detail->nilai ?? 0;
+            $totalNilai += $nilai;
         @endphp
+        <tr>
+            <td>{{ $i + 1 }}</td>
+            <td class="text-left">{{ $detail->kriteria->nama ?? '-' }}</td>
+            <td>100</td> {{-- anggap skala maksimum 100 --}}
+            <td>{{ number_format($nilai, 2) }}</td>
+            <td></td>
+        </tr>
+    @endforeach
 
-        @foreach ($penilaian->detailPenilaian as $i => $detail)
-            @php
-                $nilai = $detail->nilai;
-                if ($nilai <= 25) $skala = 0;
-                elseif ($nilai <= 50) $skala = 1;
-                elseif ($nilai <= 75) $skala = 2;
-                else $skala = 3;
-
-                $totalSkala += $skala;
-                $jumlahKriteria++;
-            @endphp
-            <tr>
-                <td style="border: 1px solid #000; padding: 6px; text-align: center;">{{ $i + 1 }}</td>
-                <td style="border: 1px solid #000; padding: 6px;">{{ $detail->kriteria->nama }}</td>
-                <td style="border: 1px solid #000; padding: 6px; text-align: center;">{{ number_format($nilai, 2) }}</td>
-            </tr>
-        @endforeach
-    </tbody>
+    <tr class="highlight">
+        <td colspan="2">Jumlah Skor Penilaian</td>
+        <td><strong>{{ $jumlahKriteria * 100 }}</strong></td>
+        <td><strong>{{ number_format($totalNilai, 2) }}</strong></td>
+        <td></td>
+    </tr>
+</tbody>
 </table>
 
-
-
-
-
 @php
-    $nilaiAkhir = $jumlahKriteria > 0 ? ($totalSkala / ($jumlahKriteria * 3)) * 100 : 0;
+    // Hitung nilai rata-rata
+    $nilaiAkhir = $jumlahKriteria > 0 ? ($totalNilai / $jumlahKriteria) : 0;
 
     if ($nilaiAkhir >= 85) {
         $predikat = 'A (Sangat Baik)';
@@ -133,22 +136,21 @@
     </tr>
 </table>
 
-{{-- TANDA TANGAN KEPALA SEKOLAH --}}
-<table style="width: 100%; margin-top: 40px; text-align: center;">
-    <tr>
-        <td></td>
-        <td>
-            Mengetahui,<br>
-            Kepala Sekolah<br><br>
-            <img src="{{ public_path('images/Tanda_tangan_bapak.png') }}" alt="Tanda Tangan Kepala Sekolah" style="width: 120px; height: auto;"><br>
-            <u><strong>Nama Kepala Sekolah</strong></u><br>
-            NIP: 1234567890
-        </td>
-    </tr>
-</table>
 
 
 
+    <table style="width: 100%; margin-top: 40px; text-align: center;">
+        <tr>
+            <td></td>
+            <td>
+                Mengetahui,<br>
+                Kepala Sekolah<br><br>
+                <img src="{{ public_path('images/Tanda_tangan_bapak.png') }}" alt="Tanda Tangan Kepala Sekolah" style="width: 120px; height: auto;"><br>
+                <u><strong>Nama Kepala Sekolah</strong></u><br>
+                NIP: 1234567890
+            </td>
+        </tr>
+    </table>
 
     <div class="footer">
         Dicetak otomatis oleh sistem pada {{ now()->format('d-m-Y H:i') }}
