@@ -52,19 +52,19 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-           <li class="nav-item">
-    <a class="nav-link" href="{{ route('dashboard.admin') }}">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span>
-    </a>
-</li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('dashboard.admin') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
 
             <!-- Heading -->
             <div class="sidebar-heading">
-               Penilaian Guru
+                Penilaian Guru
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -80,7 +80,7 @@
                         <a class="collapse-item" href="{{ url('/guru') }}">Guru</a>
                         <a class="collapse-item" href="{{ url('/kriteria_penilaian') }}">Kriteria</a>
                         <a class="collapse-item" href="{{ url('/penilaian') }}">Penilaian</a>
-                           <a class="collapse-item" href="{{ url('/feedback') }}">Feedback</a>
+                        <a class="collapse-item" href="{{ url('/feedback') }}">Feedback</a>
 
 
                         {{-- <a class="collapse-item" href="{{ url('/subkriteria') }}">Sub Kriteria</a>
@@ -92,25 +92,60 @@
                 </div>
             </li>
 
-                       <li class="nav-item">
-    <a class="nav-link" href="{{ route('berita.index') }}">
-        <i class="fas fa-user-circle"></i>
-        <span>Berita</span>
-    </a>
-</li>
-       <li class="nav-item">
-    <a class="nav-link" href="{{ route('users.index') }}">
-        <i class="fas fa-user-circle"></i>
-        <span>Users</span>
+             <li class="nav-item">
+                <a class="nav-link" href="{{ route('mapel.index') }}">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Mapel</span>
+                </a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link" href="{{ route('kelas.index') }}">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Kelas</span>
+                </a>
+            </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('siswa.index') }}">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Siswa</span>
+                </a>
+            </li>
+          {{-- Menu untuk Beri Nilai --}}
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('beri-nilai.index') }}">
+        <i class="fas fa-edit"></i>
+        <span>Beri Nilai</span>
     </a>
 </li>
 
-            <li class="nav-item">
-    <a class="nav-link" href="{{ route('profile.show') }}">
-        <i class="fas fa-user-circle"></i>
-        <span>Profil Saya</span>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('beri-nilai.lihat') }}">
+        <i class="fas fa-eye"></i>
+        <span>Lihat Nilai</span>
     </a>
 </li>
+
+
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('berita.index') }}">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Berita</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('users.index') }}">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Users</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('profile.show') }}">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Profil Saya</span>
+                </a>
+            </li>
 
 
 
@@ -423,6 +458,21 @@
     <!-- Custom scripts for all pages-->
     {{-- <script src="js/sb-admin-2.min.js"></script> --}}
     <script src="{{ asset('assets/sb-admin/js/sb-admin-2.min.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Sukses!',
+            text: '{{ session('success') }}',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    @endif
+</script>
+
 
 </body>
 

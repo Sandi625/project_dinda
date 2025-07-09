@@ -36,13 +36,19 @@
     </select>
 </div>
 
-        <div class="mb-3">
-            <label for="periode" class="form-label">Periode</label>
-            <input type="text" name="periode" id="periode" class="form-control @error('periode') is-invalid @enderror" value="{{ old('periode') }}">
-            @error('periode')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+      <div class="mb-3">
+    <label for="periode" class="form-label">Periode</label>
+    <select name="periode" class="form-select" required>
+        <option value="">-- Pilih Periode --</option>
+        @foreach ($periodes as $periode)
+            <option value="{{ $periode }}" {{ old('periode') == $periode ? 'selected' : '' }}>
+                {{ $periode }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
+
 
         <div class="mb-3">
             <label for="tanggal" class="form-label">Tanggal Penilaian</label>

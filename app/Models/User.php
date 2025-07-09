@@ -39,4 +39,11 @@ public function profile()
     return $this->hasOne(Profile::class, 'user_id', 'id_user'); // sesuaikan foreign key
 }
 
+// App\Models\User.php
+public function guru()
+{
+    return $this->hasOne(Guru::class, 'id_user', 'id_user');
+}
+
+
 }

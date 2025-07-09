@@ -1,24 +1,33 @@
 <?php
 
+use App\Models\Siswa;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileKepsek;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\KelasController;
+use App\Http\Controllers\MapelController;
+use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\BeriNilaiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\HalamanGuruController;
 use App\Http\Controllers\ProfileGuruController;
 use App\Http\Controllers\DashboardGuruController;
 use App\Http\Controllers\HalamanKepsekController;
+use App\Http\Controllers\LihatRataGuruController;
 use App\Http\Controllers\ProfileKepsekController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardKepsekController;
 use App\Http\Controllers\KriteriaPenilaianController;
 use App\Http\Controllers\HomeController; // <- ini error kalau belum ada
+
+
+Route::get('/kepsek/rata-rata-nilai', [LihatRataGuruController::class, 'index'])->name('kepsek.rata-guru');
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -143,3 +152,24 @@ Route::resource('guru', GuruController::class);
 
 Route::get('/penilaian/kepsek-download/{id}', [HalamanKepsekController::class, 'downloadUntukKepalaSekolah'])->name('penilaian.kepsek.download');
 
+Route::resource('mapel', MapelController::class);
+
+Route::resource('siswa', SiswaController::class);
+
+Route::resource('kelas', KelasController::class);
+
+
+
+
+Route::prefix('beri-nilai')->group(function () {
+    Route::get('/', [BeriNilaiController::class, 'index'])->name('beri-nilai.index');
+    Route::post('/form', [BeriNilaiController::class, 'form'])->name('beri-nilai.form');
+    Route::post('/simpan', [BeriNilaiController::class, 'simpan'])->name('beri-nilai.simpan');
+
+    // Tambahan lihat hasil nilai
+    Route::get('/lihat', [BeriNilaiController::class, 'lihat'])->name('beri-nilai.lihat');
+    Route::post('/hasil', [BeriNilaiController::class, 'hasil'])->name('beri-nilai.hasil');
+});
+
+
+// Route::get('/kepsek/rata-rata-nilai', [LihatRataGuruController::class, 'index'])->name('kepsek.rata-guru');

@@ -54,10 +54,15 @@ public function create()
 {
     $gurus = Guru::all();
     $kriterias = KriteriaPenilaian::all();
-    $users = User::all(); // pastikan ini ditambahkan
+    $users = User::all();
 
-    return view('penilaian.create', compact('gurus', 'kriterias', 'users'));
+    // Otomatis set periode contoh: 2025 - 2026
+    $tahun = date('Y');
+    $periode = $tahun . ' - ' . ($tahun + 1);
+
+    return view('penilaian.create', compact('gurus', 'kriterias', 'users', 'periode'));
 }
+
 
 
 public function store(Request $request)
@@ -91,15 +96,16 @@ public function store(Request $request)
     return redirect()->route('penilaian.index')->with('success', 'Penilaian berhasil ditambahkan.');
 }
     // Form edit penilaian + detail
-  public function edit($id)
+ public function edit($id)
 {
     $penilaian = Penilaian::with('guru', 'detailPenilaian.kriteria')->findOrFail($id);
     $gurus = Guru::all();
     $kriterias = KriteriaPenilaian::all();
-    $users = User::all(); // ✅ tambahkan
+    $users = User::all();
 
     return view('penilaian.edit', compact('penilaian', 'gurus', 'kriterias', 'users'));
 }
+
 
     // Update penilaian + detail
   public function update(Request $request, $id)

@@ -15,7 +15,7 @@
             <tr>
                 <th>#</th>
                 <th>Nama</th>
-                <th>Bobot</th>
+                <th>Poin Kriteria</th>
                 <th>Aksi</th>
             </tr>
         </thead>

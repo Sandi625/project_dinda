@@ -27,10 +27,22 @@
 </div>
 
 
-        <div class="mb-3">
-            <label for="periode" class="form-label">Periode</label>
-            <input type="text" name="periode" class="form-control" required>
-        </div>
+   <div class="mb-3">
+    <label for="periode" class="form-label">Periode</label>
+    <select name="periode" class="form-select" required>
+        <option value="">-- Pilih Periode --</option>
+        @foreach ($gurus as $guru)
+            @php
+                $periode = $guru->periode_mulai . ' - ' . $guru->periode_selesai;
+            @endphp
+            <option value="{{ $periode }}" {{ old('periode') == $periode ? 'selected' : '' }}>
+                {{ $periode }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
+
 
         <div class="mb-3">
             <label for="tanggal" class="form-label">Tanggal</label>

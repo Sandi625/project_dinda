@@ -39,11 +39,15 @@ class HalamanKepsekController extends Controller
 
   public function create()
 {
-    $guru = Guru::all();
-    $kriteria = KriteriaPenilaian::all();
-    $users = User::all(); // ✅ ambil user untuk observer
+   $guru = Guru::all();
+$kriteria = KriteriaPenilaian::all();
+$users = User::all();
+$periodes = Guru::selectRaw("CONCAT(periode_mulai, ' - ', periode_selesai) AS periode")
+            ->distinct()
+            ->pluck('periode');
 
-    return view('kepsek.create', compact('guru', 'kriteria', 'users'));
+return view('kepsek.create', compact('guru', 'kriteria', 'users', 'periodes'));
+
 }
 
 public function show($id)

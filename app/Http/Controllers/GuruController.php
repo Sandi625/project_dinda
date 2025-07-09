@@ -1,90 +1,91 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use App\Models\User;
+use App\Models\Mapel;
 use Illuminate\Http\Request;
 
 class GuruController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $guru = Guru::with('user')->get();
+        $guru = Guru::with(['user', 'mapel'])->get(); // tambahkan relasi mapel
         return view('guru.index', compact('guru'));
     }
 
     public function show($id)
-{
-    $guru = Guru::findOrFail($id);
-    return view('guru.show', compact('guru'));
-}
+    {
+        $guru = Guru::with(['user', 'mapel'])->findOrFail($id);
+        return view('guru.show', compact('guru'));
+    }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $users = User::all();
-        return view('guru.create', compact('users'));
+        $mapel = Mapel::all(); // ambil semua mapel
+        return view('guru.create', compact('users', 'mapel'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'id_user' => 'required|exists:users,id_user',
-            'nip' => 'nullable|string|max:20',
-            'nama' => 'required|string|max:100',
-            'alamat' => 'nullable|string',
-            'mapel' => 'nullable|string',
-        ]);
+  public function store(Request $request)
+{
+    $request->validate([
+        'id_user' => 'required|exists:users,id_user',
+        'nip' => 'nullable|string|max:20',
+        'nama' => 'required|string|max:100',
+        'alamat' => 'nullable|string',
+        'id_mapel' => 'nullable|exists:mapel,id',
+        'periode_mulai' => 'nullable|digits:4|integer|min:2000|max:' . (date('Y') + 10),
+        'periode_selesai' => 'nullable|digits:4|integer|min:2000|max:' . (date('Y') + 10),
+    ]);
 
-        Guru::create($request->all());
+    Guru::create([
+        'id_user' => $request->id_user,
+        'nip' => $request->nip,
+        'nama' => $request->nama,
+        'alamat' => $request->alamat,
+        'id_mapel' => $request->id_mapel,
+        'periode_mulai' => $request->periode_mulai,
+        'periode_selesai' => $request->periode_selesai,
+    ]);
 
-        return redirect()->route('guru.index')->with('success', 'Data guru berhasil ditambahkan.');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
+    return redirect()->route('guru.index')->with('success', 'Data guru berhasil ditambahkan.');
+}
     public function edit(Guru $guru)
     {
         $users = User::all();
-        return view('guru.edit', compact('guru', 'users'));
+        $mapel = Mapel::all(); // ambil semua mapel
+        return view('guru.edit', compact('guru', 'users', 'mapel'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Guru $guru)
-    {
-        $request->validate([
-            'id_user' => 'required|exists:users,id_user',
-            'nip' => 'nullable|string|max:20',
-            'nama' => 'required|string|max:100',
-            'alamat' => 'nullable|string',
-            'mapel' => 'nullable|string',
-        ]);
+ public function update(Request $request, Guru $guru)
+{
+    $request->validate([
+        'id_user' => 'required|exists:users,id_user',
+        'nip' => 'nullable|string|max:20',
+        'nama' => 'required|string|max:100',
+        'alamat' => 'nullable|string',
+        'id_mapel' => 'nullable|exists:mapel,id',
+        'periode_mulai' => 'nullable|digits:4|integer|min:2000|max:' . (date('Y') + 10),
+        'periode_selesai' => 'nullable|digits:4|integer|min:2000|max:' . (date('Y') + 10),
+    ]);
 
-        $guru->update($request->all());
+    $guru->update([
+        'id_user' => $request->id_user,
+        'nip' => $request->nip,
+        'nama' => $request->nama,
+        'alamat' => $request->alamat,
+        'id_mapel' => $request->id_mapel,
+        'periode_mulai' => $request->periode_mulai,
+        'periode_selesai' => $request->periode_selesai,
+    ]);
 
-        return redirect()->route('guru.index')->with('success', 'Data guru berhasil diupdate.');
-    }
+    return redirect()->route('guru.index')->with('success', 'Data guru berhasil diupdate.');
+}
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Guru $guru)
     {
         $guru->delete();
-
         return redirect()->route('guru.index')->with('success', 'Data guru berhasil dihapus.');
     }
 }

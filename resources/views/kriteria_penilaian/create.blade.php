@@ -13,9 +13,9 @@
         </div>
 
         <div class="mb-3">
-            <label for="bobot" class="form-label">Bobot</label>
+            <label for="bobot" class="form-label">Poin Kriteria</label>
             <input type="number" name="bobot" id="bobot" class="form-control" step="0.01" min="0" max="1" required value="{{ old('bobot') }}">
-            <small class="form-text text-muted">Masukkan bobot dalam desimal, misal 0.25</small>
+            <small class="form-text text-muted">Masukkan Poin dalam desimal, misal 0.25</small>
         </div>
 
         <button type="submit" class="btn btn-primary">Simpan</button>

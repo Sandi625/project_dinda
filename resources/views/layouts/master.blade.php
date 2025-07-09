@@ -50,6 +50,14 @@
                 </a>
             </li>
 
+           <li class="nav-item">
+    <a class="nav-link" href="{{ route('kepsek.rata-guru') }}">
+        <i class="fas fa-star"></i>
+        <span>Lihat Rata Rata Nilai Yang diajar Guru</span>
+    </a>
+</li>
+
+
 <li class="nav-item">
     <a class="nav-link" href="{{ route('kepsek.profile.show') }}">
         <i class="fas fa-user-tie"></i>

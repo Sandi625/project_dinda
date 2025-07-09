@@ -24,12 +24,13 @@
         <option value="">-- Pilih User --</option>
         @foreach ($users as $user)
             <option value="{{ $user->id_user }}"
-                {{ $penilaian->id_user == $user->id_user ? 'selected' : '' }}>
+                {{ old('id_user', $penilaian->id_user) == $user->id_user ? 'selected' : '' }}>
                 {{ $user->name }} ({{ $user->role }})
             </option>
         @endforeach
     </select>
 </div>
+
 
 
         <div class="mb-3">

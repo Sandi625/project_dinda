@@ -38,7 +38,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-+ <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
+        + <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -51,13 +51,13 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-          <!-- Nav Item - Dashboard Guru -->
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('dashboard.guru') }}">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span>
-    </a>
-</li>
+            <!-- Nav Item - Dashboard Guru -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('dashboard.guru') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
 
 
             <!-- Divider -->
@@ -65,7 +65,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-               Penilaian Guru
+                Penilaian Guru
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -75,22 +75,38 @@
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Kelola</span>
                 </a>
-             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-    <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Kelola</h6>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Kelola</h6>
 
-        <a class="collapse-item" href="{{ url('/halamanguru') }}">Feedback</a>
-        <a class="collapse-item" href="{{ route('guru.profile.show') }}">Profil</a>
+                        <a class="collapse-item" href="{{ url('/halamanguru') }}">Feedback</a>
+                        <a class="collapse-item" href="{{ route('guru.profile.show') }}">Profil</a>
 
-        {{--
+
+                        {{--
         <a class="collapse-item" href="{{ url('/subkriteria') }}">Sub Kriteria</a>
         <a class="collapse-item" href=" {{ url('/penilaian') }}">Penilaian</a>
         <a class="collapse-item" href=" {{ url('/penilaian/all') }}">Hasil Penilaian</a>
         --}}
-    </div>
-</div>
+                    </div>
+                </div>
 
             </li>
+
+                      {{-- Menu untuk Beri Nilai --}}
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('beri-nilai.index') }}">
+        <i class="fas fa-edit"></i>
+        <span>Beri Nilai</span>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('beri-nilai.lihat') }}">
+        <i class="fas fa-eye"></i>
+        <span>Lihat Nilai</span>
+    </a>
+</li>
 
 
 
@@ -319,8 +335,7 @@
                                 </a>
 
                                 <!-- Hidden Logout Form -->
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    class="d-none">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
 
@@ -400,6 +415,21 @@
     <!-- Custom scripts for all pages-->
     {{-- <script src="js/sb-admin-2.min.js"></script> --}}
     <script src="{{ asset('assets/sb-admin/js/sb-admin-2.min.js') }}"></script>
+@yield('scripts')
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Sukses!',
+            text: '{{ session('success') }}',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    @endif
+</script>
 
 </body>
 
