@@ -24,7 +24,7 @@
                     <th>Nama</th>
                     <th>Mapel</th>
                     <th>Alamat</th>
-                    <th>Periode</th> {{-- Tambahan kolom periode --}}
+                    <th>Semester</th> {{-- 🔄 Ganti kolom Periode menjadi Semester --}}
                     <th class="text-center">Aksi</th>
                 </tr>
             </thead>
@@ -37,13 +37,7 @@
                         <td>{{ $g->nama }}</td>
                         <td>{{ $g->mapel->nama_mapel ?? '-' }}</td>
                         <td>{{ $g->alamat ?? '-' }}</td>
-                        <td>
-                            @if ($g->periode_mulai && $g->periode_selesai)
-                                {{ $g->periode_mulai }} - {{ $g->periode_selesai }}
-                            @else
-                                -
-                            @endif
-                        </td>
+                        <td>{{ ucfirst($g->semester) }}</td> {{-- Capitalize: Ganjil / Genap --}}
                         <td class="text-center">
                             <a href="{{ route('guru.edit', $g->id_guru) }}" class="btn btn-sm btn-warning">Edit</a>
                             <form action="{{ route('guru.destroy', $g->id_guru) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Yakin ingin hapus?')">
@@ -63,3 +57,4 @@
     </div>
 </div>
 @endsection
+

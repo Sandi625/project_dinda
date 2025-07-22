@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use App\Models\User;
+use App\Models\Kelas;
+use App\Models\Mapel;
 use App\Models\Penilaian;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -15,54 +17,76 @@ use App\Http\Controllers\Controller;
 
 class HalamanKepsekController extends Controller
 {
-   public function index(Request $request)
+public function index(Request $request)
 {
-    $query = Penilaian::with('guru');
+    // Ambil semua penilaian dengan relasi yang dibutuhkan
+    $query = Penilaian::with(['guru', 'kelas', 'mapel', 'detailPenilaian.kriteria']);
 
-    // Jika ada filter periode
-    if ($request->filled('periode')) {
-        $query->where('periode', $request->periode);
+    // Filter berdasarkan semester (dari tabel penilaian)
+    if ($request->filled('semester')) {
+        $query->where('semester', $request->semester);
     }
 
     // Ambil data penilaian terbaru
     $penilaian = $query->orderByDesc('tanggal')->get();
 
-    // Ambil daftar periode unik untuk filter dropdown
-    $daftarPeriode = Penilaian::select('periode')
+    // Ambil daftar semester unik dari tabel penilaian
+    $daftarSemester = Penilaian::select('semester')
+        ->whereNotNull('semester')
         ->distinct()
-        ->orderByDesc('periode')
-        ->pluck('periode');
+        ->orderBy('semester')
+        ->pluck('semester');
 
-    return view('kepsek.index', compact('penilaian', 'daftarPeriode'));
+    return view('kepsek.index', compact('penilaian', 'daftarSemester'));
 }
 
 
-  public function create()
+
+
+public function create()
 {
-   $guru = Guru::all();
-$kriteria = KriteriaPenilaian::all();
-$users = User::all();
-$periodes = Guru::selectRaw("CONCAT(periode_mulai, ' - ', periode_selesai) AS periode")
-            ->distinct()
-            ->pluck('periode');
+    $guru = Guru::all();
+    $kriteria = KriteriaPenilaian::all();
+    $users = User::all();
+    $kelas = Kelas::all();
+    $mapel = Mapel::all();
+    $semesters = ['ganjil', 'genap']; // Bisa disesuaikan jika ada sistem semester berbeda
 
-return view('kepsek.create', compact('guru', 'kriteria', 'users', 'periodes'));
-
+    return view('kepsek.create', compact(
+        'guru',
+        'kriteria',
+        'users',
+        'kelas',
+        'mapel',
+        'semesters'
+    ));
 }
 
-public function show($id)
-{
-    $penilaian = Penilaian::with('detailPenilaian')->findOrFail($id);
-    return view('kepsek.show', compact('penilaian'));
-}
+
+
+
+    public function show($id)
+    {
+        $penilaian = Penilaian::with([
+            'guru',                // Relasi ke guru
+            'user',                // Relasi ke user yang menilai
+            'kelas',               // Relasi ke kelas
+            'mapel',               // Relasi ke mata pelajaran
+            'detailPenilaian.kriteria' // Relasi detail + kriteria
+        ])->findOrFail($id);
+
+        return view('kepsek.show', compact('penilaian'));
+    }
 
 public function store(Request $request)
 {
     $request->validate([
         'id_guru' => 'required|exists:guru,id_guru',
-        'id_user' => 'required|exists:users,id_user', // ✅ validasi user
-        'periode' => 'required|string|max:50',
+        'id_user' => 'required|exists:users,id_user',
+        'id_kelas' => 'required|exists:kelas,id',
+        'id_mapel' => 'required|exists:mapel,id',
         'tanggal' => 'required|date',
+        'semester' => 'required|in:ganjil,genap',
         'nilai' => 'required|array',
         'nilai.*' => 'required|numeric|min:0|max:100',
     ]);
@@ -71,9 +95,11 @@ public function store(Request $request)
     try {
         $penilaian = Penilaian::create([
             'id_guru' => $request->id_guru,
-            'id_user' => $request->id_user, // ✅ simpan observer
-            'periode' => $request->periode,
+            'id_user' => $request->id_user,
+            'id_kelas' => $request->id_kelas,
+            'id_mapel' => $request->id_mapel,
             'tanggal' => $request->tanggal,
+            'semester' => $request->semester, // Tambahkan semester
         ]);
 
         foreach ($request->nilai as $id_kriteria => $nilai) {
@@ -92,22 +118,40 @@ public function store(Request $request)
     }
 }
 
-public function edit($id)
+
+
+
+  public function edit($id)
 {
     $penilaian = Penilaian::with('detailPenilaian')->findOrFail($id);
     $guru = Guru::all();
     $kriteria = KriteriaPenilaian::all();
-    $users = User::all(); // ✅ tambahkan untuk form edit
+    $users = User::all();
+    $kelas = Kelas::all();
+    $mapel = Mapel::all();
+    $semesters = ['ganjil', 'genap']; // bisa disesuaikan
 
-    return view('kepsek.edit', compact('penilaian', 'guru', 'kriteria', 'users'));
+    return view('kepsek.edit', compact(
+        'penilaian',
+        'guru',
+        'kriteria',
+        'users',
+        'kelas',
+        'mapel',
+        'semesters'
+    ));
 }
+
+
 
 public function update(Request $request, $id)
 {
     $request->validate([
-        'id_user' => 'required|exists:users,id_user', // ✅ validasi user
-        'periode' => 'required|string|max:50',
+        'id_user' => 'required|exists:users,id_user',
+        'id_kelas' => 'required|exists:kelas,id',
+        'id_mapel' => 'required|exists:mapel,id',
         'tanggal' => 'required|date',
+        'semester' => 'required|in:ganjil,genap',
         'nilai' => 'required|array',
         'nilai.*' => 'required|numeric|min:0|max:100',
     ]);
@@ -117,9 +161,11 @@ public function update(Request $request, $id)
     DB::beginTransaction();
     try {
         $penilaian->update([
-            'id_user' => $request->id_user, // ✅ update observer
-            'periode' => $request->periode,
+            'id_user' => $request->id_user,
+            'id_kelas' => $request->id_kelas,
+            'id_mapel' => $request->id_mapel,
             'tanggal' => $request->tanggal,
+            'semester' => $request->semester,
         ]);
 
         foreach ($request->nilai as $id_kriteria => $nilai) {
@@ -143,6 +189,8 @@ public function update(Request $request, $id)
 }
 
 
+
+
     public function destroy($id)
     {
         $penilaian = Penilaian::findOrFail($id);
@@ -154,17 +202,19 @@ public function update(Request $request, $id)
 
 
 
-    public function downloadUntukKepalaSekolah($id)
+   public function downloadUntukKepalaSekolah($id)
 {
-    $penilaian = Penilaian::with(['guru', 'detailPenilaian.kriteria'])
-        ->findOrFail($id);
+    $penilaian = Penilaian::with([
+        'guru.mapel',               // memuat relasi mapel guru
+        'guru.kelas',               // memuat relasi kelas guru
+        'detailPenilaian.kriteria' // memuat detail penilaian
+    ])->findOrFail($id);
 
     $pdf = Pdf::loadView('kepsek.single', compact('penilaian'))
         ->setPaper('A4', 'portrait');
 
     $namaFile = 'penilaian-' . Str::slug($penilaian->guru->nama) . '-' . $penilaian->periode . '.pdf';
 
-    return $pdf->download($namaFile);
+    return $pdf->stream($namaFile);
 }
-
 }

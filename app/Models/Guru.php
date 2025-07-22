@@ -20,8 +20,8 @@ class Guru extends Model
         'nama',
         'alamat',
         'id_mapel',
-        'periode_mulai',
-        'periode_selesai',
+        'id_kelas',     // tetap ada
+        'semester',     // ✅ kolom baru
     ];
 
     public function user()
@@ -37,5 +37,10 @@ class Guru extends Model
     public function mapel()
     {
         return $this->belongsTo(Mapel::class, 'id_mapel');
+    }
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'id_kelas', 'id');
     }
 }

@@ -81,6 +81,8 @@
 
                         <a class="collapse-item" href="{{ url('/halamanguru') }}">Feedback</a>
                         <a class="collapse-item" href="{{ route('guru.profile.show') }}">Profil</a>
+                        <a class="collapse-item" href="{{ route('guru.riwayat') }}">Riwayat Penilaian</a>
+
 
 
                         {{--
@@ -93,8 +95,17 @@
 
             </li>
 
-                      {{-- Menu untuk Beri Nilai --}}
+            {{-- Menu untuk Laporan Pembelajaran --}}
 <li class="nav-item">
+    <a class="nav-link" href="{{ route('laporan.index') }}">
+        <i class="fas fa-book"></i>
+        <span>Laporan Pembelajaran</span>
+    </a>
+</li>
+
+
+                      {{-- Menu untuk Beri Nilai --}}
+{{-- <li class="nav-item">
     <a class="nav-link" href="{{ route('beri-nilai.index') }}">
         <i class="fas fa-edit"></i>
         <span>Beri Nilai</span>
@@ -106,7 +117,7 @@
         <i class="fas fa-eye"></i>
         <span>Lihat Nilai</span>
     </a>
-</li>
+</li> --}}
 
 
 

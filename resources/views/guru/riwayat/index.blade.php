@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('layouts.app')
 
 @section('content')
 <div class="container mt-4">
@@ -11,10 +11,10 @@
         </div>
     @endif
 
-    <a href="{{ route('penilaian.create') }}" class="btn btn-primary mb-3">Tambah Penilaian</a>
     <a href="{{ route('penilaian.pdf') }}" class="btn btn-danger mb-3">Export PDF</a>
 
-    <form method="GET" action="{{ route('penilaian.index') }}" class="mb-3 d-flex align-items-center gap-2">
+    {{-- Filter Semester --}}
+    <form method="GET" action="{{ route('guru.riwayat') }}" class="mb-3 d-flex align-items-center gap-2">
         <label for="semester" class="form-label mb-0">Filter Semester:</label>
         <select name="semester" id="semester" class="form-select w-auto d-inline-block" onchange="this.form.submit()">
             <option value="">-- Semua --</option>
@@ -36,7 +36,6 @@
                 <th>Semester</th>
                 <th>Tanggal</th>
                 <th>Kriteria & Nilai</th>
-                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -46,7 +45,7 @@
                 <td>{{ $p->guru->nama ?? 'Guru tidak ditemukan' }}</td>
                 <td>{{ $p->kelas->nama_kelas ?? '-' }}</td>
                 <td>{{ $p->mapel->nama_mapel ?? '-' }}</td>
-                <td>{{ ucfirst($p->guru->semester ?? '-') }}</td>
+                <td>{{ ucfirst($p->semester ?? '-') }}</td>
                 <td>{{ \Carbon\Carbon::parse($p->tanggal)->format('d-m-Y') }}</td>
                 <td>
                     <ul class="mb-0 ps-3">
@@ -58,21 +57,10 @@
                         @endforeach
                     </ul>
                 </td>
-                <td>
-                    <a href="{{ route('penilaian.download', $p->id_penilaian) }}" class="btn btn-sm btn-info">Download</a>
-                    <a href="{{ route('penilaian.edit', $p->id_penilaian) }}" class="btn btn-sm btn-warning">Edit</a>
-
-                    <form action="{{ route('penilaian.destroy', $p->id_penilaian) }}" method="POST" class="d-inline"
-                        onsubmit="return confirm('Yakin ingin menghapus penilaian ini?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                    </form>
-                </td>
             </tr>
             @empty
             <tr>
-                <td colspan="8" class="text-center">Belum ada data penilaian.</td>
+                <td colspan="7" class="text-center">Belum ada data penilaian.</td>
             </tr>
             @endforelse
         </tbody>

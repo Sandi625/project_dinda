@@ -19,13 +19,26 @@ use App\Http\Controllers\HalamanGuruController;
 use App\Http\Controllers\ProfileGuruController;
 use App\Http\Controllers\DashboardGuruController;
 use App\Http\Controllers\HalamanKepsekController;
+use App\Http\Controllers\KepsekLaporanController;
 use App\Http\Controllers\LihatRataGuruController;
 use App\Http\Controllers\ProfileKepsekController;
 use App\Http\Controllers\DashboardAdminController;
+use App\Http\Controllers\JadwalMengajarController;
 use App\Http\Controllers\DashboardKepsekController;
 use App\Http\Controllers\KriteriaPenilaianController;
+use App\Http\Controllers\LaporanPembelajaranController;
+use App\Http\Controllers\RiwayatPenilaianGuruController;
 use App\Http\Controllers\HomeController; // <- ini error kalau belum ada
 
+Route::prefix('kepsek')->middleware(['auth'])->group(function () {
+    Route::get('/laporan', [KepsekLaporanController::class, 'index'])->name('kepsek.laporan.index');
+    Route::get('/laporan/{id}', [KepsekLaporanController::class, 'show'])->name('kepsek.laporan.show');
+});
+
+
+Route::get('/guru/riwayat', [RiwayatPenilaianGuruController::class, 'index'])->name('guru.riwayat');
+
+Route::get('/guru/riwayat/{id}', [RiwayatPenilaianGuruController::class, 'detail'])->name('guru.riwayat.detail');
 
 Route::get('/kepsek/rata-rata-nilai', [LihatRataGuruController::class, 'index'])->name('kepsek.rata-guru');
 
@@ -173,3 +186,16 @@ Route::prefix('beri-nilai')->group(function () {
 
 
 // Route::get('/kepsek/rata-rata-nilai', [LihatRataGuruController::class, 'index'])->name('kepsek.rata-guru');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('laporan', LaporanPembelajaranController::class);
+});
+
+
+
+Route::resource('jadwal-mengajar', JadwalMengajarController::class);
+
+
+
+

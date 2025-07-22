@@ -33,11 +33,11 @@
 
             <!-- Dashboard -->
             <li class="nav-item">
-    <a class="nav-link" href="{{ route('dashboard.kepsek') }}">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span>
-    </a>
-</li>
+                <a class="nav-link" href="{{ route('dashboard.kepsek') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
 
             <hr class="sidebar-divider">
 
@@ -50,20 +50,21 @@
                 </a>
             </li>
 
-           <li class="nav-item">
-    <a class="nav-link" href="{{ route('kepsek.rata-guru') }}">
-        <i class="fas fa-star"></i>
-        <span>Lihat Rata Rata Nilai Yang diajar Guru</span>
+         <li class="nav-item">
+    <a class="nav-link" href="{{ route('kepsek.laporan.index') }}">
+        <i class="fas fa-book"></i>
+        <span>Laporan Pembelajaran</span>
     </a>
 </li>
 
 
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('kepsek.profile.show') }}">
-        <i class="fas fa-user-tie"></i>
-        <span>Profil Kepala Sekolah</span>
-    </a>
-</li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('kepsek.profile.show') }}">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Profil Kepala Sekolah</span>
+                </a>
+            </li>
 
 
 

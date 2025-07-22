@@ -31,17 +31,17 @@
                     <label for="nama" class="form-label">Nama</label>
                     <input type="text" name="nama" id="nama" class="form-control" value="{{ old('nama', $guru->nama) }}" required>
                 </div>
+
+                {{-- Dropdown semester --}}
                 <div class="mb-3">
-    <label for="periode_mulai" class="form-label">Periode Mulai</label>
-    <input type="number" class="form-control" name="periode_mulai" value="{{ old('periode_mulai', $guru->periode_mulai ?? '') }}" placeholder="Contoh: 2023">
-</div>
-<div class="mb-3">
-    <label for="periode_selesai" class="form-label">Periode Selesai</label>
-    <input type="number" class="form-control" name="periode_selesai" value="{{ old('periode_selesai', $guru->periode_selesai ?? '') }}" placeholder="Contoh: 2024">
-</div>
+                    <label for="semester" class="form-label">Semester</label>
+                    <select name="semester" id="semester" class="form-select" required>
+                        <option value="">-- Pilih Semester --</option>
+                        <option value="ganjil" {{ old('semester', $guru->semester) == 'ganjil' ? 'selected' : '' }}>Ganjil</option>
+                        <option value="genap" {{ old('semester', $guru->semester) == 'genap' ? 'selected' : '' }}>Genap</option>
+                    </select>
+                </div>
 
-
-                {{-- Ubah input teks mapel menjadi dropdown relasi ke id_mapel --}}
                 <div class="mb-3">
                     <label for="id_mapel" class="form-label">Mata Pelajaran</label>
                     <select name="id_mapel" id="id_mapel" class="form-select">
@@ -49,6 +49,18 @@
                         @foreach ($mapel as $m)
                             <option value="{{ $m->id }}" {{ $guru->id_mapel == $m->id ? 'selected' : '' }}>
                                 {{ $m->nama_mapel }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_kelas" class="form-label">Kelas</label>
+                    <select name="id_kelas" id="id_kelas" class="form-select">
+                        <option value="">-- Pilih Kelas --</option>
+                        @foreach($kelas as $k)
+                            <option value="{{ $k->id }}" {{ (old('id_kelas', $guru->id_kelas ?? '') == $k->id) ? 'selected' : '' }}>
+                                {{ $k->nama_kelas }}
                             </option>
                         @endforeach
                     </select>

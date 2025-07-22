@@ -9,7 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-  public function up(): void
+public function up(): void
 {
     Schema::create('guru', function (Blueprint $table) {
         $table->id('id_guru');
@@ -18,10 +18,13 @@ return new class extends Migration
         $table->string('nama', 100);
         $table->text('alamat')->nullable();
 
-        // Ubah dari string jadi foreign key ke tabel mapel
+        // Foreign key ke tabel mapel
         $table->unsignedBigInteger('id_mapel')->nullable();
-            $table->year('periode_mulai')->nullable();
-        $table->year('periode_selesai')->nullable();
+
+        // ✅ Tambahkan foreign key ke tabel kelas
+        $table->unsignedBigInteger('id_kelas')->nullable();
+
+         $table->enum('semester', ['ganjil', 'genap'])->default('ganjil');
 
         $table->timestamps();
 
@@ -30,8 +33,12 @@ return new class extends Migration
 
         // Foreign key ke tabel mapel
         $table->foreign('id_mapel')->references('id')->on('mapel')->onDelete('set null');
+
+        // ✅ Foreign key ke tabel kelas
+        $table->foreign('id_kelas')->references('id')->on('kelas')->onDelete('set null');
     });
 }
+
 
 
     /**

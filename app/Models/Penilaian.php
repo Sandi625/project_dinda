@@ -16,14 +16,23 @@ class Penilaian extends Model
 
     protected $fillable = [
         'id_guru',
-        'id_user', // ✅ Tambahkan ini
-        'periode',
+        'id_user',
+        'id_kelas',
+        'id_mapel',
         'tanggal',
+        'semester', // ✅ tambahkan di sini
     ];
 
     protected $casts = [
         'tanggal' => 'datetime',
+        'semester' => 'string', // ✅ opsional: pastikan di-cast sebagai string
     ];
+
+    // ❌ Hapus accessor jika tidak ambil dari relasi guru
+    // public function getSemesterAttribute()
+    // {
+    //     return $this->guru?->semester;
+    // }
 
     // Relasi ke guru
     public function guru()
@@ -35,6 +44,18 @@ class Penilaian extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user', 'id_user');
+    }
+
+    // Relasi ke kelas
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'id_kelas', 'id');
+    }
+
+    // Relasi ke mapel
+    public function mapel()
+    {
+        return $this->belongsTo(Mapel::class, 'id_mapel', 'id');
     }
 
     // Relasi ke detail penilaian

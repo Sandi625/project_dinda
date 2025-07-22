@@ -104,26 +104,21 @@
                     <span>Kelas</span>
                 </a>
             </li>
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a class="nav-link" href="{{ route('siswa.index') }}">
                     <i class="fas fa-user-circle"></i>
                     <span>Siswa</span>
                 </a>
-            </li>
-          {{-- Menu untuk Beri Nilai --}}
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('beri-nilai.index') }}">
-        <i class="fas fa-edit"></i>
-        <span>Beri Nilai</span>
+            </li> --}}
+
+          <li class="nav-item">
+    <a class="nav-link" href="{{ route('jadwal-mengajar.index') }}">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Jadwal Mengajar</span>
     </a>
 </li>
 
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('beri-nilai.lihat') }}">
-        <i class="fas fa-eye"></i>
-        <span>Lihat Nilai</span>
-    </a>
-</li>
+
 
 
 

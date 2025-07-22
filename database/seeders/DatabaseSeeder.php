@@ -20,8 +20,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
         $this->call([
-        UserSeeder::class,
-    ]);
-    }
+            UserSeeder::class,
+            KelasSeeder::class,   // ✅ panggil seeder kelas
+            MapelSeeder::class,   // ✅ panggil seeder mapel
+            KriteriaPenilaianSeeder::class, // ✅ seeder kriteria penilaian
 
+        ]);
+    }
 }
