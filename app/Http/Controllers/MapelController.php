@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mapel;
+use App\Imports\MapelImport;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MapelController extends Controller
 {
@@ -64,4 +67,19 @@ class MapelController extends Controller
 
         return redirect()->route('mapel.index')->with('success', 'Mapel berhasil dihapus.');
     }
+
+    public function import(Request $request)
+{
+    $request->validate([
+        'file' => 'required|mimes:xlsx,xls,csv',
+    ]);
+
+    try {
+        Excel::import(new MapelImport, $request->file('file'));
+        return redirect()->route('mapel.index')->with('success', 'Data mapel berhasil diimport.');
+    } catch (\Exception $e) {
+        return redirect()->route('mapel.index')->with('error', 'Gagal mengimport data: ' . $e->getMessage());
+    }
+}
+
 }

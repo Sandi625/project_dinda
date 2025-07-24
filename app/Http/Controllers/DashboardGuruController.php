@@ -17,11 +17,14 @@ class DashboardGuruController extends Controller
 
 public function index()
 {
-    $user = Auth::user();
-    $guru = $user->guru;
+    // Sementara, gunakan id_guru langsung tanpa Auth
+    $idGuru = 1;
+
+    // Ambil data guru dari database
+    $guru = DB::table('guru')->where('id_guru', $idGuru)->first();
 
     if (!$guru) {
-        abort(403, 'Akun ini tidak terhubung dengan data guru.');
+        abort(403, 'Data guru tidak ditemukan.');
     }
 
     // Hitung rata-rata nilai guru ini
@@ -30,7 +33,8 @@ public function index()
         ->where('penilaian.id_guru', $guru->id_guru)
         ->avg('nilai');
 
-    $totalPenilaian = $guru->penilaian()->count();
+    // Hitung total penilaian
+    $totalPenilaian = DB::table('penilaian')->where('id_guru', $guru->id_guru)->count();
 
     // Ambil semua guru dengan rata-rata nilai mereka
     $rankingData = DB::table('guru')
@@ -45,18 +49,16 @@ public function index()
     $peringkat = $rankingData->search(fn ($item) => $item->id_guru == $guru->id_guru) + 1;
 
     // Grafik nilai per bulan
-  $nilaiPerBulan = DB::table('detail_penilaian')
-    ->join('penilaian', 'detail_penilaian.id_penilaian', '=', 'penilaian.id_penilaian')
-    ->select(
-        DB::raw("DATE_FORMAT(penilaian.tanggal, '%Y-%m') as bulan"),
-        DB::raw("CAST(AVG(detail_penilaian.nilai) AS DECIMAL(10,2)) as rata")
-    )
-    ->where('penilaian.id_guru', $guru->id_guru)
-    ->groupBy('bulan')
-    ->orderBy('bulan')
-    ->get();
-
-
+    $nilaiPerBulan = DB::table('detail_penilaian')
+        ->join('penilaian', 'detail_penilaian.id_penilaian', '=', 'penilaian.id_penilaian')
+        ->select(
+            DB::raw("DATE_FORMAT(penilaian.tanggal, '%Y-%m') as bulan"),
+            DB::raw("CAST(AVG(detail_penilaian.nilai) AS DECIMAL(10,2)) as rata")
+        )
+        ->where('penilaian.id_guru', $guru->id_guru)
+        ->groupBy('bulan')
+        ->orderBy('bulan')
+        ->get();
 
     return view('dashboard.guru', compact(
         'totalPenilaian',
@@ -65,6 +67,7 @@ public function index()
         'peringkat'
     ));
 }
+
 
 
 }

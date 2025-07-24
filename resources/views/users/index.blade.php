@@ -17,7 +17,7 @@
     <div class="card shadow">
         <div class="card-body table-responsive">
             <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
+                <thead class="thead-white">
                     <tr>
                         <th>No</th>
                         <th>Nama</th>

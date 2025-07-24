@@ -11,9 +11,9 @@
     <a href="{{ route('kriteria_penilaian.create') }}" class="btn btn-primary mb-3">Tambah Kriteria</a>
 
     <table class="table table-bordered table-striped align-middle">
-        <thead class="table-primary">
+        <thead class="table-white">
             <tr>
-                <th>#</th>
+                <th>No</th>
                 <th>Nama</th>
                 <th>Poin Kriteria</th>
                 <th>Aksi</th>

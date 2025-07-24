@@ -19,7 +19,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-warning sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #0d1b2a;">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
@@ -39,9 +39,25 @@
                 </a>
             </li>
 
+
+
             <hr class="sidebar-divider">
 
             <div class="sidebar-heading">Manajemen Penilaian</div>
+            <li class="nav-item">
+    <a class="nav-link" href="{{ route('kepsek.laporan_kinerja') }}">
+        <i class="fas fa-file-alt"></i>
+        <span>Laporan Kinerja Guru</span>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('kepsek.nilai_siswa') }}">
+        <i class="fas fa-chart-bar"></i>
+        <span>Nilai Siswa</span>
+    </a>
+</li>
+
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/kepsek') }}">
@@ -50,29 +66,43 @@
                 </a>
             </li>
 
+
+
+{{--
          <li class="nav-item">
     <a class="nav-link" href="{{ route('kepsek.laporan.index') }}">
         <i class="fas fa-book"></i>
         <span>Laporan Pembelajaran</span>
     </a>
+</li> --}}
+
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('kepsek.feedback') }}">
+        <i class="fas fa-comment-dots"></i>
+        <span>Feedback</span>
+    </a>
 </li>
 
 
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('kepsek.profile.show') }}">
-                    <i class="fas fa-user-tie"></i>
-                    <span>Profil Kepala Sekolah</span>
-                </a>
-            </li>
 
 
 
-            <hr class="sidebar-divider">
 
-            <div class="sidebar-heading">Pengaturan</div>
 
-            {{-- <li class="nav-item">
+
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('kepsek.profile.show') }}">
+        <i class="fas fa-user-tie"></i>
+        <span>Profil Kepala Sekolah</span>
+    </a>
+</li>
+
+<hr class="sidebar-divider">
+
+<div class="sidebar-heading">Pengaturan</div>
+
+{{-- <li class="nav-item">
                 <a class="nav-link" href="{{ url('/pengguna') }}">
                     <i class="fas fa-users-cog"></i>
                     <span>Kelola Pengguna</span>
@@ -102,11 +132,11 @@
                         <!-- Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-bs-toggle="dropdown">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <span class="badge bg-danger badge-counter">3+</span>
-                            </a>
-                        </li>
+                            data-bs-toggle="dropdown">
+                            <i class="fas fa-bell fa-fw"></i>
+                            <span class="badge bg-danger badge-counter">3+</span>
+                        </a>
+                    </li>
 
                         <!-- Messages -->
                         <li class="nav-item dropdown no-arrow mx-1">

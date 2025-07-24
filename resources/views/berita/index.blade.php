@@ -24,7 +24,7 @@
     <div class="card shadow-sm">
         <div class="card-body table-responsive">
             <table class="table table-bordered table-hover table-striped">
-                <thead class="thead-light">
+                <thead class="thead-white">
                     <tr>
                         <th>No</th>
                         <th>Judul</th>

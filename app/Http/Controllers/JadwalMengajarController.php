@@ -7,108 +7,143 @@ use App\Models\Kelas;
 use App\Models\Mapel;
 use Illuminate\Http\Request;
 use App\Models\JadwalMengajar;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
+use App\Exports\JadwalSingleExport;
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\User;
+use Maatwebsite\Excel\Facades\Excel;
 
 class JadwalMengajarController extends Controller
 {
     public function index()
     {
-        $jadwal = JadwalMengajar::with(['guru', 'mapel', 'kelas'])->get();
-        return view('jadwal.index', compact('jadwal'));
+        $jadwals = JadwalMengajar::with(['guru', 'mapel', 'kelas'])->orderBy('hari')->orderBy('jam_ke')->get();
+        return view('jadwal.index', compact('jadwals'));
     }
 
-    public function create()
-    {
-        $gurus = Guru::all();
-        $mapels = Mapel::all();
-        $kelas = Kelas::all();
-        return view('jadwal.create', compact('gurus', 'mapels', 'kelas'));
-    }
+   public function create()
+{
+    $gurus = Guru::all();
+    $mapels = Mapel::all();
+    $kelas = Kelas::all();
+        $users = User::all(); // pastikan model User di-import
 
- public function store(Request $request)
+
+    // kirim $jamMapping juga kalau mau tampilkan range waktu di form
+    $jamMapping = [
+        1 => '07:00 - 07:45',
+        2 => '07:45 - 08:30',
+        3 => '08:30 - 09:15',
+        4 => '09:15 - 10:00',
+        5 => '10:20 - 11:05',
+        6 => '11:05 - 11:50',
+        7 => '12:30 - 13:10',
+        8 => '13:10 - 13:50',
+        9 => '13:50 - 14:30',
+        10 => '14:30 - 15:10',
+    ];
+
+    return view('jadwal.create', compact('gurus', 'mapels', 'kelas', 'jamMapping','users'));
+}
+
+public function store(Request $request)
 {
     $request->validate([
-        'guru_id'     => 'required|exists:guru,id_guru',
-        'mapel_id'    => 'required|exists:mapel,id',
-        'kelas_id'    => 'required|exists:kelas,id',
-        'hari'        => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
-        'jam_mulai'   => 'required|date_format:H:i',
-        'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+        'id_user' => 'required|exists:users,id_user', // validasi id_user
+        'id_guru' => 'required|exists:guru,id_guru',
+        'id_mapel' => 'required|exists:mapel,id',
+        'id_kelas' => 'required|exists:kelas,id',
+        'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat',
+        'jam_ke' => 'required|array',
+        'jam_ke.*' => 'required|integer|min:1|max:10',
     ]);
 
-    try {
-        // Gunakan timezone Asia/Jakarta
-        $jamMulai = Carbon::createFromFormat('H:i', $request->jam_mulai, 'Asia/Jakarta')->format('H:i:s');
-        $jamSelesai = Carbon::createFromFormat('H:i', $request->jam_selesai, 'Asia/Jakarta')->format('H:i:s');
+    $idUser = $request->id_user;
+    $idGuru = $request->id_guru;
+    $hari = $request->hari;
+    $jamKeArray = $request->jam_ke;
 
+    // Cek apakah ada bentrok jadwal
+    foreach ($jamKeArray as $jamKe) {
+        $existing = JadwalMengajar::where('id_guru', $idGuru)
+            ->where('hari', $hari)
+            ->where('jam_ke', $jamKe)
+            ->first();
+
+        if ($existing) {
+            return back()->withErrors([
+                'jam_ke' => "Guru ini sudah memiliki jadwal pada hari $hari jam ke-$jamKe.",
+            ])->withInput();
+        }
+    }
+
+    // Simpan semua jam_ke yang valid
+    foreach ($jamKeArray as $jamKe) {
         JadwalMengajar::create([
-            'guru_id'     => $request->guru_id,
-            'mapel_id'    => $request->mapel_id,
-            'kelas_id'    => $request->kelas_id,
-            'hari'        => $request->hari,
-            'jam_mulai'   => $jamMulai,
-            'jam_selesai' => $jamSelesai,
+            'id_user' => $idUser, // simpan ke kolom id_user
+            'id_guru' => $idGuru,
+            'id_mapel' => $request->id_mapel,
+            'id_kelas' => $request->id_kelas,
+            'hari' => $hari,
+            'jam_ke' => $jamKe,
         ]);
-
-        return redirect()->route('jadwal-mengajar.index')->with('success', 'Jadwal berhasil ditambahkan.');
-    } catch (\Exception $e) {
-        Log::error('Gagal menyimpan jadwal: ' . $e->getMessage());
-        return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data.']);
     }
+
+    return redirect()->route('jadwal.index')->with('success', 'Jadwal berhasil ditambahkan.');
 }
 
-    public function edit($id)
-    {
-        $jadwal = JadwalMengajar::findOrFail($id);
-        $gurus  = Guru::all();
-        $mapels = Mapel::all();
-        $kelas  = Kelas::all();
-        return view('jadwal.edit', compact('jadwal', 'gurus', 'mapels', 'kelas'));
-    }
 
-  public function update(Request $request, $id)
+
+   public function edit($id)
+{
+    $jadwal = JadwalMengajar::findOrFail($id);
+    $gurus = Guru::all();
+    $mapels = Mapel::all();
+    $kelas = Kelas::all();
+    $users = User::all(); // tambahkan ini
+
+    return view('jadwal.edit', compact('jadwal', 'gurus', 'mapels', 'kelas', 'users'));
+}
+
+
+public function update(Request $request, $id)
 {
     $request->validate([
-        'guru_id'     => 'required|exists:guru,id_guru',
-        'mapel_id'    => 'required|exists:mapel,id',
-        'kelas_id'    => 'required|exists:kelas,id',
-        'hari'        => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
-        'jam_mulai'   => 'required|date_format:H:i',
-        'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+        'id_user' => 'required|exists:users,id_user',
+        'id_guru' => 'required|exists:guru,id_guru',
+        'id_mapel' => 'required|exists:mapel,id',
+        'id_kelas' => 'required|exists:kelas,id',
+        'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat',
+        'jam_ke' => 'required|integer|min:1|max:10',
     ]);
 
-    try {
-        $jamMulai = Carbon::createFromFormat('H:i', $request->jam_mulai, 'Asia/Jakarta')->format('H:i:s');
-        $jamSelesai = Carbon::createFromFormat('H:i', $request->jam_selesai, 'Asia/Jakarta')->format('H:i:s');
+    $jadwal = JadwalMengajar::findOrFail($id);
+    $jadwal->update([
+        'id_user' => $request->id_user,
+        'id_guru' => $request->id_guru,
+        'id_mapel' => $request->id_mapel,
+        'id_kelas' => $request->id_kelas,
+        'hari' => $request->hari,
+        'jam_ke' => $request->jam_ke,
+    ]);
 
-        $jadwal = JadwalMengajar::findOrFail($id);
-        $jadwal->update([
-            'guru_id'     => $request->guru_id,
-            'mapel_id'    => $request->mapel_id,
-            'kelas_id'    => $request->kelas_id,
-            'hari'        => $request->hari,
-            'jam_mulai'   => $jamMulai,
-            'jam_selesai' => $jamSelesai,
-        ]);
-
-        return redirect()->route('jadwal-mengajar.index')->with('success', 'Jadwal berhasil diperbarui.');
-    } catch (\Exception $e) {
-        Log::error('Gagal update jadwal: ' . $e->getMessage());
-        return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat memperbarui data.']);
-    }
+    return redirect()->route('jadwal.index')->with('success', 'Jadwal berhasil diupdate.');
 }
+
 
     public function destroy($id)
     {
-        try {
-            $jadwal = JadwalMengajar::findOrFail($id);
-            $jadwal->delete();
-            return redirect()->route('jadwal-mengajar.index')->with('success', 'Jadwal berhasil dihapus.');
-        } catch (\Exception $e) {
-            Log::error('Gagal hapus jadwal: ' . $e->getMessage());
-            return redirect()->route('jadwal-mengajar.index')->withErrors(['error' => 'Gagal menghapus data.']);
-        }
+        $jadwal = JadwalMengajar::findOrFail($id);
+        $jadwal->delete();
+
+        return redirect()->route('jadwal.index')->with('success', 'Jadwal berhasil dihapus.');
     }
+
+
+    public function exportSingle($id)
+{
+    $jadwal = JadwalMengajar::with(['mapel', 'kelas'])->findOrFail($id);
+    $filename = 'jadwal-' . $jadwal->id . '-' . now()->format('Ymd_His') . '.xlsx';
+
+    return Excel::download(new JadwalSingleExport($jadwal), $filename);
+}
 }

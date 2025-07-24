@@ -21,10 +21,13 @@ public function up(): void
         // Foreign key ke tabel mapel
         $table->unsignedBigInteger('id_mapel')->nullable();
 
-        // ✅ Tambahkan foreign key ke tabel kelas
+        // Foreign key ke tabel kelas
         $table->unsignedBigInteger('id_kelas')->nullable();
 
-         $table->enum('semester', ['ganjil', 'genap'])->default('ganjil');
+        // ✅ Foreign key ke tabel prodi
+        // $table->unsignedBigInteger('id_prodi')->nullable();
+
+        $table->enum('semester', ['ganjil', 'genap'])->default('ganjil');
 
         $table->timestamps();
 
@@ -34,10 +37,14 @@ public function up(): void
         // Foreign key ke tabel mapel
         $table->foreign('id_mapel')->references('id')->on('mapel')->onDelete('set null');
 
-        // ✅ Foreign key ke tabel kelas
+        // Foreign key ke tabel kelas
         $table->foreign('id_kelas')->references('id')->on('kelas')->onDelete('set null');
+
+        // ✅ Foreign key ke tabel prodi
+        // $table->foreign('id_prodi')->references('id')->on('prodi')->onDelete('set null');
     });
 }
+
 
 
 

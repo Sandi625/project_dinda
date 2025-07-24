@@ -12,29 +12,34 @@ class JadwalMengajar extends Model
     protected $table = 'jadwal_mengajar';
 
     protected $fillable = [
-        'guru_id',
-        'mapel_id',
-        'kelas_id',
+        'id_guru',
+        'id_mapel',
+        'id_kelas',
+        'id_user',
         'hari',
-        'jam_mulai',
-        'jam_selesai',
+        'jam_ke',
     ];
 
     // Relasi ke model Guru
     public function guru()
     {
-        return $this->belongsTo(Guru::class, 'guru_id', 'id_guru');
+        return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
     }
+
+    public function user()
+{
+    return $this->belongsTo(User::class, 'id_user');
+}
 
     // Relasi ke model Mapel
     public function mapel()
     {
-        return $this->belongsTo(Mapel::class);
+        return $this->belongsTo(Mapel::class, 'id_mapel', 'id');
     }
 
     // Relasi ke model Kelas
     public function kelas()
     {
-        return $this->belongsTo(Kelas::class);
+        return $this->belongsTo(Kelas::class, 'id_kelas', 'id');
     }
 }

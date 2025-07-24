@@ -35,9 +35,9 @@
     </form>
 
     <table class="table table-bordered table-striped">
-        <thead>
+        <thead class="table-dark">
             <tr>
-                <th>#</th>
+                <th>No</th>
                 <th>Nama Guru</th>
                 <th>Semester</th>
                 <th>Tanggal</th>

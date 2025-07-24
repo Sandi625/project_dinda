@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kelas;
+use App\Imports\KelasImport;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KelasController extends Controller
 {
@@ -64,4 +67,22 @@ class KelasController extends Controller
 
         return redirect()->route('kelas.index')->with('success', 'Kelas berhasil dihapus.');
     }
+
+
+
+
+public function import(Request $request)
+{
+    $request->validate([
+        'file' => 'required|mimes:xlsx,xls,csv'
+    ]);
+
+    try {
+        Excel::import(new KelasImport, $request->file('file'));
+        return redirect()->route('kelas.index')->with('success', 'Data kelas berhasil diimport.');
+    } catch (\Exception $e) {
+        return redirect()->route('kelas.index')->with('error', 'Terjadi kesalahan saat mengimport data: ' . $e->getMessage());
+    }
+}
+
 }

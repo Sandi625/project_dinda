@@ -69,7 +69,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
@@ -85,27 +85,62 @@
 
 
 
-                        {{--
-        <a class="collapse-item" href="{{ url('/subkriteria') }}">Sub Kriteria</a>
-        <a class="collapse-item" href=" {{ url('/penilaian') }}">Penilaian</a>
-        <a class="collapse-item" href=" {{ url('/penilaian/all') }}">Hasil Penilaian</a>
-        --}}
+
                     </div>
                 </div>
 
-            </li>
+            </li> --}}
 
             {{-- Menu untuk Laporan Pembelajaran --}}
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('laporan.index') }}">
-        <i class="fas fa-book"></i>
-        <span>Laporan Pembelajaran</span>
+
+
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('guru.riwayat') }}">
+                    <i class="fas fa-history"></i>
+                    <span>Riwayat Penilaian</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+    <a class="nav-link" href="{{ route('guru.jadwal') }}">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Jadwal Mengajar</span>
     </a>
 </li>
 
 
-                      {{-- Menu untuk Beri Nilai --}}
-{{-- <li class="nav-item">
+            {{-- <li class="nav-item">
+    <a class="nav-link" href="{{ route('laporan.index') }}">
+        <i class="fas fa-book"></i>
+        <span>Laporan Pembelajaran</span>
+    </a>
+</li> --}}
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('nilai-siswa.index') }}">
+                    <i class="fas fa-star"></i>
+                    <span>Nilai Siswa</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('laporan_kinerja.index') }}">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Laporan Kinerja</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/halamanguru') }}">
+                    <i class="fas fa-comment-dots"></i>
+                    <span>Feedback</span>
+                </a>
+            </li>
+
+
+            {{-- Menu untuk Beri Nilai --}}
+            {{-- <li class="nav-item">
     <a class="nav-link" href="{{ route('beri-nilai.index') }}">
         <i class="fas fa-edit"></i>
         <span>Beri Nilai</span>
@@ -119,6 +154,12 @@
     </a>
 </li> --}}
 
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('guru.profile.show') }}">
+                    <i class="fas fa-user"></i>
+                    <span>Profil</span>
+                </a>
+            </li>
 
 
 
@@ -346,7 +387,8 @@
                                 </a>
 
                                 <!-- Hidden Logout Form -->
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    class="d-none">
                                     @csrf
                                 </form>
 
@@ -426,21 +468,21 @@
     <!-- Custom scripts for all pages-->
     {{-- <script src="js/sb-admin-2.min.js"></script> --}}
     <script src="{{ asset('assets/sb-admin/js/sb-admin-2.min.js') }}"></script>
-@yield('scripts')
+    @yield('scripts')
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
-    @if(session('success'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Sukses!',
-            text: '{{ session('success') }}',
-            timer: 2000,
-            showConfirmButton: false
-        });
-    @endif
-</script>
+    <script>
+        @if (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Sukses!',
+                text: '{{ session('success') }}',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        @endif
+    </script>
 
 </body>
 

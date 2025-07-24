@@ -22,7 +22,7 @@
 
         {{-- User Pembuat --}}
         <div class="mb-3">
-            <label for="id_user" class="form-label">User Pembuat</label>
+            <label for="id_user" class="form-label">Beri Akun (agar bisa Login dan melihat nilai)</label>
             <select name="id_user" class="form-select" required>
                 <option value="">-- Pilih User --</option>
                 @foreach ($users as $user)

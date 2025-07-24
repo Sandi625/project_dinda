@@ -21,64 +21,83 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('jadwal-mengajar.store') }}" method="POST">
+    <form action="{{ route('jadwal.store') }}" method="POST">
         @csrf
 
         {{-- Guru --}}
         <div class="mb-3">
-            <label for="guru_id" class="form-label">Guru</label>
-            <select name="guru_id" class="form-select" required>
+            <label for="id_guru" class="form-label">Guru</label>
+            <select name="id_guru" class="form-select" required>
                 <option value="">-- Pilih Guru --</option>
                 @foreach ($gurus as $guru)
-                    <option value="{{ $guru->id_guru }}" {{ old('guru_id') == $guru->id_guru ? 'selected' : '' }}>
+                    <option value="{{ $guru->id_guru }}" {{ old('id_guru') == $guru->id_guru ? 'selected' : '' }}>
                         {{ $guru->nama }}
                     </option>
                 @endforeach
             </select>
-            @error('guru_id')
+            @error('id_guru')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
 
         {{-- Mapel --}}
         <div class="mb-3">
-            <label for="mapel_id" class="form-label">Mata Pelajaran</label>
-            <select name="mapel_id" class="form-select" required>
+            <label for="id_mapel" class="form-label">Mata Pelajaran</label>
+            <select name="id_mapel" class="form-select" required>
                 <option value="">-- Pilih Mapel --</option>
                 @foreach ($mapels as $mapel)
-                    <option value="{{ $mapel->id }}" {{ old('mapel_id') == $mapel->id ? 'selected' : '' }}>
+                    <option value="{{ $mapel->id }}" {{ old('id_mapel') == $mapel->id ? 'selected' : '' }}>
                         {{ $mapel->nama_mapel }}
                     </option>
                 @endforeach
             </select>
-            @error('mapel_id')
+            @error('id_mapel')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
 
         {{-- Kelas --}}
         <div class="mb-3">
-            <label for="kelas_id" class="form-label">Kelas</label>
-            <select name="kelas_id" class="form-select" required>
+            <label for="id_kelas" class="form-label">Kelas</label>
+            <select name="id_kelas" class="form-select" required>
                 <option value="">-- Pilih Kelas --</option>
                 @foreach ($kelas as $kls)
-                    <option value="{{ $kls->id }}" {{ old('kelas_id') == $kls->id ? 'selected' : '' }}>
+                    <option value="{{ $kls->id }}" {{ old('id_kelas') == $kls->id ? 'selected' : '' }}>
                         {{ $kls->nama_kelas }}
                     </option>
                 @endforeach
             </select>
-            @error('kelas_id')
+            @error('id_kelas')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
+
+        {{-- Akun / User --}}
+<div class="mb-3">
+    <label for="id_user" class="form-label">Akun</label>
+    <select name="id_user" class="form-select" required>
+        <option value="">-- Pilih Akun --</option>
+        @foreach ($users as $user)
+            <option value="{{ $user->id_user }}" {{ old('id_user') == $user->id_user ? 'selected' : '' }}>
+                {{ $user->name }}
+            </option>
+        @endforeach
+    </select>
+    @error('id_user')
+        <div class="text-danger">{{ $message }}</div>
+    @enderror
+</div>
+
 
         {{-- Hari --}}
         <div class="mb-3">
             <label for="hari" class="form-label">Hari</label>
             <select name="hari" class="form-select" required>
                 <option value="">-- Pilih Hari --</option>
-                @foreach (['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as $hari)
-                    <option value="{{ $hari }}" {{ old('hari') == $hari ? 'selected' : '' }}>{{ $hari }}</option>
+                @foreach (['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $hari)
+                    <option value="{{ $hari }}" {{ old('hari') == $hari ? 'selected' : '' }}>
+                        {{ $hari }}
+                    </option>
                 @endforeach
             </select>
             @error('hari')
@@ -86,43 +105,85 @@
             @enderror
         </div>
 
-      {{-- Jam Mulai --}}
-<div class="mb-3">
-    <label for="jam_mulai" class="form-label">Jam Mulai <small class="text-muted">(WIB)</small></label>
-    <input type="text" name="jam_mulai" id="jam_mulai" class="form-control timepicker"
-           value="{{ old('jam_mulai') }}" placeholder="Contoh: 07:30" required>
-    @error('jam_mulai')
-        <div class="text-danger">{{ $message }}</div>
-    @enderror
-</div>
+        {{-- Jam ke --}}
+        @php
+            $jamMapping = [
+                1 => '07:00 - 07:45',
+                2 => '07:45 - 08:30',
+                3 => '08:30 - 09:15',
+                4 => '09:15 - 10:00',
+                5 => '10:20 - 11:05',
+                6 => '11:05 - 11:50',
+                7 => '12:30 - 13:10',
+                8 => '13:10 - 13:50',
+                9 => '13:50 - 14:30',
+                10 => '14:30 - 15:10',
+            ];
+            $jamMappingJson = json_encode($jamMapping);
+        @endphp
 
-{{-- Jam Selesai --}}
-<div class="mb-3">
-    <label for="jam_selesai" class="form-label">Jam Selesai <small class="text-muted">(WIB)</small></label>
-    <input type="text" name="jam_selesai" id="jam_selesai" class="form-control timepicker"
-           value="{{ old('jam_selesai') }}" placeholder="Contoh: 09:15" required>
-    @error('jam_selesai')
-        <div class="text-danger">{{ $message }}</div>
-    @enderror
-</div>
+        <div id="jam-container">
+            <div class="mb-3 jam-row">
+                <label class="form-label">Jam ke</label>
+                <select name="jam_ke[]" class="form-select" required>
+                    <option value="">-- Pilih Jam ke --</option>
+                    @foreach ($jamMapping as $jamKe => $rentang)
+                        <option value="{{ $jamKe }}">
+                            Jam ke-{{ $jamKe }} ({{ $rentang }})
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
 
+        <button type="button" class="btn btn-sm btn-success mb-3" onclick="addJam()">+ Tambah Jam</button>
 
+        <br>
         <button type="submit" class="btn btn-success">Simpan</button>
-        <a href="{{ route('jadwal-mengajar.index') }}" class="btn btn-secondary">Kembali</a>
+        <a href="{{ route('jadwal.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
-@endsection
 
-@section('scripts')
-    {{-- Flatpickr --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
-        flatpickr(".timepicker", {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            time_24hr: true
-        });
-    </script>
+<script>
+    const jamMapping = {!! $jamMappingJson !!};
+
+    function addJam() {
+        const container = document.getElementById('jam-container');
+
+        const newRow = document.createElement('div');
+        newRow.classList.add('mb-3', 'jam-row', 'd-flex', 'align-items-center', 'gap-2');
+
+        // Buat elemen select
+        const select = document.createElement('select');
+        select.name = "jam_ke[]";
+        select.classList.add('form-select');
+        select.required = true;
+
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = '-- Pilih Jam ke --';
+        select.appendChild(defaultOption);
+
+        for (const [key, val] of Object.entries(jamMapping)) {
+            const option = document.createElement('option');
+            option.value = key;
+            option.textContent = `Jam ke-${key} (${val})`;
+            select.appendChild(option);
+        }
+
+        // Buat tombol hapus
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.classList.add('btn', 'btn-danger', 'btn-sm');
+        removeBtn.textContent = 'Hapus';
+        removeBtn.onclick = function () {
+            container.removeChild(newRow);
+        };
+
+        newRow.appendChild(select);
+        newRow.appendChild(removeBtn);
+
+        container.appendChild(newRow);
+    }
+</script>
 @endsection

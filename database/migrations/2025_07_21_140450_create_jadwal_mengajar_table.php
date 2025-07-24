@@ -9,24 +9,37 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-  public function up(): void
-{
-    Schema::create('jadwal_mengajar', function (Blueprint $table) {
-        $table->id();
+ public function up(): void
+    {
+        Schema::create('jadwal_mengajar', function (Blueprint $table) {
+            $table->id();
 
-        // Gunakan unsignedBigInteger dan foreign secara eksplisit
-        $table->unsignedBigInteger('guru_id');
-        $table->foreign('guru_id')->references('id_guru')->on('guru')->onDelete('cascade');
+            // Relasi ke tabel guru
+            $table->unsignedBigInteger('id_guru');
 
-        $table->foreignId('mapel_id')->constrained('mapel')->onDelete('cascade');
-        $table->foreignId('kelas_id')->constrained('kelas')->onDelete('cascade');
+                    $table->unsignedBigInteger('id_user');
 
-        $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']);
-        $table->time('jam_mulai');
-        $table->time('jam_selesai');
-        $table->timestamps();
-    });
-}
+
+            // Relasi ke tabel mapel (boleh redundant jika mau eksplisit, atau bisa ambil dari tabel guru)
+            $table->unsignedBigInteger('id_mapel');
+
+            // Relasi ke kelas
+            $table->unsignedBigInteger('id_kelas');
+
+            // Hari & jam ke
+            $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat']);
+            $table->unsignedTinyInteger('jam_ke'); // dari 1 s.d 10
+
+            $table->timestamps();
+
+            // Foreign keys
+                    $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
+
+            $table->foreign('id_guru')->references('id_guru')->on('guru')->onDelete('cascade');
+            $table->foreign('id_mapel')->references('id')->on('mapel')->onDelete('cascade');
+            $table->foreign('id_kelas')->references('id')->on('kelas')->onDelete('cascade');
+        });
+    }
 
 
     /**

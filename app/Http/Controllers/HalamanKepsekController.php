@@ -6,9 +6,12 @@ use App\Models\Guru;
 use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Mapel;
+use App\Models\Feedback;
 use App\Models\Penilaian;
+use App\Models\NilaiSiswa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\LaporanKinerja;
 use App\Models\DetailPenilaian;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\KriteriaPenilaian;
@@ -217,4 +220,56 @@ public function update(Request $request, $id)
 
     return $pdf->stream($namaFile);
 }
+
+
+public function nilaiSiswa()
+{
+    $nilai = \App\Models\NilaiSiswa::all()
+        ->groupBy('nisn'); // group by nisn atau nama_siswa sesuai kebutuhan
+
+    $data = $nilai->map(function ($items) {
+        return [
+            'nama_siswa' => $items->first()->nama_siswa,
+            'kelas' => $items->first()->kelas,
+            'rata_rata' => round($items->avg('nilai'), 2),
+            'nilai_detail' => $items,
+        ];
+    });
+
+    return view('kepsek.nilai_siswa', compact('data'));
+}
+
+public function getFeedback()
+{
+    $feedbacks = \App\Models\Feedback::with('penilaian.guru', 'penilaian.kelas', 'penilaian.mapel')
+        ->latest()
+        ->get();
+
+    return view('kepsek.feedback.index', compact('feedbacks'));
+}
+
+
+public function laporanKinerjaKepsek(Request $request)
+{
+    $query = LaporanKinerja::with(['guru.user', 'detail']);
+
+    // Optional filter by semester
+    if ($request->filled('semester') && in_array($request->semester, ['ganjil', 'genap'])) {
+        $query->where('semester', $request->semester);
+    }
+
+    $laporanKinerja = $query->latest()->get();
+
+    // Ambil daftar semester unik
+    $daftarSemester = LaporanKinerja::select('semester')
+        ->whereNotNull('semester')
+        ->distinct()
+        ->pluck('semester');
+
+    return view('kepsek.laporan_kinerja.index', compact('laporanKinerja', 'daftarSemester'));
+}
+
+
+
+
 }

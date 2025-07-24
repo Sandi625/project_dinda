@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\MapelController;
+use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\BeritaController;
@@ -15,8 +16,11 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\BeriNilaiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PenilaianController;
+use App\Http\Controllers\JadwalGuruController;
+use App\Http\Controllers\NilaiSiswaController;
 use App\Http\Controllers\HalamanGuruController;
 use App\Http\Controllers\ProfileGuruController;
+use App\Http\Controllers\JadwalExportController;
 use App\Http\Controllers\DashboardGuruController;
 use App\Http\Controllers\HalamanKepsekController;
 use App\Http\Controllers\KepsekLaporanController;
@@ -24,16 +28,33 @@ use App\Http\Controllers\LihatRataGuruController;
 use App\Http\Controllers\ProfileKepsekController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\JadwalMengajarController;
+use App\Http\Controllers\LaporanKinerjaController;
 use App\Http\Controllers\DashboardKepsekController;
 use App\Http\Controllers\KriteriaPenilaianController;
 use App\Http\Controllers\LaporanPembelajaranController;
 use App\Http\Controllers\RiwayatPenilaianGuruController;
 use App\Http\Controllers\HomeController; // <- ini error kalau belum ada
 
-Route::prefix('kepsek')->middleware(['auth'])->group(function () {
-    Route::get('/laporan', [KepsekLaporanController::class, 'index'])->name('kepsek.laporan.index');
-    Route::get('/laporan/{id}', [KepsekLaporanController::class, 'show'])->name('kepsek.laporan.show');
+
+// Route::prefix('kepsek')->middleware(['auth'])->group(function () {
+//     Route::get('/laporan', [KepsekLaporanController::class, 'index'])->name('kepsek.laporan.index');
+//     Route::get('/laporan/{id}', [KepsekLaporanController::class, 'show'])->name('kepsek.laporan.show');
+// });
+Route::middleware(['auth'])->group(function () {
+    Route::get('/guru/jadwal', [JadwalGuruController::class, 'index'])->name('guru.jadwal');
 });
+
+Route::get('/jadwal/export/{id}', [JadwalMengajarController::class, 'exportSingle'])->name('jadwal.export.single');
+
+Route::resource('jadwal', JadwalMengajarController::class);
+
+Route::get('/jadwal-mengajar/export', [JadwalExportController::class, 'export'])->name('jadwal.export');
+
+Route::get('/kepsek/nilai-siswa', [HalamanKepsekController::class, 'nilaiSiswa'])->name('kepsek.nilai_siswa');
+Route::get('/kepsek/feedback', [HalamanKepsekController::class, 'getFeedback'])->name('kepsek.feedback');
+// Route::get('/kepsek/laporan-kinerja', [HalamanKepsekController::class, 'getLaporanKinerja'])->name('kepsek.laporan_kinerja');
+
+Route::get('/kepsek/laporan-kinerja', [HalamanKepsekController::class, 'laporanKinerjaKepsek'])->name('kepsek.laporan_kinerja');
 
 
 Route::get('/guru/riwayat', [RiwayatPenilaianGuruController::class, 'index'])->name('guru.riwayat');
@@ -167,35 +188,54 @@ Route::get('/penilaian/kepsek-download/{id}', [HalamanKepsekController::class, '
 
 Route::resource('mapel', MapelController::class);
 
-Route::resource('siswa', SiswaController::class);
+// Route::resource('siswa', SiswaController::class);
 
 Route::resource('kelas', KelasController::class);
 
 
 
 
-Route::prefix('beri-nilai')->group(function () {
-    Route::get('/', [BeriNilaiController::class, 'index'])->name('beri-nilai.index');
-    Route::post('/form', [BeriNilaiController::class, 'form'])->name('beri-nilai.form');
-    Route::post('/simpan', [BeriNilaiController::class, 'simpan'])->name('beri-nilai.simpan');
+// Route::prefix('beri-nilai')->group(function () {
+//     Route::get('/', [BeriNilaiController::class, 'index'])->name('beri-nilai.index');
+//     Route::post('/form', [BeriNilaiController::class, 'form'])->name('beri-nilai.form');
+//     Route::post('/simpan', [BeriNilaiController::class, 'simpan'])->name('beri-nilai.simpan');
 
-    // Tambahan lihat hasil nilai
-    Route::get('/lihat', [BeriNilaiController::class, 'lihat'])->name('beri-nilai.lihat');
-    Route::post('/hasil', [BeriNilaiController::class, 'hasil'])->name('beri-nilai.hasil');
-});
+//     // Tambahan lihat hasil nilai
+//     Route::get('/lihat', [BeriNilaiController::class, 'lihat'])->name('beri-nilai.lihat');
+//     Route::post('/hasil', [BeriNilaiController::class, 'hasil'])->name('beri-nilai.hasil');
+// });
 
 
 // Route::get('/kepsek/rata-rata-nilai', [LihatRataGuruController::class, 'index'])->name('kepsek.rata-guru');
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::resource('laporan', LaporanPembelajaranController::class);
-});
+// Route::middleware(['auth'])->group(function () {
+//     Route::resource('laporan', LaporanPembelajaranController::class);
+// });
 
 
 
-Route::resource('jadwal-mengajar', JadwalMengajarController::class);
+// Route::resource('jadwal-mengajar', JadwalMengajarController::class);
 
 
+Route::resource('nilai-siswa', NilaiSiswaController::class);
+
+
+
+
+Route::post('/nilai-siswa/import', [NilaiSiswaController::class, 'import'])->name('nilai-siswa.import');
+
+Route::resource('prodi', ProdiController::class);
+
+Route::post('prodi/import', [ProdiController::class, 'import'])->name('prodi.import');
+
+
+Route::post('/kelas/import', [KelasController::class, 'import'])->name('kelas.import');
+
+
+Route::post('/mapel/import', [MapelController::class, 'import'])->name('mapel.import');
+
+
+Route::resource('laporan_kinerja', LaporanKinerjaController::class);
 
 

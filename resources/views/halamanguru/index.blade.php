@@ -7,12 +7,11 @@
 
     @if($penilaians->count())
       <table class="table table-bordered">
-    <thead class="table-light">
+    <thead class="table-success">
         <tr>
             <th>No</th> {{-- Ganti dari "ID Penilaian" --}}
             <th>Guru</th>
-            <th>Periode</th>
-            <th>Detail Penilaian</th>
+  <th>Semester</th> {{-- Ganti dari Periode --}}            <th>Detail Penilaian</th>
             <th>Feedback</th>
             <th>Aksi</th>
         </tr>
@@ -22,7 +21,7 @@
             <tr>
                 <td>{{ $loop->iteration }}</td> {{-- Nomor urut --}}
                 <td>{{ ucwords(strtolower($penilaian->guru->nama ?? 'Tidak ada guru')) }}</td>
-                <td>{{ $penilaian->periode }}</td>
+                <td>{{ ucfirst($penilaian->semester ?? '-') }}</td> {{-- Tambahkan kolom semester --}}
                 <td>
                     <ul class="mb-0 ps-3">
                         @foreach ($penilaian->detailPenilaian as $detail)

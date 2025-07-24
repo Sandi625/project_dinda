@@ -10,6 +10,13 @@
 
     <a href="{{ route('mapel.create') }}" class="btn btn-primary mb-3">+ Tambah Mapel</a>
 
+    <form action="{{ route('mapel.import') }}" method="POST" enctype="multipart/form-data" class="d-flex mb-3">
+    @csrf
+    <input type="file" name="file" class="form-control me-2" required>
+    <button type="submit" class="btn btn-success">Import Mapel</button>
+</form>
+
+
     <table class="table table-bordered">
         <thead>
             <tr>

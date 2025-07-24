@@ -4,20 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Penilaian;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class RiwayatPenilaianGuruController extends Controller
 {
 public function index(Request $request)
 {
-    // Ambil id_guru dari user yang login lewat relasi
-    $idGuru = Auth::user()->guru->id_guru ?? null;
+    // Gunakan id_guru secara hardcoded sementara (contoh: 1)
+    $idGuru = 1;
 
-    if (!$idGuru) {
-        abort(403, 'Anda tidak memiliki akses ke data ini.');
+    // Cek apakah guru dengan id tersebut ada (opsional, untuk keamanan)
+    $guruExists = DB::table('guru')->where('id_guru', $idGuru)->exists();
+
+    if (!$guruExists) {
+        abort(403, 'Data guru tidak ditemukan.');
     }
 
-    // Query awal: hanya data milik guru yang sedang login
+    // Query awal: hanya data milik guru dengan id tersebut
     $query = Penilaian::with(['guru', 'kelas', 'mapel', 'detailPenilaian.kriteria'])
         ->where('id_guru', $idGuru);
 
@@ -29,7 +34,7 @@ public function index(Request $request)
     // Ambil semua data penilaian terurut dari tanggal terbaru
     $penilaian = $query->orderByDesc('tanggal')->get();
 
-    // Ambil daftar semester unik dari data penilaian milik guru yang login
+    // Ambil daftar semester unik dari data penilaian milik guru
     $daftarSemester = Penilaian::where('id_guru', $idGuru)
         ->select('semester')
         ->distinct()
@@ -40,6 +45,7 @@ public function index(Request $request)
 
     return view('guru.riwayat.index', compact('penilaian', 'daftarSemester'));
 }
+
 
 
 

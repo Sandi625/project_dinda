@@ -11,7 +11,7 @@
     <a href="{{ route('feedback.create') }}" class="btn btn-primary mb-3">Tambah Feedback</a>
 
     <table class="table table-bordered table-striped align-middle">
-        <thead class="table-primary">
+        <thead class="table-white">
             <tr>
                 <th>#</th>
                 <th>Penilaian</th>

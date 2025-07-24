@@ -27,7 +27,7 @@
     </form>
 
     <table class="table table-bordered table-striped align-middle">
-        <thead class="table-primary">
+        <thead class="table-success">
             <tr>
                 <th>#</th>
                 <th>Guru</th>

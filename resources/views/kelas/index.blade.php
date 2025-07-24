@@ -10,6 +10,13 @@
 
     <a href="{{ route('kelas.create') }}" class="btn btn-primary mb-3">+ Tambah Kelas</a>
 
+    <form action="{{ route('kelas.import') }}" method="POST" enctype="multipart/form-data" class="d-flex mb-3">
+    @csrf
+    <input type="file" name="file" class="form-control me-2" required>
+    <button type="submit" class="btn btn-success">Import Excel</button>
+</form>
+
+
     <table class="table table-bordered">
         <thead>
             <tr>

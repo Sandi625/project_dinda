@@ -80,7 +80,7 @@
                         <a class="collapse-item" href="{{ url('/guru') }}">Guru</a>
                         <a class="collapse-item" href="{{ url('/kriteria_penilaian') }}">Kriteria</a>
                         <a class="collapse-item" href="{{ url('/penilaian') }}">Penilaian</a>
-                        <a class="collapse-item" href="{{ url('/feedback') }}">Feedback</a>
+                        {{-- <a class="collapse-item" href="{{ url('/feedback') }}">Feedback</a> --}}
 
 
                         {{-- <a class="collapse-item" href="{{ url('/subkriteria') }}">Sub Kriteria</a>
@@ -104,6 +104,16 @@
                     <span>Kelas</span>
                 </a>
             </li>
+
+            {{-- <li class="nav-item">
+    <a class="nav-link" href="{{ route('prodi.index') }}">
+        <i class="fas fa-graduation-cap"></i>
+        <span>Prodi</span>
+    </a>
+</li> --}}
+
+
+
               {{-- <li class="nav-item">
                 <a class="nav-link" href="{{ route('siswa.index') }}">
                     <i class="fas fa-user-circle"></i>
@@ -112,7 +122,7 @@
             </li> --}}
 
           <li class="nav-item">
-    <a class="nav-link" href="{{ route('jadwal-mengajar.index') }}">
+    <a class="nav-link" href="{{ route('jadwal.index') }}">
         <i class="fas fa-calendar-alt"></i>
         <span>Jadwal Mengajar</span>
     </a>
