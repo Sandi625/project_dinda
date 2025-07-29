@@ -24,11 +24,6 @@
                 value="{{ old('nama_mapel', $mapel->nama_mapel) }}" required>
         </div>
 
-        <div class="mb-3">
-            <label for="kelas" class="form-label">Kelas</label>
-            <input type="text" class="form-control" name="kelas" id="kelas"
-                value="{{ old('kelas', $mapel->kelas) }}" required>
-        </div>
 
         <button type="submit" class="btn btn-primary">Perbarui</button>
         <a href="{{ route('mapel.index') }}" class="btn btn-secondary">Kembali</a>

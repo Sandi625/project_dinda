@@ -1,8 +1,8 @@
-@extends('layouts.base')
+@extends('layouts.master')
 
 @section('content')
 <div class="container mt-4">
-    <h2>Daftar Feedback</h2>
+    <h2>Daftar Komentar</h2>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -15,7 +15,8 @@
             <tr>
                 <th>#</th>
                 <th>Penilaian</th>
-                <th>Isi</th>
+                <th>Komentar Kepala Sekolah</th>
+                <th>Feedback Guru</th>
                 <th>Tanggal</th>
                 <th>Aksi</th>
             </tr>
@@ -24,8 +25,12 @@
             @forelse ($feedbacks as $f)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>Periode: {{ $f->penilaian->periode ?? '-' }}<br>Guru: {{ $f->penilaian->guru->nama ?? '-' }}</td>
+                <td>
+                    Periode: {{ $f->penilaian->periode ?? '-' }}<br>
+                    Guru: {{ $f->penilaian->guru->nama ?? '-' }}
+                </td>
                 <td>{{ $f->isi }}</td>
+                <td>{{ $f->feedback_guru ?? '-' }}</td>
                 <td>{{ \Carbon\Carbon::parse($f->tanggal)->format('d-m-Y') }}</td>
                 <td>
                     <a href="{{ route('feedback.edit', $f->id_feedback) }}" class="btn btn-sm btn-warning">Edit</a>
@@ -38,7 +43,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="5" class="text-center">Belum ada data feedback.</td>
+                <td colspan="6" class="text-center">Belum ada data feedback.</td>
             </tr>
             @endforelse
         </tbody>

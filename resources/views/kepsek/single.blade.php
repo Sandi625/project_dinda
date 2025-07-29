@@ -1,158 +1,147 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Detail Penilaian Administrasi</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            font-size: 12px;
-            padding: 20px;
-            color: #000;
-        }
+  <title>Instrumen Supervisi Administrasi Pembelajaran</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
 
-        h4, h5 {
-            text-align: center;
-            margin: 0;
-            padding: 4px 0;
-        }
+    h3 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
 
-        table.meta {
-            width: 100%;
-            margin: 15px 0;
-        }
+    .form-info {
+      margin-bottom: 15px;
+    }
 
-        table.meta td {
-            padding: 4px;
-        }
+    .form-info p {
+      margin: 4px 0;
+    }
 
-        table.komponen {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
+    .form-info strong {
+      display: inline-block;
+      width: 160px;
+    }
 
-        table.komponen th, table.komponen td {
-            border: 1px solid #000;
-            padding: 6px;
-            vertical-align: top;
-            text-align: center;
-        }
+    .garis {
+      display: inline-block;
+      border-bottom: 1px solid #000;
+      min-width: 250px;
+      padding-bottom: 2px;
+    }
 
-        table.komponen td.text-left {
-            text-align: left;
-        }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
 
-        .highlight {
-            font-weight: bold;
-            background-color: #eaeaea;
-        }
+    th, td {
+      border: 1px solid #000;
+      padding: 6px;
+      text-align: center;
+    }
 
-        .footer {
-            margin-top: 40px;
-            font-size: 11px;
-            text-align: center;
-            color: #666;
-        }
-    </style>
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .text-left {
+      text-align: left;
+    }
+  </style>
 </head>
 <body>
 
-    <h4>Lampiran A.2 Format Penilaian Administrasi Pembelajaran</h4>
-    <h5>Instrumen Penilaian Administrasi Guru</h5>
+<h3>INSTRUMEN SUPERVISI ADMINISTRASI PEMBELAJARAN</h3>
 
-    <table class="meta">
-        <tr><td width="180">Hari/Tanggal</td><td>: {{ \Carbon\Carbon::parse($penilaian->tanggal)->format('d-m-Y') }}</td></tr>
-        <tr><td>Nama Guru</td><td>: {{ $penilaian->guru->nama ?? '-' }}</td></tr>
-        <tr><td>NIP</td><td>: {{ $penilaian->guru->nip ?? '-' }}</td></tr>
-        <tr><td>Mata Pelajaran</td><td>: {{ $penilaian->guru->mapel->nama_mapel ?? '-' }}</td></tr>
-        <tr><td>Nama Observer</td><td>: {{ $penilaian->user->name ?? '-' }}</td></tr>
-        <tr><td>Kelas</td><td>: {{ $penilaian->guru->kelas->nama_kelas ?? '-' }}</td></tr>
-        <tr><td>Periode</td><td>: {{ $penilaian->periode }}</td></tr>
-    </table>
+<div class="form-info">
+  <p><strong>Nama Sekolah:</strong> <span class="garis">SMK MUHAMMADIYAH 9 GAMBARAN</span></p>
+  <p><strong>Nama Guru:</strong> <span class="garis">{{ $penilaian->guru->nama ?? '-' }}</span></p>
+  <p><strong>Elemen / Mapel:</strong> <span class="garis">{{ $penilaian->guru->mapel->nama_mapel ?? '-' }}</span></p>
+  <p><strong>Semester / Kelas:</strong> <span class="garis">{{ $penilaian->guru->kelas->nama_kelas ?? '-' }}</span></p>
+  <p><strong>Hari / Tanggal:</strong> <span class="garis">{{ \Carbon\Carbon::parse($penilaian->tanggal)->translatedFormat('l, d F Y') }}</span></p>
+</div>
 
-    <table class="komponen" style="width: 100%; border-collapse: collapse;" border="1" cellpadding="5">
-        <thead style="background-color: #f0f0f0;">
-            <tr>
-                <th width="30">NO</th>
-                <th class="text-left">Komponen Administrasi Pembelajaran</th>
-                <th width="80">Maksimal</th>
-                <th width="80">Perolehan</th>
-                <th width="120">Keterangan</th>
-            </tr>
-        </thead>
-        <tbody>
-        @php
-            $totalNilai = 0;
-            $jumlahKriteria = $penilaian->detailPenilaian->count();
-        @endphp
-
-        @foreach ($penilaian->detailPenilaian as $i => $detail)
-            @php
-                $nilai = $detail->nilai ?? 0;
-                $totalNilai += $nilai;
-            @endphp
-            <tr>
-                <td>{{ $i + 1 }}</td>
-                <td>{{ $detail->kriteria->nama ?? '-' }}</td>
-                <td>100</td>
-                <td>{{ number_format($nilai, 2) }}</td>
-                <td></td>
-            </tr>
-        @endforeach
-
-        <tr style="font-weight: bold;">
-            <td colspan="2">Jumlah Skor Penilaian</td>
-            <td>{{ $jumlahKriteria * 100 }}</td>
-            <td>{{ number_format($totalNilai, 2) }}</td>
-            <td></td>
-        </tr>
-        </tbody>
-    </table>
-
+<table>
+  <thead>
+    <tr>
+      <th>No</th>
+      <th class="text-left">Komponen Administrasi Pembelajaran</th>
+      <th>Penilaian Maksimal</th>
+      <th>Skor Perolehan</th>
+      <th>Keterangan</th>
+    </tr>
+  </thead>
+  <tbody>
     @php
-        $nilaiAkhir = $jumlahKriteria > 0 ? ($totalNilai / $jumlahKriteria) : 0;
-
-        if ($nilaiAkhir >= 85) {
-            $predikat = 'A (Sangat Baik)';
-        } elseif ($nilaiAkhir >= 75) {
-            $predikat = 'B (Baik)';
-        } elseif ($nilaiAkhir >= 65) {
-            $predikat = 'C (Cukup)';
-        } else {
-            $predikat = 'D (Kurang)';
-        }
+        $totalNilai = 0;
+        $jumlahKriteria = $penilaian->detailPenilaian->count();
     @endphp
 
-    <table style="margin-top: 20px; width: 50%; font-size: 14px;">
-        <tr>
-            <td><strong>Nilai Akhir</strong></td>
-            <td>: {{ number_format($nilaiAkhir, 2) }}</td>
-        </tr>
-        <tr>
-            <td><strong>Predikat</strong></td>
-            <td>: {{ $predikat }}</td>
-        </tr>
-    </table>
+    @foreach ($penilaian->detailPenilaian as $i => $detail)
+      @php
+          $nilai = $detail->nilai ?? 0;
+          $totalNilai += $nilai;
+      @endphp
+      <tr>
+        <td>{{ $i + 1 }}</td>
+        <td class="text-left">{{ $detail->kriteria->nama ?? '-' }}</td>
+        <td>5</td>
+        <td>{{ number_format($nilai, 2) }}</td>
+        <td></td>
+      </tr>
+    @endforeach
 
-    <table style="width: 100%; margin-top: 60px; text-align: center;">
-        <tr>
-            <td></td>
-            <td>
-                Mengetahui,<br>
-                Kepala Sekolah<br><br>
-                <img src="{{ public_path('images/Tanda_tangan_bapak.png') }}" alt="Tanda Tangan Kepala Sekolah" style="width: 120px;"><br>
-                <u><strong>Nama Kepala Sekolah</strong></u><br>
-                NIP: 1234567890
-            </td>
-        </tr>
-    </table>
+    <tr style="font-weight: bold; background-color: #f9f9f9;">
+      <td colspan="2" class="text-left">Jumlah Skor Penilaian</td>
+      <td>{{ $jumlahKriteria * 5 }}</td>
+      <td>{{ number_format($totalNilai, 2) }}</td>
+      <td></td>
+    </tr>
+    <tr style="font-weight: bold; background-color: #f9f9f9;">
+      <td colspan="2" class="text-left">Nilai Akhir = (Skor ÷ {{ $jumlahKriteria * 5 }}) × 100</td>
+      <td colspan="2">
+        @php
+          $nilaiAkhir = $jumlahKriteria > 0 ? ($totalNilai / ($jumlahKriteria * 5)) * 100 : 0;
+          $predikat = '-';
+          if ($nilaiAkhir >= 85) $predikat = 'A (Sangat Baik)';
+          elseif ($nilaiAkhir >= 75) $predikat = 'B (Baik)';
+          elseif ($nilaiAkhir >= 65) $predikat = 'C (Cukup)';
+          else $predikat = 'D (Kurang)';
+        @endphp
+        {{ number_format($nilaiAkhir, 2) }}
+      </td>
+      <td>{{ $predikat }}</td>
+    </tr>
+  </tbody>
+</table>
 
-    <div class="footer" style="position: fixed; bottom: 30px; font-size: 12px; width: 100%; text-align: center;">
-        Dicetak otomatis oleh sistem pada {{ now()->format('d-m-Y H:i') }}
-    </div>
+<br>
+
+<table style="width: 100%; border-collapse: collapse;" border="1">
+  <tr>
+    <td colspan="2"><strong>Predikat:</strong></td>
+  </tr>
+  <tr>
+    <td style="padding: 6px;">A = 85 - 100</td>
+    <td style="padding: 6px;">Sangat Baik</td>
+  </tr>
+  <tr>
+    <td style="padding: 6px;">B = 75 - 84</td>
+    <td style="padding: 6px;">Baik</td>
+  </tr>
+  <tr>
+    <td style="padding: 6px;">C = 65 - 74</td>
+    <td style="padding: 6px;">Cukup</td>
+  </tr>
+  <tr>
+    <td style="padding: 6px;">D = 0 - 64</td>
+    <td style="padding: 6px;">Kurang</td>
+  </tr>
+</table>
 
 </body>
-
-
 </html>

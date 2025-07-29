@@ -26,6 +26,8 @@ class Feedback extends Model
         'id_penilaian',
         'isi',
         'tanggal',
+        'feedback_guru', // ✅ ditambahkan ke sini
+
     ];
 
     // Relasi ke Penilaian (asumsi model Penilaian ada)

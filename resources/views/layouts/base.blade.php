@@ -80,7 +80,7 @@
                         <a class="collapse-item" href="{{ url('/guru') }}">Guru</a>
                         <a class="collapse-item" href="{{ url('/kriteria_penilaian') }}">Kriteria</a>
                         <a class="collapse-item" href="{{ url('/penilaian') }}">Penilaian</a>
-                        {{-- <a class="collapse-item" href="{{ url('/feedback') }}">Feedback</a> --}}
+                        <a class="collapse-item" href="{{ url('/feedback') }}">Feedback</a>
 
 
                         {{-- <a class="collapse-item" href="{{ url('/subkriteria') }}">Sub Kriteria</a>
@@ -127,6 +127,8 @@
         <span>Jadwal Mengajar</span>
     </a>
 </li>
+
+
 
 
 

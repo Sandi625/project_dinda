@@ -69,4 +69,11 @@ class Penilaian extends Model
     {
         return $this->hasOne(Feedback::class, 'id_penilaian', 'id_penilaian');
     }
+
+public function feedbacks()
+{
+    return $this->hasMany(Feedback::class, 'id_penilaian', 'id_penilaian');
+}
+
+
 }

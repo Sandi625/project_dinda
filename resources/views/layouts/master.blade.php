@@ -41,6 +41,8 @@
 
 
 
+
+
             <hr class="sidebar-divider">
 
             <div class="sidebar-heading">Manajemen Penilaian</div>
@@ -76,9 +78,10 @@
     </a>
 </li> --}}
 
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('kepsek.feedback') }}">
-        <i class="fas fa-comment-dots"></i>
+
+        <li class="nav-item">
+    <a class="nav-link" href="{{ route('feedback.index') }}">
+        <i class="fas fa-comments"></i>
         <span>Feedback</span>
     </a>
 </li>

@@ -13,15 +13,20 @@ use Illuminate\Support\Facades\Auth;
 class HalamanGuruController extends Controller
 {
     // Tampilkan daftar penilaian dengan relasi
-public function index()
+  public function index()
 {
     $user = Auth::user();
 
-    $query = Penilaian::with(['guru', 'detailPenilaian.kriteria', 'feedback'])->latest();
+  $query = Penilaian::with([
+    'guru',
+    'detailPenilaian.kriteria',
+    'feedbacks' // HARUS JAMAK, bukan 'feedback'
+])->latest();
 
-    // Jika role adalah guru, hanya tampilkan penilaian miliknya
+
+    // Jika user adalah guru, hanya tampilkan penilaian miliknya
     if ($user->role === 'guru') {
-        $query->where('id_user', $user->id_user); // ✅ gunakan id_user, bukan id_guru
+        $query->where('id_user', $user->id_user);
     }
 
     $penilaians = $query->get();
@@ -53,25 +58,30 @@ public function index()
     }
 
     // Simpan Feedback Baru
-    public function store(Request $request)
-    {
-        $request->validate([
-            'id_penilaian' => 'required|exists:penilaian,id_penilaian',
-            'isi' => 'required|string',
-            'tanggal' => 'required|date',
-        ]);
+ public function store(Request $request)
+{
+    $request->validate([
+        'id_penilaian' => 'required|exists:penilaian,id_penilaian',
+        'feedback_guru' => 'required|string',
+        'tanggal' => 'required|date',
+    ]);
 
-        // Cegah duplikat feedback
-        if (Feedback::where('id_penilaian', $request->id_penilaian)->exists()) {
-            return redirect()->route('halamanguru.index')
-                ->with('error', 'Feedback untuk penilaian ini sudah ada.');
-        }
-
-        Feedback::create($request->only(['id_penilaian', 'isi', 'tanggal']));
-
+    // Cegah duplikat feedback dari guru
+    if (Feedback::where('id_penilaian', $request->id_penilaian)->exists()) {
         return redirect()->route('halamanguru.index')
-            ->with('success', 'Feedback berhasil ditambahkan.');
+            ->with('error', 'Feedback untuk penilaian ini sudah ada.');
     }
+
+    Feedback::create([
+        'id_penilaian' => $request->id_penilaian,
+        'feedback_guru' => $request->feedback_guru,
+        'tanggal' => $request->tanggal,
+    ]);
+
+    return redirect()->route('halamanguru.index')
+        ->with('success', 'Feedback berhasil ditambahkan.');
+}
+
 
     // Form Edit Feedback (gunakan id_penilaian)
 public function edit($id)
@@ -83,22 +93,24 @@ public function edit($id)
 
 
     // Update Feedback
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'isi' => 'required|string',
-            'tanggal' => 'required|date',
-        ]);
+  public function update(Request $request, $id)
+{
+    $request->validate([
+        // 'isi' => 'required|string',
+        'tanggal' => 'required|date',
+        'feedback_guru' => 'nullable|string',
+    ]);
 
-        $feedback = Feedback::findOrFail($id);
-        $feedback->update([
-            'isi' => $request->isi,
-            'tanggal' => $request->tanggal,
-        ]);
+    $feedback = Feedback::findOrFail($id);
+    $feedback->update([
+        // 'isi' => $request->isi,
+        'tanggal' => $request->tanggal,
+        'feedback_guru' => $request->feedback_guru,
+    ]);
 
-        return redirect()->route('halamanguru.index')
-            ->with('success', 'Feedback berhasil diperbarui.');
-    }
+    return redirect()->route('halamanguru.index')
+        ->with('success', 'Feedback berhasil diperbarui.');
+}
 
     // Hapus Feedback
     public function destroy($id)

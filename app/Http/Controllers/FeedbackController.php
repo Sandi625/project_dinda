@@ -23,12 +23,18 @@ class FeedbackController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_penilaian' => 'required|exists:penilaian,id_penilaian',
-            'isi' => 'required|string',
-            'tanggal' => 'required|date',
+            'id_penilaian'   => 'required|exists:penilaian,id_penilaian',
+            'isi'            => 'required|string',
+            // 'feedback_guru'  => 'nullable|string', // ✅ tambahkan validasi
+            'tanggal'        => 'required|date',
         ]);
 
-        Feedback::create($request->all());
+        Feedback::create([
+            'id_penilaian'  => $request->id_penilaian,
+            'isi'           => $request->isi,
+            // 'feedback_guru' => $request->feedback_guru,
+            'tanggal'       => $request->tanggal,
+        ]);
 
         return redirect()->route('feedback.index')->with('success', 'Feedback berhasil ditambahkan.');
     }
@@ -43,13 +49,19 @@ class FeedbackController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'id_penilaian' => 'required|exists:penilaian,id_penilaian',
-            'isi' => 'required|string',
-            'tanggal' => 'required|date',
+            'id_penilaian'   => 'required|exists:penilaian,id_penilaian',
+            'isi'            => 'required|string',
+            // 'feedback_guru'  => 'nullable|string', // ✅ tambahkan validasi
+            'tanggal'        => 'required|date',
         ]);
 
         $feedback = Feedback::findOrFail($id);
-        $feedback->update($request->all());
+        $feedback->update([
+            'id_penilaian'  => $request->id_penilaian,
+            'isi'           => $request->isi,
+            // 'feedback_guru' => $request->feedback_guru,
+            'tanggal'       => $request->tanggal,
+        ]);
 
         return redirect()->route('feedback.index')->with('success', 'Feedback berhasil diperbarui.');
     }

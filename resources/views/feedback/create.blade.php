@@ -1,8 +1,8 @@
-@extends('layouts.base')
+@extends('layouts.master')
 
 @section('content')
 <div class="container mt-4">
-    <h2>Tambah Feedback</h2>
+    <h2>Tambah Komentar</h2>
 
     <form action="{{ route('feedback.store') }}" method="POST">
         @csrf
@@ -18,7 +18,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="isi" class="form-label">Isi Feedback</label>
+            <label for="isi" class="form-label">Isi komentar</label>
             <textarea name="isi" class="form-control" required>{{ old('isi') }}</textarea>
         </div>
 

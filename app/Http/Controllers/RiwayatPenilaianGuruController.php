@@ -12,32 +12,31 @@ class RiwayatPenilaianGuruController extends Controller
 {
 public function index(Request $request)
 {
-    // Gunakan id_guru secara hardcoded sementara (contoh: 1)
-    $idGuru = 1;
+    $user = Auth::user();
 
-    // Cek apakah guru dengan id tersebut ada (opsional, untuk keamanan)
-    $guruExists = DB::table('guru')->where('id_guru', $idGuru)->exists();
+    $query = Penilaian::with(['guru', 'kelas', 'mapel', 'detailPenilaian.kriteria'])
+        ->orderByDesc('tanggal');
 
-    if (!$guruExists) {
-        abort(403, 'Data guru tidak ditemukan.');
+    // Jika user adalah guru, hanya tampilkan data miliknya berdasarkan id_user
+    if ($user->role === 'guru') {
+        $query->where('id_user', $user->id_user);
     }
 
-    // Query awal: hanya data milik guru dengan id tersebut
-    $query = Penilaian::with(['guru', 'kelas', 'mapel', 'detailPenilaian.kriteria'])
-        ->where('id_guru', $idGuru);
-
-    // Filter berdasarkan semester (jika dipilih)
+    // Filter berdasarkan semester jika dipilih
     if ($request->filled('semester')) {
         $query->where('semester', $request->semester);
     }
 
-    // Ambil semua data penilaian terurut dari tanggal terbaru
-    $penilaian = $query->orderByDesc('tanggal')->get();
+    $penilaian = $query->get();
 
-    // Ambil daftar semester unik dari data penilaian milik guru
-    $daftarSemester = Penilaian::where('id_guru', $idGuru)
-        ->select('semester')
-        ->distinct()
+    // Ambil daftar semester unik dari penilaian milik user (jika guru)
+    $daftarSemesterQuery = Penilaian::select('semester')->distinct();
+
+    if ($user->role === 'guru') {
+        $daftarSemesterQuery->where('id_user', $user->id_user);
+    }
+
+    $daftarSemester = $daftarSemesterQuery
         ->pluck('semester')
         ->filter()
         ->sort()
