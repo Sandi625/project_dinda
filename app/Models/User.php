@@ -40,17 +40,28 @@ public function profile()
 }
 
 // App\Models\User.php
-// public function guru()
-// {
-//     return $this->hasOne(Guru::class, 'id_user', 'id_user');
-// }
-
 public function guru()
 {
-    return $this->hasOne(Guru::class, 'user_id'); // atau sesuaikan foreign key-nya
+    return $this->hasOne(Guru::class, 'id_user', 'id_user');
+}
+
+// public function guru()
+// {
+//     return $this->hasOne(Guru::class, 'user_id'); // atau sesuaikan foreign key-nya
+// }
+
+
+public function user()
+{
+    return $this->belongsTo(User::class, 'id_user', 'id_user');
 }
 
 
+
+public function penilaians()
+{
+    return $this->hasMany(Penilaian::class, 'id_user', 'id_user');
+}
 
 
 

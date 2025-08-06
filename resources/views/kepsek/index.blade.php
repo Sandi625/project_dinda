@@ -1,10 +1,10 @@
 @extends('layouts.master')
 
-@section('title', 'Daftar Penilaian Guru')
+@section('title', 'Daftar Penilaian User')
 
 @section('content')
 <div class="container mt-4">
-    <h1>Daftar Penilaian Guru</h1>
+    <h1>Daftar Penilaian User</h1>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -18,16 +18,18 @@
     <form method="GET" action="{{ route('kepsek.index') }}" class="mb-4">
         <div class="row">
             <div class="col-md-4">
-                <label for="semester" class="form-label">Filter Semester</label>
-                <select name="semester" id="semester" class="form-select" onchange="this.form.submit()">
+                <label for="id_semester" class="form-label">Filter Semester</label>
+                <select name="id_semester" id="id_semester" class="form-select" onchange="this.form.submit()">
                     <option value="">-- Semua Semester --</option>
                     @foreach ($daftarSemester as $semester)
-                        <option value="{{ $semester }}" {{ request('semester') == $semester ? 'selected' : '' }}>
-                            {{ ucfirst($semester) }}
+                        <option value="{{ $semester->id }}"
+                            {{ request('id_semester') == $semester->id ? 'selected' : '' }}>
+                            {{ ucfirst($semester->semester) }} - {{ $semester->tahun }}
                         </option>
                     @endforeach
                 </select>
-                @if(request()->has('semester'))
+
+                @if(request()->has('id_semester') && request('id_semester') != '')
                     <a href="{{ route('kepsek.index') }}" class="btn btn-secondary mt-2">Reset Filter</a>
                 @endif
             </div>
@@ -38,7 +40,7 @@
         <thead class="table-dark">
             <tr>
                 <th>No</th>
-                <th>Nama Guru</th>
+                <th>Nama User</th>
                 <th>Semester</th>
                 <th>Tanggal</th>
                 <th>Detail Nilai</th>
@@ -49,8 +51,8 @@
             @forelse($penilaian as $item)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $item->guru->nama ?? '-' }}</td>
-                <td>{{ ucfirst($item->semester ?? '-') }}</td>
+                <td>{{ $item->user->name ?? '-' }}</td>
+                <td>{{ $item->semester->semester ?? '-' }} - {{ $item->semester->tahun ?? '' }}</td>
                 <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
                 <td>
                     @if($item->detailPenilaian->isNotEmpty())
@@ -84,3 +86,4 @@
     </table>
 </div>
 @endsection
+

@@ -77,13 +77,17 @@
 
         {{-- Semester --}}
 <div class="mb-3">
-    <label for="semester" class="form-label">Semester</label>
-    <select name="semester" id="semester" class="form-select @error('semester') is-invalid @enderror" required>
+    <label for="id_semester" class="form-label">Semester</label>
+    <select name="id_semester" id="id_semester" class="form-select @error('id_semester') is-invalid @enderror" required>
         <option value="">-- Pilih Semester --</option>
-        <option value="ganjil" {{ old('semester', $penilaian->semester) == 'ganjil' ? 'selected' : '' }}>Ganjil</option>
-        <option value="genap" {{ old('semester', $penilaian->semester) == 'genap' ? 'selected' : '' }}>Genap</option>
+        @foreach ($semesters as $smt)
+            <option value="{{ $smt->id }}"
+                {{ old('id_semester', $penilaian->id_semester) == $smt->id ? 'selected' : '' }}>
+                {{ ucfirst($smt->semester) }} - {{ $smt->tahun }}
+            </option>
+        @endforeach
     </select>
-    @error('semester')
+    @error('id_semester')
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>

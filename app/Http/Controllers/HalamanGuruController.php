@@ -13,26 +13,32 @@ use Illuminate\Support\Facades\Auth;
 class HalamanGuruController extends Controller
 {
     // Tampilkan daftar penilaian dengan relasi
-  public function index()
+public function index()
 {
     $user = Auth::user();
 
-  $query = Penilaian::with([
-    'guru',
-    'detailPenilaian.kriteria',
-    'feedbacks' // HARUS JAMAK, bukan 'feedback'
-])->latest();
+    $query = Penilaian::with([
+        'user',                     // Relasi ke user
+        'semester',                // Relasi ke semester
+        'detailPenilaian.kriteria',
+        'feedbacks'
+    ])->latest();
 
-
-    // Jika user adalah guru, hanya tampilkan penilaian miliknya
+    // Jika user adalah guru, tampilkan hanya data miliknya
     if ($user->role === 'guru') {
         $query->where('id_user', $user->id_user);
     }
 
     $penilaians = $query->get();
 
+    // dd($penilaians); // Dump dan hentikan eksekusi untuk lihat isi data
+
     return view('halamanguru.index', compact('penilaians'));
 }
+
+
+
+
 
 
     public function show($id)
@@ -46,16 +52,17 @@ class HalamanGuruController extends Controller
 
 
     // Form Tambah Feedback
-    public function create(Request $request)
-    {
-        $id_penilaian = $request->id_penilaian;
+   public function create(Request $request)
+{
+    $id_penilaian = $request->id_penilaian;
 
-        $penilaian = Penilaian::with('guru')
-            ->whereDoesntHave('feedback') // hanya jika belum ada feedback
-            ->findOrFail($id_penilaian);
+    $penilaian = Penilaian::with('user') // ganti 'guru' ke 'user'
+        ->whereDoesntHave('feedback') // hanya jika belum ada feedback
+        ->findOrFail($id_penilaian);
 
-        return view('halamanguru.create', compact('penilaian'));
-    }
+    return view('halamanguru.create', compact('penilaian'));
+}
+
 
     // Simpan Feedback Baru
  public function store(Request $request)

@@ -14,36 +14,28 @@ public function index(Request $request)
 {
     $user = Auth::user();
 
-    $query = Penilaian::with(['guru', 'kelas', 'mapel', 'detailPenilaian.kriteria'])
+    $query = Penilaian::with(['guru', 'kelas', 'mapel', 'semester', 'detailPenilaian.kriteria'])
         ->orderByDesc('tanggal');
 
-    // Jika user adalah guru, hanya tampilkan data miliknya berdasarkan id_user
+    // Jika user adalah guru, hanya tampilkan data miliknya
     if ($user->role === 'guru') {
         $query->where('id_user', $user->id_user);
     }
 
     // Filter berdasarkan semester jika dipilih
-    if ($request->filled('semester')) {
-        $query->where('semester', $request->semester);
+    if ($request->filled('id_semester')) {
+        $query->where('id_semester', $request->id_semester);
     }
 
     $penilaian = $query->get();
 
-    // Ambil daftar semester unik dari penilaian milik user (jika guru)
-    $daftarSemesterQuery = Penilaian::select('semester')->distinct();
-
-    if ($user->role === 'guru') {
-        $daftarSemesterQuery->where('id_user', $user->id_user);
-    }
-
-    $daftarSemester = $daftarSemesterQuery
-        ->pluck('semester')
-        ->filter()
-        ->sort()
-        ->values();
+    // Ambil daftar semester, pastikan nama kolom sesuai
+    $daftarSemester = \App\Models\Semester::orderBy('semester')->get(); // ubah jika perlu
 
     return view('guru.riwayat.index', compact('penilaian', 'daftarSemester'));
 }
+
+
 
 
 

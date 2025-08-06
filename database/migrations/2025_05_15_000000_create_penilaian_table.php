@@ -17,8 +17,8 @@ public function up(): void
         $table->unsignedBigInteger('id_user');
         $table->unsignedBigInteger('id_kelas');
         $table->unsignedBigInteger('id_mapel');
+        $table->unsignedBigInteger('id_semester'); // FK semester
         $table->date('tanggal')->nullable();
-        $table->enum('semester', ['ganjil', 'genap'])->default('ganjil'); // Tambahan kolom semester
         $table->timestamps();
 
         // Foreign keys
@@ -26,8 +26,10 @@ public function up(): void
         $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
         $table->foreign('id_kelas')->references('id')->on('kelas')->onDelete('cascade');
         $table->foreign('id_mapel')->references('id')->on('mapel')->onDelete('cascade');
+        $table->foreign('id_semester')->references('id')->on('semester')->onDelete('cascade');
     });
 }
+
 
 
 

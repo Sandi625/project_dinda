@@ -3,9 +3,8 @@
 *,
 *::before,
 *::after {
-  font-family: 'Poppins', sans-serif;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
 }
 
 body {
@@ -13,53 +12,39 @@ body {
 }
 
 .navbar {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   background-color: transparent;
 }
-
 .navbar .hamburger span {
-  color: #c81c1c;
+  color: rgb(200, 28, 28);
 }
-
 .navbar .navbar-brand {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
 }
-
 .navbar .navbar-brand img {
   width: 45px;
   height: 45px;
-  -webkit-transform: translateY(-5px);
-          transform: translateY(-5px);
+  transform: translateY(-5px);
 }
-
 .navbar .navbar-brand h1 {
   font-size: 1.2rem;
   margin-left: 10px;
-  font-family: 'Viga', sans-serif;
+  font-family: "Viga", sans-serif;
   text-transform: uppercase;
   font-weight: 800;
   color: #fff;
 }
-
 .navbar .navbar-collapse .navbar-nav .nav-item .nav-link {
   font-size: 1.1rem;
   margin-left: 20px;
   font-weight: 600;
   color: #fff;
 }
-
 .navbar .form-inline .form-control {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-
 .navbar .form-inline .btn {
   width: 70px;
   border-top-left-radius: 0;
@@ -68,10 +53,8 @@ body {
 
 .navbarKu {
   background-color: #fff;
-  -webkit-box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.3);
-          box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.3);
 }
-
 .navbarKu .navbar-brand h1,
 .navbarKu .navbar-collapse .navbar-nav .nav-item .nav-link {
   color: #000;
@@ -80,7 +63,6 @@ body {
 .nav-item {
   position: relative;
 }
-
 .nav-item .dropdown-menu {
   position: absolute;
   left: 0;
@@ -91,48 +73,38 @@ body {
   height: 100vh;
   position: relative;
 }
-
 .slideshow img {
   width: 100%;
   height: 100%;
   background-position: center;
   background-size: cover;
 }
-
 .slideshow .satu {
   background-image: url("../images/5e72f65c1f909-teamwork-desktop2.jpg");
 }
-
 .slideshow .dua {
   background-image: url("../images/5e72f74b99ff0-humility-desktop2.jpg");
 }
-
 .slideshow .tiga {
   background-image: url("../images/5e72f72cca561-respect-desktop2.jpg");
 }
-
 .slideshow .empat {
   background-image: url("../images/5e72f7134ca67-integrity-desktop2.jpg");
 }
-
 .slideshow .lima {
   background-image: url("../images/5e72f6adbf417-commitment2-desktop.jpg");
 }
-
 .slideshow .enam {
   background-image: url("../images/5e72f68fbd34a-excellent-desktop2.jpg");
 }
-
 .slideshow .container {
   position: absolute;
   bottom: 150px;
   left: 150px;
 }
-
 .slideshow .container .mainText {
   position: relative;
 }
-
 .slideshow .container .mainText .garis {
   position: absolute;
   width: 7px;
@@ -140,14 +112,12 @@ body {
   border-radius: 10px;
   background-color: #FFA51C;
 }
-
 .slideshow .container .mainText h3 {
   font-size: 1.5rem;
   font-style: italic;
   margin-left: 30px;
   color: #fff;
 }
-
 .slideshow .container .mainText h1 {
   margin: 20px 0 40px 30px;
   font-weight: 1000;
@@ -155,7 +125,6 @@ body {
   text-transform: uppercase;
   color: #fff;
 }
-
 .slideshow .container h3 {
   color: #fff;
   font-size: 1.1rem;
@@ -164,7 +133,6 @@ body {
 .title {
   margin: 150px auto 30px auto;
 }
-
 .title h1 {
   font-size: 2.5rem;
   font-weight: 600;
@@ -172,7 +140,6 @@ body {
   text-align: center;
   line-height: 20px;
 }
-
 .title h2 {
   font-size: 2rem;
   font-weight: 600;
@@ -180,26 +147,17 @@ body {
   line-height: 25px;
   text-align: center;
 }
-
 .title p {
   font-size: 1.1rem;
   text-align: center;
 }
 
 .perGaleri {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-
 .perGaleri img {
   width: 250px;
   height: 150px;
@@ -208,41 +166,27 @@ body {
 
 .scroll {
   background-color: #fff;
-  -webkit-box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.3);
-          box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.3);
-  -webkit-transition: background-color .5s;
-  transition: background-color .5s;
+  box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.3);
+  transition: background-color 0.5s;
 }
-
 .scroll .navbar-brand h1,
 .scroll .navbar-collapse .navbar-nav .nav-item .nav-link {
   color: #000;
 }
 
 .sambutan {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   text-align: center;
   padding: 30px 0;
 }
-
 .sambutan h1 {
   font-size: 2.3rem;
   text-transform: uppercase;
   font-weight: 600;
 }
-
 .sambutan p {
   font-style: italic;
   font-size: 1rem;
@@ -252,59 +196,43 @@ body {
   background-image: url("../images/bg-visimisi.png");
   margin: 30px 0;
 }
-
 .kepsek .container {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
-
 .kepsek .container img {
   width: 300px;
   height: 300px;
   border-radius: 10px;
-  -webkit-box-shadow: 2px 2px 20px 0 rgba(0, 0, 0, 0.2);
-          box-shadow: 2px 2px 20px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 20px 0 rgba(0, 0, 0, 0.2);
 }
-
 .kepsek .container .visiMisi {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
 }
-
 .kepsek .container .visiMisi .visi {
   margin: 0 50px 0 100px;
 }
-
 .kepsek .container .visiMisi .visi h5 {
   font-size: 1.2rem;
   font-style: italic;
 }
-
 .kepsek .container .visiMisi .visi h3 {
   font-size: 1.5rem;
   font-weight: 300;
   letter-spacing: 2px;
 }
-
 .kepsek .container .visiMisi .misi h5 {
   font-size: 1.2rem;
   font-style: italic;
 }
-
 .kepsek .container .visiMisi .misi p {
   font-size: 1.2rem;
-  font-family: 'PT Serif', sans-serif;
+  font-family: "PT Serif", sans-serif;
 }
 
 .titleArtikel {
   padding: 130px 0 20px 0;
 }
-
 .titleArtikel h1 {
   text-transform: uppercase;
   font-size: 1.5rem;
@@ -313,32 +241,25 @@ body {
 }
 
 .artikel .perArtikel {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   margin-bottom: 10px;
 }
-
 .artikel .perArtikel:hover h3 {
-  color: #0e85e7;
-  -webkit-transition: .5s;
-  transition: .5s;
+  color: rgb(14, 133, 231);
+  transition: 0.5s;
 }
-
 .artikel .perArtikel img {
   width: 250px;
   height: 150px;
   margin-right: 20px;
   border-radius: 10px;
 }
-
 .artikel .perArtikel h3 {
   font-size: 1.7rem;
   font-weight: 600;
   color: #000;
   line-height: 30px;
 }
-
 .artikel .perArtikel p {
   color: #000;
 }
@@ -347,28 +268,20 @@ body {
   position: fixed;
   right: 0;
   top: 50%;
-  -webkit-transform: translate(0, -50%);
-          transform: translate(0, -50%);
-  z-index: 9999999999999999999999999999999999999999999;
+  transform: translate(0, -50%);
+  z-index: 10000000000000000000000000000000000000000000;
 }
-
 .iconBox .perIconBox {
   width: 50px;
   height: 45px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   color: #fff;
 }
 
 .perIconBox:hover {
-  color: #dadada;
+  color: rgb(218, 218, 218);
 }
 
 .wa {
@@ -380,7 +293,6 @@ body {
 }
 
 .ig {
-  background: -webkit-gradient(linear, right top, left bottom, from(#5056C5), color-stop(#EE4B51), to(#F7B04D));
   background: linear-gradient(to bottom left, #5056C5, #EE4B51, #F7B04D);
 }
 
@@ -397,26 +309,18 @@ body {
   padding: 50px 0;
   margin-top: 80px;
 }
-
 .jurusan h2 {
   text-align: center;
   font-size: 2rem;
   font-weight: 600;
   text-transform: uppercase;
 }
-
 .jurusan .boxJurusan {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  justify-content: center;
+  flex-wrap: wrap;
   margin-top: 50px;
 }
-
 .jurusan .boxJurusan .perBox {
   position: relative;
   margin: 10px;
@@ -424,110 +328,82 @@ body {
   height: 200px;
   overflow: hidden;
 }
-
 .jurusan .boxJurusan .perBox img {
   position: absolute;
   top: 0;
   left: 0;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   width: 100%;
   height: 100%;
-  -webkit-transition: -webkit-transform .5s;
-  transition: -webkit-transform .5s;
-  transition: transform .5s;
-  transition: transform .5s, -webkit-transform .5s;
+  transition: transform 0.5s;
 }
-
 .jurusan .boxJurusan .perBox h3 {
   position: absolute;
   bottom: -10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   left: 0;
   padding-left: 5px;
   color: #fff;
   width: 100%;
   height: 35px;
-  background-color: #0066ff;
+  background-color: rgb(0, 102, 255);
   font-size: 1rem;
   z-index: 2;
 }
 
 .jurusan .boxJurusan .perBox:hover img {
-  opacity: .6;
-  -webkit-transform: scale(1.2);
-          transform: scale(1.2);
+  opacity: 0.6;
+  transform: scale(1.2);
 }
 
 .containerArtikelHome {
   padding-top: 50px;
 }
-
 .containerArtikelHome h2 {
   text-align: center;
   font-size: 2rem;
   font-weight: 600;
   text-transform: uppercase;
 }
-
 .containerArtikelHome .artikelHome {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   margin-top: 30px;
 }
-
 .containerArtikelHome .artikelHome .perArtikelHome {
   width: 350px;
   margin: 10px;
   text-decoration: none;
   cursor: pointer;
 }
-
 .containerArtikelHome .artikelHome .perArtikelHome:hover h3 {
-  color: #0e6ce7;
-  -webkit-transition: .3s;
-  transition: .3s;
+  color: rgb(14, 108, 231);
+  transition: 0.3s;
 }
-
 .containerArtikelHome .artikelHome .perArtikelHome img {
   width: 100%;
   height: 225px;
   border-radius: 5%;
   margin-bottom: 10px;
 }
-
 .containerArtikelHome .artikelHome .perArtikelHome h3 {
   font-size: 1.2rem;
   text-align: center;
   font-weight: 900;
   color: #000;
 }
-
 .containerArtikelHome .artikelHome .perArtikelHome small {
   color: #000;
 }
-
 .containerArtikelHome .artikelHome .perArtikelHome small span {
-  color: #0e85e7;
+  color: rgb(14, 133, 231);
   font-weight: 700;
 }
-
 .containerArtikelHome .artikelHome .perArtikelHome p {
-  font-size: .9rem;
+  font-size: 0.9rem;
   color: #000;
 }
 
@@ -539,39 +415,23 @@ body {
 }
 
 .footerContactUs {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
 }
-
 .footerContactUs .perFooterContactUs {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   margin: 10px 0;
 }
-
 .footerContactUs .perFooterContactUs p {
   margin: 0 0 0 20px;
-  -webkit-transform: translateY(-5px);
-          transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .footerAbout {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
   text-align: center;
 }
-
 .footerAbout a {
   margin: 5px 0;
 }
@@ -584,36 +444,21 @@ body {
 .footerCopyright {
   width: 100%;
   height: 60px;
-  background-color: #111111;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  background-color: rgb(17, 17, 17);
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
-
 .footerCopyright p {
   margin: 0;
 }
 
 .ekstrakulikuler {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-
 .ekstrakulikuler .perEkstrakulikuler {
   width: 300px;
   height: 200px;
@@ -621,34 +466,24 @@ body {
   margin: 20px 10px;
   overflow: hidden;
   border-radius: 20px;
-  -webkit-box-shadow: 0 5px 10px 3px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 5px 10px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px 3px rgba(0, 0, 0, 0.2);
 }
-
 .ekstrakulikuler .perEkstrakulikuler p {
   width: 100%;
   height: 30px;
   position: absolute;
   bottom: -17px;
   left: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   background-color: #0069D9;
   color: #fff;
   border-radius: 20px;
-  -webkit-transform: translateY(50px);
-          transform: translateY(50px);
+  transform: translateY(50px);
 }
-
 .ekstrakulikuler .perEkstrakulikuler::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -660,16 +495,12 @@ body {
   width: 100%;
   height: 100%;
 }
-
 .ekstrakulikuler .perEkstrakulikuler:hover::before {
-  opacity: .7;
+  opacity: 0.7;
 }
-
 .ekstrakulikuler .perEkstrakulikuler:hover p {
-  -webkit-transition: .5s;
-  transition: .5s;
-  -webkit-transform: translateY(0px);
-          transform: translateY(0px);
+  transition: 0.5s;
+  transform: translateY(0px);
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
@@ -692,47 +523,31 @@ body {
 }
 
 .pembinaEkstrakulikuler {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
 }
-
 .pembinaEkstrakulikuler .perPembina {
   width: 250px;
   height: 200px;
   margin: 20px 10px;
   position: relative;
 }
-
 .pembinaEkstrakulikuler .perPembina img {
   width: 100%;
   height: 100%;
   border-radius: 20px;
 }
-
 .pembinaEkstrakulikuler .perPembina h5 {
   position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
   height: 30px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  align-items: center;
   background-color: #0077B5;
   margin: 0;
   border-bottom-left-radius: 20px;
@@ -742,14 +557,12 @@ body {
 }
 
 .fasilitas {
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .detailArtikel {
   margin: 140px 0 70px 0;
 }
-
 .detailArtikel h2 {
   font-weight: 700;
   margin: 0;
@@ -767,40 +580,28 @@ body {
   font-weight: 700;
   text-transform: uppercase;
 }
-
 .shareArtikel img,
 .penulis img {
   width: 60%;
   height: 200px;
   border-radius: 10px;
 }
-
 .shareArtikel h4,
 .penulis h4 {
   font-weight: 600;
 }
 
 .containerIconShare {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
 }
-
 .containerIconShare .iconShare {
   width: 50px;
   height: 40px;
   margin: 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   border-radius: 4px;
 }
 
@@ -822,20 +623,13 @@ body {
 .kontak {
   margin: 150px 0 150px 0;
 }
-
 .kontak form {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
 }
-
 .kontak form .formKontakKiri {
   width: 45%;
 }
-
 .kontak form .formKontakKanan {
   width: 50%;
 }
@@ -844,8 +638,7 @@ iframe {
   width: 100%;
   height: 500px;
   margin: 0;
-  -webkit-transform: translateY(6px);
-          transform: translateY(6px);
+  transform: translateY(6px);
 }
 
 .footerHubungiKami {
@@ -858,7 +651,6 @@ iframe {
     height: 225px;
   }
 }
-
 @media (max-width: 1000px) {
   .shareArtikel img,
   .penulis img {
@@ -871,16 +663,9 @@ iframe {
     margin-right: 30px;
   }
   .kepsek .container .visiMisi {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: inherit;
-        -ms-flex-pack: inherit;
-            justify-content: inherit;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    justify-content: inherit;
+    flex-direction: column;
   }
   .kepsek .container .visiMisi .visi {
     margin: 0 0 20px 0;
@@ -895,7 +680,7 @@ iframe {
     font-size: 1.7rem;
   }
   .sambutan p {
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
   .perGaleri img {
     width: 200px;
@@ -909,13 +694,12 @@ iframe {
     height: 200px;
   }
 }
-
 @media (max-width: 995px) {
   .artikel .perArtikel h3 {
     font-size: 1.5rem;
   }
   .artikel .perArtikel p {
-    font-size: .9rem;
+    font-size: 0.9rem;
   }
   .containerArtikelHome .artikelHome .perArtikelHome {
     width: 300px;
@@ -927,10 +711,9 @@ iframe {
     height: 50vh;
   }
   .footerContactUs .perFooterContactUs p {
-    font-size: .7rem;
+    font-size: 0.7rem;
   }
 }
-
 @media (max-width: 770px) {
   .jurusan h2 {
     font-size: 2rem;
@@ -946,10 +729,7 @@ iframe {
     height: 300px;
   }
   .artikel .perArtikel {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    flex-direction: column;
   }
   .artikel .perArtikel img {
     width: 100%;
@@ -961,16 +741,9 @@ iframe {
     font-size: 1.7rem;
   }
   .kepsek .container {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
   }
   .kepsek .container img {
@@ -985,7 +758,6 @@ iframe {
     height: 300px;
   }
 }
-
 @media (max-width: 767px) {
   .footerContactUs .perFooterContactUs p {
     font-size: 1rem;
@@ -995,7 +767,6 @@ iframe {
     width: 50%;
   }
 }
-
 @media (max-width: 650px) {
   .slideshow .container {
     left: 0;
@@ -1008,7 +779,6 @@ iframe {
     font-size: 1.7rem;
   }
 }
-
 @media (max-width: 475px) {
   .perGaleri img {
     width: 150px;
@@ -1034,7 +804,6 @@ iframe {
     font-size: 1rem;
   }
 }
-
 @media (max-width: 450px) {
   .shareArtikel img,
   .penulis img {
@@ -1066,7 +835,7 @@ iframe {
     font-size: 1.8rem;
   }
   .slideshow .container h3 {
-    font-size: .9rem;
+    font-size: 0.9rem;
   }
   .artikel .perArtikel img {
     height: 200px;
@@ -1075,11 +844,11 @@ iframe {
     font-size: 1.5rem;
   }
   .artikel .perArtikel .textArtikel p {
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
   .artikelPagination span {
     padding: 5px 15px;
-    font-size: .9rem;
+    font-size: 0.9rem;
     border: 1px solid #000;
     margin: 0 5px;
   }
@@ -1093,11 +862,11 @@ iframe {
     font-size: 1.5rem;
   }
   .artikel .perArtikel .textArtikel p {
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
   .artikelPagination span {
     padding: 3px 10px;
-    font-size: .7rem;
+    font-size: 0.7rem;
   }
   .jurusan h2 {
     font-size: 1.5rem;
@@ -1106,56 +875,51 @@ iframe {
     width: 100%;
   }
   .jurusan .boxJurusan .perBox h3 {
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
   .iconBox {
     top: 100%;
-    -webkit-transform: translate(0, -100%);
-            transform: translate(0, -100%);
+    transform: translate(0, -100%);
     width: 100%;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
   }
   .iconBox .perIconBox {
     width: 300px;
-    border-bottom: 0px solid #0306aa;
-    border-right: 0px solid #666666;
+    border-bottom: 0px solid rgb(3, 6, 170);
+    border-right: 0px solid rgb(102, 102, 102);
   }
   .pembinaEkstrakulikuler .perPembina {
     height: 200px;
   }
 }
-
 @media (max-width: 375px) {
   .sambutan h1 {
     font-size: 1.2rem;
   }
   .sambutan p {
-    font-size: .7rem;
+    font-size: 0.7rem;
   }
   .kepsek .container img {
     width: 200px;
     height: 200px;
   }
   .kepsek .container .visiMisi .visi h5 {
-    font-size: .9rem;
+    font-size: 0.9rem;
   }
   .kepsek .container .visiMisi .visi h3 {
     font-size: 1rem;
   }
   .kepsek .container .visiMisi .misi h5 {
-    font-size: .9rem;
+    font-size: 0.9rem;
   }
   .kepsek .container .visiMisi .misi p {
-    font-size: .9rem;
+    font-size: 0.9rem;
   }
   .perGaleri img {
     width: 100%;
     height: 200px;
   }
   .perFooterContactUs p {
-    font-size: .9em;
+    font-size: 0.9em;
   }
-}
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

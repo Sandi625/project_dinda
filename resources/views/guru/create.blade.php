@@ -32,14 +32,19 @@
                             value="{{ old('nama') }}" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="semester" class="form-label">Semester</label>
-                        <select name="semester" id="semester" class="form-select" required>
-                            <option value="">-- Pilih Semester --</option>
-                            <option value="ganjil" {{ old('semester') == 'ganjil' ? 'selected' : '' }}>Ganjil</option>
-                            <option value="genap" {{ old('semester') == 'genap' ? 'selected' : '' }}>Genap</option>
-                        </select>
-                    </div>
+               <div class="mb-3">
+    <label for="id_semester" class="form-label">Semester</label>
+    <select name="id_semester" id="id_semester" class="form-select" required>
+        <option value="">-- Pilih Semester --</option>
+        @foreach ($semesters as $semester)
+            <option value="{{ $semester->id }}">
+                {{ ucfirst($semester->semester) }} - {{ $semester->tahun }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
+
 
 
                     <div class="mb-3">

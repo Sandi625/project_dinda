@@ -14,7 +14,7 @@
         @csrf
 
         {{-- Guru --}}
-        <div class="mb-3">
+        {{-- <div class="mb-3">
             <label for="id_guru" class="form-label">Pilih Guru</label>
             <select name="id_guru" id="id_guru" class="form-select @error('id_guru') is-invalid @enderror" required>
                 <option value="">-- Pilih Guru --</option>
@@ -27,7 +27,7 @@
             @error('id_guru')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
-        </div>
+        </div> --}}
 
         {{-- User --}}
         <div class="mb-3">
@@ -46,49 +46,61 @@
         </div>
 
         {{-- Kelas --}}
-        <div class="mb-3">
-            <label for="id_kelas" class="form-label">Pilih Kelas</label>
-            <select name="id_kelas" id="id_kelas" class="form-select @error('id_kelas') is-invalid @enderror" required>
-                <option value="">-- Pilih Kelas --</option>
-                @foreach ($kelas as $k)
-                    <option value="{{ $k->id }}" {{ old('id_kelas') == $k->id ? 'selected' : '' }}>
-                        {{ $k->nama_kelas }}
-                    </option>
-                @endforeach
-            </select>
-            @error('id_kelas')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+       {{-- Kelas --}}
+<div class="mb-3">
+    <label for="id_kelas" class="form-label">Pilih Kelas</label>
+    <select name="id_kelas" id="id_kelas" class="form-select @error('id_kelas') is-invalid @enderror" required>
+        <option value="">-- Pilih Kelas --</option>
+        @foreach ($kelas->unique('id') as $k)
+            @if ($k) {{-- pastikan data tidak null --}}
+                <option value="{{ $k->id }}" {{ old('id_kelas') == $k->id ? 'selected' : '' }}>
+                    {{ $k->nama_kelas }}
+                </option>
+            @endif
+        @endforeach
+    </select>
+    @error('id_kelas')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
 
-        {{-- Mapel --}}
-        <div class="mb-3">
-            <label for="id_mapel" class="form-label">Pilih Mata Pelajaran</label>
-            <select name="id_mapel" id="id_mapel" class="form-select @error('id_mapel') is-invalid @enderror" required>
-                <option value="">-- Pilih Mapel --</option>
-                @foreach ($mapel as $m)
-                    <option value="{{ $m->id }}" {{ old('id_mapel') == $m->id ? 'selected' : '' }}>
-                        {{ $m->nama_mapel }}
-                    </option>
-                @endforeach
-            </select>
-            @error('id_mapel')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+{{-- Mapel --}}
+<div class="mb-3">
+    <label for="id_mapel" class="form-label">Pilih Mata Pelajaran</label>
+    <select name="id_mapel" id="id_mapel" class="form-select @error('id_mapel') is-invalid @enderror" required>
+        <option value="">-- Pilih Mapel --</option>
+        @foreach ($mapel->unique('id') as $m)
+            @if ($m) {{-- pastikan data tidak null --}}
+                <option value="{{ $m->id }}" {{ old('id_mapel') == $m->id ? 'selected' : '' }}>
+                    {{ $m->nama_mapel }}
+                </option>
+            @endif
+        @endforeach
+    </select>
+    @error('id_mapel')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
 
         {{-- Semester --}}
-        <div class="mb-3">
-            <label for="semester" class="form-label">Semester</label>
-            <select name="semester" id="semester" class="form-select @error('semester') is-invalid @enderror" required>
-                <option value="">-- Pilih Semester --</option>
-                <option value="ganjil" {{ old('semester') == 'Ganjil' ? 'selected' : '' }}>Ganjil</option>
-                <option value="genap" {{ old('semester') == 'Genap' ? 'selected' : '' }}>Genap</option>
-            </select>
-            @error('semester')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+     {{-- Semester --}}
+<div class="mb-3">
+    <label for="id_semester" class="form-label">Semester</label>
+    <select name="id_semester" id="id_semester" class="form-select @error('id_semester') is-invalid @enderror" required>
+        <option value="">-- Pilih Semester --</option>
+        @foreach ($semesters as $smt)
+            <option value="{{ $smt->id }}"
+                {{ old('id_semester') == $smt->id ? 'selected' : '' }}>
+                {{ ucfirst($smt->semester) }} - {{ $smt->tahun }}
+            </option>
+        @endforeach
+    </select>
+    @error('id_semester')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
 
         {{-- Tanggal --}}
         <div class="mb-3">

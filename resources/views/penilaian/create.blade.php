@@ -8,17 +8,6 @@
         @csrf
 
         {{-- Guru --}}
-        <div class="mb-3">
-            <label for="id_guru" class="form-label">Guru</label>
-            <select name="id_guru" class="form-select" required>
-                <option value="">-- Pilih Guru --</option>
-                @foreach ($gurus as $guru)
-                    <option value="{{ $guru->id_guru }}" {{ old('id_guru') == $guru->id_guru ? 'selected' : '' }}>
-                        {{ $guru->nama }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
 
         {{-- User Pembuat --}}
         <div class="mb-3">
@@ -26,51 +15,53 @@
             <select name="id_user" class="form-select" required>
                 <option value="">-- Pilih User --</option>
                 @foreach ($users as $user)
-                    <option value="{{ $user->id_user }}" {{ old('id_user') == $user->id_user ? 'selected' : '' }}>
-                        {{ $user->name }} ({{ $user->role }})
-                    </option>
+                <option value="{{ $user->id_user }}" {{ old('id_user') == $user->id_user ? 'selected' : '' }}>
+                    {{ $user->name }} ({{ $user->role }})
+                </option>
                 @endforeach
             </select>
         </div>
 
-        {{-- Kelas --}}
-        <div class="mb-3">
-            <label for="id_kelas" class="form-label">Kelas</label>
-            <select name="id_kelas" class="form-select" required>
-                <option value="">-- Pilih Kelas --</option>
-                @foreach ($kelas as $k)
-                    <option value="{{ $k->id }}" {{ old('id_kelas') == $k->id ? 'selected' : '' }}>
-                        {{ $k->nama_kelas }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+  <div class="mb-3">
+    <label for="id_guru" class="form-label">Guru</label>
+    <select name="id_guru" id="id_guru" class="form-select" required>
+        <option value="">-- Pilih Guru --</option>
+        @foreach ($gurus as $guru)
+            <option value="{{ $guru->id_guru }}">{{ $guru->nama }}</option>
+        @endforeach
+    </select>
+</div>
 
-        {{-- Mapel --}}
-        <div class="mb-3">
-            <label for="id_mapel" class="form-label">Mata Pelajaran</label>
-            <select name="id_mapel" class="form-select" required>
-                <option value="">-- Pilih Mata Pelajaran --</option>
-                @foreach ($mapels as $mapel)
-                    <option value="{{ $mapel->id }}" {{ old('id_mapel') == $mapel->id ? 'selected' : '' }}>
-                        {{ $mapel->nama_mapel }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+<div class="mb-3">
+    <label for="mapel" class="form-label">Mata Pelajaran</label>
+    <select name="id_mapel" id="mapel" class="form-select" required>
+        <option value="">-- Pilih Mapel --</option>
+    </select>
+</div>
+
+<div class="mb-3">
+    <label for="kelas" class="form-label">Kelas</label>
+    <select name="id_kelas" id="kelas" class="form-select" required>
+        <option value="">-- Pilih Kelas --</option>
+    </select>
+</div>
+
+
+
 
         {{-- Semester --}}
-        <div class="mb-3">
-            <label for="semester" class="form-label">Semester</label>
-            <select name="semester" id="semester" class="form-select" required>
-                <option value="">-- Pilih Semester --</option>
-                @foreach ($daftarSemester as $s)
-                    <option value="{{ $s }}" {{ old('semester') == $s ? 'selected' : '' }}>
-                        {{ ucfirst($s) }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+      <div class="mb-3">
+    <label for="id_semester" class="form-label">Semester</label>
+    <select name="id_semester" id="id_semester" class="form-select" required>
+        <option value="">-- Pilih Semester --</option>
+        @foreach ($semesters as $s)
+            <option value="{{ $s->id }}" {{ old('id_semester', $penilaian->id_semester ?? '') == $s->id ? 'selected' : '' }}>
+                {{ ucfirst($s->semester) }} - {{ $s->tahun }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
 
         {{-- Tanggal --}}
         <div class="mb-3">
@@ -95,4 +86,43 @@
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
 </div>
+
+
+<script>
+    document.querySelector('select[name="id_guru"]').addEventListener('change', function () {
+        const guruId = this.value;
+        const mapelSelect = document.getElementById('mapel');
+        const kelasSelect = document.getElementById('kelas');
+
+        mapelSelect.innerHTML = '<option value="">-- Pilih Mapel --</option>';
+        kelasSelect.innerHTML = '<option value="">-- Pilih Kelas --</option>';
+
+        if (guruId) {
+            fetch(`/penilaian/get-mapel-kelas/${guruId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.mapel && data.mapel.id) {
+                        const option = document.createElement('option');
+                        option.value = data.mapel.id;
+                        option.textContent = data.mapel.nama_mapel;
+                        mapelSelect.appendChild(option);
+                    }
+
+                    if (data.kelas && data.kelas.id) {
+                        const option = document.createElement('option');
+                        option.value = data.kelas.id;
+                        option.textContent = data.kelas.nama_kelas;
+                        kelasSelect.appendChild(option);
+                    }
+                })
+                .catch(error => console.error('Gagal ambil data:', error));
+        }
+    });
+</script>
+
+
+
+
+
+
 @endsection

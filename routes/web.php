@@ -13,6 +13,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\BeriNilaiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PenilaianController;
@@ -239,3 +240,11 @@ Route::post('/mapel/import', [MapelController::class, 'import'])->name('mapel.im
 Route::resource('laporan_kinerja', LaporanKinerjaController::class);
 
 
+Route::resource('semester', SemesterController::class);
+
+
+// Route::get('/guru/{id_guru}/mapel-kelas', [PenilaianController::class, 'getMapelKelasByGuru']);
+
+// routes/web.php
+// Route::get('/get-data-guru/{id}', [App\Http\Controllers\GuruController::class, 'getDataGuru']);
+Route::get('/penilaian/get-mapel-kelas/{id}', [PenilaianController::class, 'getMapelKelasByGuru']);

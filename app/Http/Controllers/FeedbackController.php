@@ -8,17 +8,27 @@ use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
 {
-    public function index()
-    {
-        $feedbacks = Feedback::with('penilaian')->latest()->get();
-        return view('feedback.index', compact('feedbacks'));
-    }
+public function index()
+{
+    $feedbacks = Feedback::with([
+        'penilaian.user',
+        'penilaian.kelas',
+        'penilaian.mapel',
+        'penilaian.detailPenilaian.kriteria'
+    ])->latest()->get();
 
-    public function create()
-    {
-        $penilaians = Penilaian::all();
-        return view('feedback.create', compact('penilaians'));
-    }
+    return view('feedback.index', compact('feedbacks'));
+}
+
+
+
+public function create()
+{
+    $penilaians = Penilaian::with(['user', 'semester'])->get(); // Relasi semester ditambahkan
+    return view('feedback.create', compact('penilaians'));
+}
+
+
 
     public function store(Request $request)
     {

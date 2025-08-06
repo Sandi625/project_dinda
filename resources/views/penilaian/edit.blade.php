@@ -65,17 +65,18 @@
         </div>
 
         {{-- Semester --}}
-        <div class="mb-3">
-            <label for="semester" class="form-label">Semester</label>
-            <select name="semester" id="semester" class="form-select" required>
-                <option value="">-- Pilih Semester --</option>
-                @foreach ($daftarSemester as $s)
-                    <option value="{{ $s }}" {{ old('semester', $penilaian->semester) == $s ? 'selected' : '' }}>
-                        {{ ucfirst($s) }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+      <div class="mb-3">
+    <label for="id_semester" class="form-label">Semester</label>
+    <select name="id_semester" id="id_semester" class="form-select" required>
+        <option value="">-- Pilih Semester --</option>
+        @foreach ($semesters as $s)
+            <option value="{{ $s->id }}" {{ old('id_semester', $penilaian->id_semester) == $s->id ? 'selected' : '' }}>
+                {{ ucfirst($s->semester) }} - {{ $s->tahun }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
 
         {{-- Tanggal --}}
         <div class="mb-3">

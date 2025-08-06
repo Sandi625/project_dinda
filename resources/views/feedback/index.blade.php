@@ -15,6 +15,7 @@
             <tr>
                 <th>#</th>
                 <th>Penilaian</th>
+                <th>Nilai</th>
                 <th>Komentar Kepala Sekolah</th>
                 <th>Feedback Guru</th>
                 <th>Tanggal</th>
@@ -27,7 +28,20 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>
                     Periode: {{ $f->penilaian->periode ?? '-' }}<br>
-                    Guru: {{ $f->penilaian->guru->nama ?? '-' }}
+                    Guru: {{ $f->penilaian->user->name ?? '-' }}<br>
+                    Mapel: {{ $f->penilaian->mapel->nama_mapel ?? '-' }}<br>
+                    Kelas: {{ $f->penilaian->kelas->nama_kelas ?? '-' }}
+                </td>
+                <td>
+                    <strong>Total Nilai: {{ $f->penilaian->nilai ?? '-' }}</strong>
+                    <ul class="mt-2 mb-0 ps-3">
+                        @foreach ($f->penilaian->detailPenilaian as $detail)
+                            <li>
+                                {{ $detail->kriteria->nama ?? '-' }}:
+                                {{ $detail->nilai ?? '-' }}
+                            </li>
+                        @endforeach
+                    </ul>
                 </td>
                 <td>{{ $f->isi }}</td>
                 <td>{{ $f->feedback_guru ?? '-' }}</td>
@@ -43,7 +57,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="6" class="text-center">Belum ada data feedback.</td>
+                <td colspan="7" class="text-center">Belum ada data feedback.</td>
             </tr>
             @endforelse
         </tbody>

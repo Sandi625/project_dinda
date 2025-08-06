@@ -75,48 +75,49 @@
       <th>Keterangan</th>
     </tr>
   </thead>
-  <tbody>
+<tbody>
+  @php
+      $totalNilai = 0;
+      $jumlahKriteria = $penilaian->detailPenilaian->count();
+  @endphp
+
+  @foreach ($penilaian->detailPenilaian as $i => $detail)
     @php
-        $totalNilai = 0;
-        $jumlahKriteria = $penilaian->detailPenilaian->count();
+        $nilai = $detail->nilai ?? 0;
+        $totalNilai += $nilai;
     @endphp
-
-    @foreach ($penilaian->detailPenilaian as $i => $detail)
-      @php
-          $nilai = $detail->nilai ?? 0;
-          $totalNilai += $nilai;
-      @endphp
-      <tr>
-        <td>{{ $i + 1 }}</td>
-        <td class="text-left">{{ $detail->kriteria->nama ?? '-' }}</td>
-        <td>5</td>
-        <td>{{ number_format($nilai, 2) }}</td>
-        <td></td>
-      </tr>
-    @endforeach
-
-    <tr style="font-weight: bold; background-color: #f9f9f9;">
-      <td colspan="2" class="text-left">Jumlah Skor Penilaian</td>
-      <td>{{ $jumlahKriteria * 5 }}</td>
-      <td>{{ number_format($totalNilai, 2) }}</td>
+    <tr>
+      <td>{{ $i + 1 }}</td>
+      <td class="text-left">{{ $detail->kriteria->nama ?? '-' }}</td>
+      <td>100</td>
+      <td>{{ number_format($nilai, 2) }}</td>
       <td></td>
     </tr>
-    <tr style="font-weight: bold; background-color: #f9f9f9;">
-      <td colspan="2" class="text-left">Nilai Akhir = (Skor ÷ {{ $jumlahKriteria * 5 }}) × 100</td>
-      <td colspan="2">
-        @php
-          $nilaiAkhir = $jumlahKriteria > 0 ? ($totalNilai / ($jumlahKriteria * 5)) * 100 : 0;
-          $predikat = '-';
-          if ($nilaiAkhir >= 85) $predikat = 'A (Sangat Baik)';
-          elseif ($nilaiAkhir >= 75) $predikat = 'B (Baik)';
-          elseif ($nilaiAkhir >= 65) $predikat = 'C (Cukup)';
-          else $predikat = 'D (Kurang)';
-        @endphp
-        {{ number_format($nilaiAkhir, 2) }}
-      </td>
-      <td>{{ $predikat }}</td>
-    </tr>
-  </tbody>
+  @endforeach
+
+  <tr style="font-weight: bold; background-color: #f9f9f9;">
+    <td colspan="2" class="text-left">Jumlah Skor Penilaian</td>
+    <td>{{ $jumlahKriteria * 100 }}</td>
+    <td>{{ number_format($totalNilai, 2) }}</td>
+    <td></td>
+  </tr>
+  <tr style="font-weight: bold; background-color: #f9f9f9;">
+    <td colspan="2" class="text-left">Nilai Akhir = (Skor ÷ {{ $jumlahKriteria * 100 }}) × 100</td>
+    <td colspan="2">
+      @php
+        $nilaiAkhir = $jumlahKriteria > 0 ? ($totalNilai / ($jumlahKriteria * 100)) * 100 : 0;
+        $predikat = '-';
+        if ($nilaiAkhir >= 85) $predikat = 'A (Sangat Baik)';
+        elseif ($nilaiAkhir >= 75) $predikat = 'B (Baik)';
+        elseif ($nilaiAkhir >= 65) $predikat = 'C (Cukup)';
+        else $predikat = 'D (Kurang)';
+      @endphp
+      {{ number_format($nilaiAkhir, 2) }}
+    </td>
+    <td>{{ $predikat }}</td>
+  </tr>
+</tbody>
+
 </table>
 
 <br>

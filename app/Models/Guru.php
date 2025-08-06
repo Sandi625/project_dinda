@@ -22,7 +22,7 @@ class Guru extends Model
         'id_mapel',
         'id_kelas',     // tetap ada
         'id_prodi',     // ✅ ditambahkan ke fillable
-        'semester',     // ✅ kolom baru
+        'id_semester', // ✅ sudah diganti dari semester
     ];
 
     public function user()
@@ -35,15 +35,25 @@ class Guru extends Model
         return $this->hasMany(Penilaian::class, 'id_guru', 'id_guru');
     }
 
-    public function mapel()
-    {
-        return $this->belongsTo(Mapel::class, 'id_mapel');
-    }
+  // Guru.php
+// Guru.php
+// App\Models\Guru.php
+public function mapel()
+{
+    return $this->belongsTo(Mapel::class, 'id_mapel', 'id');
+}
 
-    public function kelas()
-    {
-        return $this->belongsTo(Kelas::class, 'id_kelas', 'id');
-    }
+
+
+// Guru.php
+public function kelas()
+{
+    return $this->belongsTo(Kelas::class, 'id_kelas', 'id');
+}
+
+
+
+
   public function prodi()
     {
         return $this->belongsTo(Prodi::class, 'id_prodi'); // ✅ eksplisit karena nama kolomnya id_prodi
@@ -54,6 +64,15 @@ public function laporanKinerja()
 {
     return $this->hasMany(LaporanKinerja::class, 'id_guru', 'id_guru');
 }
+
+public function semester()
+{
+    return $this->belongsTo(Semester::class, 'id_semester', 'id');
+}
+
+
+
+
 
 
 

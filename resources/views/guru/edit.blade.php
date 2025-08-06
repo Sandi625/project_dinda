@@ -33,14 +33,16 @@
                 </div>
 
                 {{-- Dropdown semester --}}
-                <div class="mb-3">
-                    <label for="semester" class="form-label">Semester</label>
-                    <select name="semester" id="semester" class="form-select" required>
-                        <option value="">-- Pilih Semester --</option>
-                        <option value="ganjil" {{ old('semester', $guru->semester) == 'ganjil' ? 'selected' : '' }}>Ganjil</option>
-                        <option value="genap" {{ old('semester', $guru->semester) == 'genap' ? 'selected' : '' }}>Genap</option>
-                    </select>
-                </div>
+             <select name="id_semester" id="id_semester" class="form-select" required>
+    <option value="">-- Pilih Semester --</option>
+    @foreach ($semesters as $semester)
+        <option value="{{ $semester->id }}" {{ old('id_semester', $guru->id_semester) == $semester->id ? 'selected' : '' }}>
+            {{ ucfirst($semester->semester) }} - {{ $semester->tahun }}
+        </option>
+    @endforeach
+</select>
+
+
 
                 <div class="mb-3">
                     <label for="id_mapel" class="form-label">Mata Pelajaran</label>

@@ -27,7 +27,7 @@ public function up(): void
         // ✅ Foreign key ke tabel prodi
         // $table->unsignedBigInteger('id_prodi')->nullable();
 
-        $table->enum('semester', ['ganjil', 'genap'])->default('ganjil');
+        $table->unsignedBigInteger('id_semester');           // ✅ Foreign key ke tabel semester
 
         $table->timestamps();
 
@@ -42,6 +42,8 @@ public function up(): void
 
         // ✅ Foreign key ke tabel prodi
         // $table->foreign('id_prodi')->references('id')->on('prodi')->onDelete('set null');
+                $table->foreign('id_semester')->references('id')->on('semester')->onDelete('cascade');
+
     });
 }
 

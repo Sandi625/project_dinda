@@ -20,14 +20,15 @@
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card bg-success text-white shadow h-100 py-2 text-center">
-                <div class="card-body">
-                    <div class="text-white text-uppercase mb-1 fw-bold">Total Guru</div>
-                    <div class="h2 mb-0">{{ $totalGuru }}</div>
-                </div>
-            </div>
+       <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card bg-success text-white shadow h-100 py-2 text-center">
+        <div class="card-body">
+            <div class="text-white text-uppercase mb-1 fw-bold">Total User</div>
+            <div class="h2 mb-0">{{ $totalUser }}</div>
         </div>
+    </div>
+</div>
+
     </div>
 <div class="container-fluid px-4 mt-4">
     <div class="row">
@@ -88,7 +89,8 @@
 <script>
     const rawPenilaianBar = @json($penilaian);
 
-    const guruListBar = [...new Set(rawPenilaianBar.map(p => p.guru))];
+    // Ganti guru → user
+    const guruListBar = [...new Set(rawPenilaianBar.map(p => p.user))];
     const kriteriaListBar = [...new Set(rawPenilaianBar.map(p => p.kriteria))];
 
     const warnaBar = [
@@ -106,7 +108,7 @@
         borderColor: warnaBar[idx % warnaBar.length].replace('0.5', '1'),
         borderWidth: 1,
         data: guruListBar.map(guru => {
-            const found = rawPenilaianBar.find(p => p.guru === guru && p.kriteria === kriteria);
+            const found = rawPenilaianBar.find(p => p.user === guru && p.kriteria === kriteria);
             return found ? found.rata_rata : 0;
         }),
     }));
@@ -135,6 +137,7 @@
         }
     });
 </script>
+
 
 
 <script>
@@ -181,22 +184,23 @@
 <script>
     const rawLinePeriode = @json($penilaian);
 
-    const guruListLinePeriode = [...new Set(rawLinePeriode.map(d => d.guru))];
+    // Ganti guru → user
+    const userListLinePeriode = [...new Set(rawLinePeriode.map(d => d.user))];
     const periodeListLine = [...new Set(rawLinePeriode.map(d => d.periode))].sort();
 
-    const warnaGuruLine = [
+    const warnaUserLine = [
         '#3b82f6', '#10b981', '#f59e0b', '#ef4444',
         '#8b5cf6', '#ec4899', '#14b8a6', '#eab308'
     ];
 
-    const datasetLinePeriode = guruListLinePeriode.map((guru, i) => ({
-        label: guru,
+    const datasetLinePeriode = userListLinePeriode.map((user, i) => ({
+        label: user,
         data: periodeListLine.map(periode => {
-            const found = rawLinePeriode.find(d => d.guru === guru && d.periode === periode);
+            const found = rawLinePeriode.find(d => d.user === user && d.periode === periode);
             return found ? found.rata_rata : null;
         }),
-        borderColor: warnaGuruLine[i % warnaGuruLine.length],
-        backgroundColor: warnaGuruLine[i % warnaGuruLine.length] + '33',
+        borderColor: warnaUserLine[i % warnaUserLine.length],
+        backgroundColor: warnaUserLine[i % warnaUserLine.length] + '33',
         fill: false,
         tension: 0.3
     }));
@@ -221,6 +225,7 @@
         }
     });
 </script>
+
 
 
 

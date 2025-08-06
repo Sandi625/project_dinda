@@ -18,17 +18,17 @@ public function index()
 {
     $penilaian = DB::table('detail_penilaian')
         ->join('penilaian', 'detail_penilaian.id_penilaian', '=', 'penilaian.id_penilaian')
-        ->join('guru', 'penilaian.id_guru', '=', 'guru.id_guru')
+        ->join('users', 'penilaian.id_user', '=', 'users.id_user') // ✅ gunakan id_user
         ->join('kriteria_penilaian', 'detail_penilaian.id_kriteria', '=', 'kriteria_penilaian.id_kriteria')
         ->select(
-            'guru.nama as nama_guru',
+            'users.name as nama_user',
             'kriteria_penilaian.nama as kriteria',
             DB::raw("DATE_FORMAT(penilaian.created_at, '%Y-%m') as periode"),
             DB::raw('AVG(detail_penilaian.nilai) as rata_rata')
         )
         ->groupBy(
-            'guru.id_guru',
-            'guru.nama',
+            'users.id_user', // ✅ ganti id ke id_user
+            'users.name',
             'kriteria_penilaian.id_kriteria',
             'kriteria_penilaian.nama',
             DB::raw("DATE_FORMAT(penilaian.created_at, '%Y-%m')")
@@ -37,7 +37,7 @@ public function index()
         ->get()
         ->map(function ($item) {
             return (object)[
-                'guru' => $item->nama_guru,
+                'user' => $item->nama_user,
                 'kriteria' => $item->kriteria,
                 'periode' => $item->periode,
                 'rata_rata' => round($item->rata_rata, 2),
@@ -45,10 +45,14 @@ public function index()
         });
 
     $totalFeedback = DB::table('feedback')->count();
-    $totalGuru = DB::table('guru')->count();
+    $totalUser = DB::table('users')->count();
 
-    return view('dashboard.admin', compact('penilaian', 'totalFeedback', 'totalGuru'));
+    return view('dashboard.admin', compact('penilaian', 'totalFeedback', 'totalUser'));
 }
+
+
+
+
 
 
 

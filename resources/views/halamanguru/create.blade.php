@@ -14,7 +14,7 @@
                 <strong>ID Penilaian:</strong> {{ $penilaian->id_penilaian }}
             </li>
             <li class="list-group-item">
-                <strong>Guru:</strong> {{ ucwords(strtolower($penilaian->guru->nama ?? 'Tidak ada guru')) }}
+                <strong>Guru:</strong> {{ ucwords(strtolower($penilaian->user->nama ?? 'Tidak ada user')) }}
             </li>
             <li class="list-group-item">
                 <strong>Periode:</strong> {{ $penilaian->periode }}
@@ -27,15 +27,6 @@
 
         <input type="hidden" name="id_penilaian" value="{{ $penilaian->id_penilaian }}">
 
-        {{-- <div class="mb-3">
-            <label for="isi" class="form-label">Isi Feedback</label>
-            <textarea class="form-control @error('isi') is-invalid @enderror" id="isi" name="isi" rows="4" required>{{ old('isi') }}</textarea>
-            @error('isi')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div> --}}
-
-        {{-- ✅ Tambahan: Feedback dari Guru --}}
         <div class="mb-3">
             <label for="feedback_guru" class="form-label">Feedback Guru</label>
             <textarea class="form-control @error('feedback_guru') is-invalid @enderror" id="feedback_guru" name="feedback_guru" rows="4">{{ old('feedback_guru') }}</textarea>
@@ -56,3 +47,4 @@
         <a href="{{ route('halamanguru.index') }}" class="btn btn-secondary">Batal</a>
     </form>
 @endsection
+

@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
             KelasSeeder::class,   // ✅ panggil seeder kelas
             MapelSeeder::class,   // ✅ panggil seeder mapel
             KriteriaPenilaianSeeder::class, // ✅ seeder kriteria penilaian
+            SemesterSeeder::class,
+
 
         ]);
     }

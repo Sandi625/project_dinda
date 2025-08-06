@@ -20,60 +20,104 @@ class Penilaian extends Model
         'id_kelas',
         'id_mapel',
         'tanggal',
-        'semester', // ✅ tambahkan di sini
+        'id_semester',
     ];
 
     protected $casts = [
         'tanggal' => 'datetime',
-        'semester' => 'string', // ✅ opsional: pastikan di-cast sebagai string
+        'semester' => 'string', // opsional, tergantung kebutuhan
     ];
 
-    // ❌ Hapus accessor jika tidak ambil dari relasi guru
-    // public function getSemesterAttribute()
+    // ❌ Relasi ke guru dihapus
+    // public function guru()
     // {
-    //     return $this->guru?->semester;
+    //     return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
     // }
 
-    // Relasi ke guru
-    public function guru()
-    {
-        return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
-    }
-
-    // Relasi ke user (misalnya yang menilai)
+    // ✅ Relasi ke user (guru via users)
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
-    // Relasi ke kelas
+//     public function user()
+// {
+//     return $this->belongsTo(User::class, 'user_id'); // asumsinya 'user_id' adalah foreign key
+// }
+
+
+   public function guru()
+    {
+        return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
+    }
+
+
+
+
+
+
     public function kelas()
     {
         return $this->belongsTo(Kelas::class, 'id_kelas', 'id');
     }
 
-    // Relasi ke mapel
     public function mapel()
     {
         return $this->belongsTo(Mapel::class, 'id_mapel', 'id');
     }
 
-    // Relasi ke detail penilaian
     public function detailPenilaian()
     {
         return $this->hasMany(DetailPenilaian::class, 'id_penilaian', 'id_penilaian');
     }
 
-    // Relasi ke feedback
     public function feedback()
     {
         return $this->hasOne(Feedback::class, 'id_penilaian', 'id_penilaian');
     }
 
-public function feedbacks()
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class, 'id_penilaian', 'id_penilaian');
+    }
+
+// App\Models\Penilaian.php
+
+public function semester()
 {
-    return $this->hasMany(Feedback::class, 'id_penilaian', 'id_penilaian');
+    return $this->belongsTo(Semester::class, 'id_semester', 'id');
 }
 
 
+
+
+
+// public function semester()
+// {
+//     return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
+// }
+
+
+
+    // App\Models\Penilaian.php
+
+// public function semester()
+// {
+//     return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
+// }
+
+
+
+
+// User.php
+public function mapels()
+{
+    return $this->hasMany(Mapel::class, 'user_id'); // tanpa pivot
 }
+
+
+
+
+
+}
+

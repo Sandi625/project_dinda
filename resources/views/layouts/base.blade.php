@@ -80,7 +80,6 @@
                         <a class="collapse-item" href="{{ url('/guru') }}">Guru</a>
                         <a class="collapse-item" href="{{ url('/kriteria_penilaian') }}">Kriteria</a>
                         <a class="collapse-item" href="{{ url('/penilaian') }}">Penilaian</a>
-                        <a class="collapse-item" href="{{ url('/feedback') }}">Feedback</a>
 
 
                         {{-- <a class="collapse-item" href="{{ url('/subkriteria') }}">Sub Kriteria</a>
@@ -92,13 +91,19 @@
                 </div>
             </li>
 
-             <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="{{ route('mapel.index') }}">
                     <i class="fas fa-user-circle"></i>
                     <span>Mapel</span>
                 </a>
             </li>
-             <li class="nav-item">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('semester.index') }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Semester</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{ route('kelas.index') }}">
                     <i class="fas fa-user-circle"></i>
                     <span>Kelas</span>
@@ -114,19 +119,19 @@
 
 
 
-              {{-- <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="{{ route('siswa.index') }}">
                     <i class="fas fa-user-circle"></i>
                     <span>Siswa</span>
                 </a>
             </li> --}}
 
-          <li class="nav-item">
-    <a class="nav-link" href="{{ route('jadwal.index') }}">
-        <i class="fas fa-calendar-alt"></i>
-        <span>Jadwal Mengajar</span>
-    </a>
-</li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('jadwal.index') }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Jadwal Mengajar</span>
+                </a>
+            </li>
 
 
 
@@ -451,6 +456,9 @@
         </div>
     </div>
 
+    @stack('scripts')
+
+
     <!-- Bootstrap core JavaScript-->
     {{-- <script src="vendor/jquery/jquery.min.js"></script> --}}
     <script src="{{ asset('assets/sb-admin/vendor/jquery/jquery.min.js') }}"></script>
@@ -468,17 +476,17 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
-    @if(session('success'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Sukses!',
-            text: '{{ session('success') }}',
-            timer: 2000,
-            showConfirmButton: false
-        });
-    @endif
-</script>
+    <script>
+        @if (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Sukses!',
+                text: '{{ session('success') }}',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        @endif
+    </script>
 
 
 </body>

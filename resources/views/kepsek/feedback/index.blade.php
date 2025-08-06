@@ -10,6 +10,7 @@
                 <th>Guru</th>
                 <th>Kelas</th>
                 <th>Mapel</th>
+                <th>Nilai</th>
                 <th>Isi Feedback</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
                     <td>{{ $feedback->penilaian->guru->nama ?? '-' }}</td>
                     <td>{{ $feedback->penilaian->kelas->nama_kelas ?? '-' }}</td>
                     <td>{{ $feedback->penilaian->mapel->nama_mapel ?? '-' }}</td>
+                    <td>{{ $feedback->penilaian->nilai ?? '-' }}</td> <!-- Tambahan nilai -->
                     <td>{{ $feedback->isi }}</td>
                 </tr>
             @endforeach
