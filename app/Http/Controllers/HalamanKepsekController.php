@@ -18,12 +18,15 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\KriteriaPenilaian;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\LaporanKinerjaDetail;
 
 class HalamanKepsekController extends Controller
 {
  public function index(Request $request)
 {
     $query = Penilaian::with([
+                'guru', // ✅ ditambahkan
+
         'user', // Ganti dari 'guru' ke 'user'
         'kelas',
         'mapel',
@@ -48,79 +51,81 @@ class HalamanKepsekController extends Controller
 
 public function create()
 {
-    $kriteria = KriteriaPenilaian::all();
-    $users = User::all(); // Semua guru
-    $mapel = Mapel::all(); // Semua mapel tanpa filter user
-    $kelas = Kelas::all(); // Semua kelas tanpa filter user
-    $semesters = Semester::orderByDesc('tahun')->orderBy('semester')->get();
+    $kriterias = KriteriaPenilaian::all();
+    $users = User::all();
+    $semesters = Semester::all();
+    $gurus = Guru::with(['mapel', 'kelas'])->get();
+
+    $mapels = $gurus->pluck('mapel')->unique('id')->values();
+    $kelas = $gurus->pluck('kelas')->unique('id')->values();
 
     return view('kepsek.create', compact(
-        'kriteria',
+        'kriterias',
         'users',
         'kelas',
-        'mapel',
-        'semesters'
+        'mapels',
+        'semesters',
+        'gurus'
     ));
 }
 
 
 
 
-    public function show($id)
-    {
-        $penilaian = Penilaian::with([
-            'guru',
-            'user',
-            'kelas',
-            'mapel',
-            'semester',
-            'detailPenilaian.kriteria'
-        ])->findOrFail($id);
 
-        return view('kepsek.show', compact('penilaian'));
-    }
 
 public function store(Request $request)
 {
-  $request->validate([
-    'id_user' => 'required|exists:users,id_user',
-    'id_kelas' => 'required|exists:kelas,id',
-    'id_mapel' => 'required|exists:mapel,id',
-    'id_semester' => 'required|exists:semester,id',
-    'tanggal' => 'required|date',
-    'nilai' => 'required|array',
-    'nilai.*' => 'required|numeric|min:0|max:100',
-]);
+    $request->validate([
+        'id_user' => 'required|exists:users,id_user',
+        'id_guru' => 'required|exists:guru,id_guru',
+        'id_mapel' => 'required|exists:mapel,id',
+        'id_kelas' => 'required|exists:kelas,id',
+        'id_semester' => 'required|exists:semester,id',
+        'tanggal' => 'required|date',
+        'detail.*.id_kriteria' => 'required|exists:kriteria_penilaian,id_kriteria',
+        'detail.*.nilai' => 'required|numeric|min:0|max:100',
+    ]);
 
-
-    DB::beginTransaction();
-
-    try {
-        // Simpan data penilaian utama
+    DB::transaction(function () use ($request) {
         $penilaian = Penilaian::create([
             'id_user'     => $request->id_user,
-            'id_kelas'    => $request->id_kelas,
+            'id_guru'     => $request->id_guru,
             'id_mapel'    => $request->id_mapel,
+            'id_kelas'    => $request->id_kelas,
             'id_semester' => $request->id_semester,
             'tanggal'     => $request->tanggal,
         ]);
 
-        // Simpan detail nilai untuk setiap kriteria
-        foreach ($request->nilai as $id_kriteria => $nilai) {
+        foreach ($request->detail as $d) {
             DetailPenilaian::create([
                 'id_penilaian' => $penilaian->id_penilaian,
-                'id_kriteria'  => $id_kriteria,
-                'nilai'        => $nilai,
+                'id_kriteria'  => $d['id_kriteria'],
+                'nilai'        => $d['nilai'],
             ]);
         }
+    });
 
-        DB::commit();
-        return redirect()->route('kepsek.index')->with('success', 'Penilaian berhasil ditambahkan.');
-    } catch (\Exception $e) {
-        DB::rollBack();
-        return back()->with('error', 'Gagal menambahkan penilaian: ' . $e->getMessage())->withInput();
-    }
+    return redirect()->route('kepsek.index')->with('success', 'Penilaian berhasil ditambahkan.');
 }
+
+
+    public function getMapelKelasByGuru($id_guru)
+{
+    $guru = Guru::with(['mapel', 'kelas'])->findOrFail($id_guru);
+
+    return response()->json([
+        'mapel' => [
+            'id' => $guru->mapel->id ?? null,
+            'nama_mapel' => $guru->mapel->nama_mapel ?? null,
+        ],
+        'kelas' => [
+            'id' => $guru->kelas->id ?? null,
+            'nama_kelas' => $guru->kelas->nama_kelas ?? null,
+        ]
+    ]);
+}
+
 
 
     public function edit($id)
@@ -143,6 +148,9 @@ public function store(Request $request)
             'semesters'
         ));
     }
+
+
+
 
     public function update(Request $request, $id)
     {
@@ -249,25 +257,39 @@ public function getFeedback()
 
 public function laporanKinerjaKepsek(Request $request)
 {
-    $query = LaporanKinerja::with(['guru.user', 'detail']);
+    // Ambil semua data LaporanKinerja dengan relasi guru, user, detail, dan semester
+    $query = LaporanKinerja::with(['guru.user', 'detail', 'semester']);
 
-    // Optional filter by semester
-    if ($request->filled('semester') && in_array($request->semester, ['ganjil', 'genap'])) {
-        $query->where('semester', $request->semester);
+    // Filter berdasarkan id_semester jika ada permintaan filter
+    if ($request->filled('id_semester')) {
+        $query->where('id_semester', $request->id_semester);
     }
 
-    $laporanKinerja = $query->latest()->get();
+    $laporanKinerja = $query->get();
 
-    // Ambil daftar semester unik
-    $daftarSemester = LaporanKinerja::select('semester')
-        ->whereNotNull('semester')
-        ->distinct()
-        ->pluck('semester');
+    // Ambil semua semester unik yang pernah digunakan dalam laporan_kinerja
+    $daftarSemester = Semester::whereIn('id', function ($q) {
+        $q->select('id_semester')->from('laporan_kinerja')->whereNotNull('id_semester');
+    })->get();
 
     return view('kepsek.laporan_kinerja.index', compact('laporanKinerja', 'daftarSemester'));
 }
 
 
+
+ public function show($id)
+    {
+        $penilaian = Penilaian::with([
+            'guru',
+            'user',
+            'kelas',
+            'mapel',
+            'semester',
+            'detailPenilaian.kriteria'
+        ])->findOrFail($id);
+
+        return view('kepsek.show', compact('penilaian'));
+    }
 
 
 }

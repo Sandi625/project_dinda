@@ -12,17 +12,18 @@
         <a href="{{ route('laporan_kinerja.create') }}" class="btn btn-primary">+ Tambah Laporan</a>
     </div>
 
-    <form method="GET" class="mb-3">
-        <div class="row">
-            <div class="col-md-4">
-                <select name="semester" class="form-select" onchange="this.form.submit()">
-                    <option value="">-- Filter Semester --</option>
-                    <option value="ganjil" {{ request('semester') == 'ganjil' ? 'selected' : '' }}>Ganjil</option>
-                    <option value="genap" {{ request('semester') == 'genap' ? 'selected' : '' }}>Genap</option>
-                </select>
-            </div>
-        </div>
-    </form>
+  <form method="GET" action="{{ route('laporan_kinerja.index') }}">
+    <select name="id_semester" onchange="this.form.submit()">
+        <option value="">-- Semua Semester --</option>
+        @foreach ($semesters as $s)
+            <option value="{{ $s->id }}" {{ request('id_semester') == $s->id ? 'selected' : '' }}>
+                {{ ucfirst($s->semester) }} - {{ $s->tahun }}
+            </option>
+        @endforeach
+    </select>
+</form>
+
+
 
     @if ($laporan->count())
         <table class="table table-bordered table-white">
@@ -40,7 +41,14 @@
                 @foreach ($laporan as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ ucfirst($item->semester) }}</td>
+<td>
+    @if ($item->semester)
+        {{ ucfirst($item->semester->semester) }} - {{ $item->semester->tahun }}
+    @else
+        <em>Data tidak lengkap</em>
+    @endif
+</td>
+
                         <td>{{ $item->created_at->format('d M Y') }}</td>
                         <td>
                             {{ optional($item->guru->user)->name ?? '-' }}

@@ -42,7 +42,7 @@
             @forelse ($penilaian as $p)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $p->guru->name ?? 'User tidak ditemukan' }}</td>
+                <td>{{ $p->user->name ?? 'User tidak ditemukan' }}</td>
                 <td>{{ $p->kelas->nama_kelas ?? '-' }}</td>
                 <td>{{ $p->mapel->nama_mapel ?? '-' }}</td>
                 <td>

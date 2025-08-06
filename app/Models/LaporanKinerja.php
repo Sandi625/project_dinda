@@ -13,7 +13,7 @@ class LaporanKinerja extends Model
 
     protected $fillable = [
         'id_guru',
-        'semester',
+    'id_semester', // tambahkan ini
         'created_at',
         'updated_at',
     ];
@@ -37,5 +37,11 @@ public function user()
 {
     return $this->guru ? $this->guru->user() : null; // opsional, jika butuh user langsung
 }
+
+public function semester()
+{
+    return $this->belongsTo(Semester::class, 'id_semester');
+}
+
 
 }

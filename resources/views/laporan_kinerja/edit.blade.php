@@ -20,14 +20,19 @@
         @csrf
         @method('PUT')
 
-        <div class="mb-3">
-            <label for="semester" class="form-label">Semester</label>
-            <select name="semester" id="semester" class="form-select" required>
-                <option value="">-- Pilih Semester --</option>
-                <option value="ganjil" {{ $laporan->semester === 'ganjil' ? 'selected' : '' }}>Ganjil</option>
-                <option value="genap" {{ $laporan->semester === 'genap' ? 'selected' : '' }}>Genap</option>
-            </select>
-        </div>
+      <div class="mb-3">
+    <label for="id_semester" class="form-label">Semester</label>
+    <select name="id_semester" id="id_semester" class="form-select" required>
+        <option value="">-- Pilih Semester --</option>
+        @foreach ($semesters as $semester)
+            <option value="{{ $semester->id }}"
+                {{ $laporan->id_semester == $semester->id ? 'selected' : '' }}>
+                {{ ucfirst($semester->semester) }} - Tahun {{ $semester->tahun }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
 
         <hr>
         <h5>Detail Laporan</h5>

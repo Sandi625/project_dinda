@@ -17,14 +17,18 @@
     <form action="{{ route('laporan_kinerja.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        <div class="mb-3">
-            <label for="semester" class="form-label">Semester</label>
-            <select name="semester" id="semester" class="form-select" required>
-                <option value="">-- Pilih Semester --</option>
-                <option value="ganjil">Ganjil</option>
-                <option value="genap">Genap</option>
-            </select>
-        </div>
+      <div class="mb-3">
+    <label for="id_semester" class="form-label">Semester</label>
+    <select name="id_semester" id="id_semester" class="form-select" required>
+        <option value="">-- Pilih Semester --</option>
+        @foreach ($semesters as $semester)
+            <option value="{{ $semester->id }}">
+                {{ ucfirst($semester->semester) }} - {{ $semester->tahun }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
 
         <hr>
         <h5>Detail Laporan</h5>
