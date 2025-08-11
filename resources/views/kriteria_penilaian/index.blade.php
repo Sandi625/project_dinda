@@ -15,7 +15,7 @@
             <tr>
                 <th>No</th>
                 <th>Nama</th>
-                <th>Poin Kriteria</th>
+                {{-- <th>Poin Kriteria</th> --}}
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -24,7 +24,7 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $k->nama }}</td>
-                <td>{{ $k->bobot }}</td>
+                {{-- <td>{{ $k->bobot }}</td> --}}
                 <td>
                     <a href="{{ route('kriteria_penilaian.edit', $k->id_kriteria) }}" class="btn btn-sm btn-warning">Edit</a>
 

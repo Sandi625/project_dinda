@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('kriteria_penilaian', function (Blueprint $table) {
             $table->id('id_kriteria');
             $table->string('nama', 100);
-            $table->decimal('bobot', 5, 2);
+            // $table->decimal('bobot', 5, 2);
             $table->timestamps();
         });
     }

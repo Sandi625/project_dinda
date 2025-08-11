@@ -25,7 +25,7 @@ class KriteriaPenilaianController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:100',
-            'bobot' => 'required|numeric|between:0,100',
+            // 'bobot' => 'required|numeric|between:0,100',
         ]);
 
         KriteriaPenilaian::create($validated);
@@ -45,7 +45,7 @@ class KriteriaPenilaianController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:100',
-            'bobot' => 'required|numeric|between:0,100',
+            // 'bobot' => 'required|numeric|between:0,100',
         ]);
 
         $kriteria = KriteriaPenilaian::findOrFail($id);

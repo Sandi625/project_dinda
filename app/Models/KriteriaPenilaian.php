@@ -24,6 +24,6 @@ class KriteriaPenilaian extends Model
     // Mass assignable fields
     protected $fillable = [
         'nama',
-        'bobot',
+        // 'bobot',
     ];
 }

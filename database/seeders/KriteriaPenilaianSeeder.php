@@ -13,11 +13,11 @@ class KriteriaPenilaianSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['nama' => 'Kedisiplinan', 'bobot' => 20.00],
-            ['nama' => 'Komunikasi', 'bobot' => 15.00],
-            ['nama' => 'Tanggung Jawab', 'bobot' => 25.00],
-            ['nama' => 'Kreativitas', 'bobot' => 20.00],
-            ['nama' => 'Kerja Sama', 'bobot' => 20.00],
+            ['nama' => 'Kedisiplinan'],
+            ['nama' => 'Komunikasi'],
+            ['nama' => 'Tanggung Jawab'],
+            ['nama' => 'Kreativitas'],
+            ['nama' => 'Kerja Sama'],
         ];
 
         foreach ($data as $item) {

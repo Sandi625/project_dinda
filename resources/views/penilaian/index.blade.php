@@ -53,11 +53,14 @@
 
                 <td>{{ $smt->kelas->nama_kelas ?? '-' }}</td>
                 <td>{{ $smt->mapel->nama_mapel ?? '-' }}</td>
-                <td>
-                    ID: {{ optional($smt->semester)->id ?? '-' }}<br>
-                    Semester: {{ ucfirst(optional($smt->semester)->semester ?? '-') }}<br>
-                    Tahun: {{ optional($smt->semester)->tahun ?? '-' }}
-                </td>
+     <td>
+    Semester: {{ ucfirst($smt->semester_nama ?? '-') }}<br>
+    Tahun: {{ $smt->semester_tahun ?? '-' }}
+</td>
+
+
+
+
                 <td>{{ \Carbon\Carbon::parse($smt->tanggal)->format('d-m-Y') }}</td>
                 <td>
                     <ul class="mb-0 ps-3">

@@ -23,29 +23,38 @@ class PenilaianController extends Controller
     // Menampilkan semua penilaian
 public function index(Request $request)
 {
-    // Ambil input id_semester dari request
     $idSemesterDipilih = $request->input('id_semester');
 
-    // Ambil data penilaian beserta relasi terkait, SEKARANG sudah termasuk 'guru'
-    $penilaian = Penilaian::with([
-        'guru', // ✅ ditambahkan
-        'kelas',
-        'mapel',
-        'semester',
-        'detailPenilaian.kriteria'
-    ])
-    ->when($idSemesterDipilih, function ($query) use ($idSemesterDipilih) {
-        $query->where('id_semester', $idSemesterDipilih);
-    })
-    ->get();
+    $query = Penilaian::query()
+        ->select(
+            'penilaian.*',
+            'semester.semester as semester_nama',
+            'semester.tahun as semester_tahun'
+        )
+        ->leftJoin('semester', 'penilaian.id_semester', '=', 'semester.id')
+        ->with([
+            'guru',
+            'kelas',
+            'mapel',
+            'detailPenilaian.kriteria'
+        ]);
 
-    // Ambil daftar semester untuk dropdown filter
+    // Filter jika semester dipilih
+    if ($request->filled('id_semester')) {
+        $query->where('penilaian.id_semester', $idSemesterDipilih);
+    }
+
+    $penilaian = $query->orderByDesc('tanggal')->get();
+
     $daftarSemester = \App\Models\Semester::orderByDesc('tahun')
         ->orderBy('semester')
         ->get();
 
     return view('penilaian.index', compact('penilaian', 'daftarSemester', 'idSemesterDipilih'));
 }
+
+
+
 
 
 

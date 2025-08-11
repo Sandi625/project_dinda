@@ -12,11 +12,11 @@
             <input type="text" name="nama" id="nama" class="form-control" required value="{{ old('nama') }}">
         </div>
 
-     <div class="mb-3">
+     {{-- <div class="mb-3">
     <label for="bobot" class="form-label">Poin Kriteria</label>
     <input type="number" name="bobot" id="bobot" class="form-control" step="0.01" min="0" max="100" required value="{{ old('bobot') }}">
     <small class="form-text text-muted">Masukkan nilai antara 0.00 sampai 100.00 (misal: 50.00)</small>
-</div>
+</div> --}}
 
 
         <button type="submit" class="btn btn-primary">Simpan</button>
