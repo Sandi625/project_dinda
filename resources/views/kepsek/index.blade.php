@@ -41,6 +41,7 @@
             <tr>
                 <th>No</th>
                 <th>Nama User</th>
+                <th>Nama Guru</th>
                 <th>Semester</th>
                 <th>Tanggal</th>
                 <th>Detail Nilai</th>
@@ -52,7 +53,9 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $item->user->name ?? '-' }}</td>
-                <td>{{ $item->semester->semester ?? '-' }} - {{ $item->semester->tahun ?? '' }}</td>
+                <td>{{ $item->guru->nama ?? '-' }}</td> {{-- ✅ Nama guru --}}
+<td>{{ $item->id_semester }} | {{ $item->semester_nama ?? '-' }} - {{ $item->semester_tahun ?? '' }}</td>
+
                 <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
                 <td>
                     @if($item->detailPenilaian->isNotEmpty())

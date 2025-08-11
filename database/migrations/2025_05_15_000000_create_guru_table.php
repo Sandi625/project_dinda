@@ -19,15 +19,15 @@ public function up(): void
         $table->text('alamat')->nullable();
 
         // Foreign key ke tabel mapel
-        $table->unsignedBigInteger('id_mapel')->nullable();
+        // $table->unsignedBigInteger('id_mapel')->nullable();
 
         // Foreign key ke tabel kelas
-        $table->unsignedBigInteger('id_kelas')->nullable();
+        // $table->unsignedBigInteger('id_kelas')->nullable();
 
         // ✅ Foreign key ke tabel prodi
         // $table->unsignedBigInteger('id_prodi')->nullable();
 
-        $table->unsignedBigInteger('id_semester');           // ✅ Foreign key ke tabel semester
+        // $table->unsignedBigInteger('id_semester');           // ✅ Foreign key ke tabel semester
 
         $table->timestamps();
 
@@ -35,14 +35,14 @@ public function up(): void
         $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
 
         // Foreign key ke tabel mapel
-        $table->foreign('id_mapel')->references('id')->on('mapel')->onDelete('set null');
+        // $table->foreign('id_mapel')->references('id')->on('mapel')->onDelete('set null');
 
         // Foreign key ke tabel kelas
-        $table->foreign('id_kelas')->references('id')->on('kelas')->onDelete('set null');
+        // $table->foreign('id_kelas')->references('id')->on('kelas')->onDelete('set null');
 
         // ✅ Foreign key ke tabel prodi
         // $table->foreign('id_prodi')->references('id')->on('prodi')->onDelete('set null');
-                $table->foreign('id_semester')->references('id')->on('semester')->onDelete('cascade');
+        // $table->foreign('id_semester')->references('id')->on('semester')->onDelete('cascade');
 
     });
 }

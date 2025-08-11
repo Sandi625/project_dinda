@@ -32,45 +32,6 @@
                             value="{{ old('nama') }}" required>
                     </div>
 
-               <div class="mb-3">
-    <label for="id_semester" class="form-label">Semester</label>
-    <select name="id_semester" id="id_semester" class="form-select" required>
-        <option value="">-- Pilih Semester --</option>
-        @foreach ($semesters as $semester)
-            <option value="{{ $semester->id }}">
-                {{ ucfirst($semester->semester) }} - {{ $semester->tahun }}
-            </option>
-        @endforeach
-    </select>
-</div>
-
-
-
-
-                    <div class="mb-3">
-                        <label for="id_mapel" class="form-label">Mata Pelajaran</label>
-                        <select name="id_mapel" id="id_mapel" class="form-select">
-                            <option value="">-- Pilih Mapel --</option>
-                            @foreach ($mapel as $m)
-                                <option value="{{ $m->id }}" {{ old('id_mapel') == $m->id ? 'selected' : '' }}>
-                                    {{ $m->nama_mapel }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="id_kelas" class="form-label">Kelas</label>
-                        <select name="id_kelas" id="id_kelas" class="form-select">
-                            <option value="">-- Pilih Kelas --</option>
-                            @foreach ($kelas as $k)
-                                <option value="{{ $k->id }}" {{ old('id_kelas') == $k->id ? 'selected' : '' }}>
-                                    {{ $k->nama_kelas }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
                     <div class="mb-3">
                         <label for="alamat" class="form-label">Alamat</label>
                         <textarea name="alamat" id="alamat" rows="3" class="form-control" placeholder="Masukkan Alamat">{{ old('alamat') }}</textarea>
@@ -83,3 +44,4 @@
         </div>
     </div>
 @endsection
+

@@ -1,35 +1,29 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use App\Models\User;
-use App\Models\Kelas;
-use App\Models\Mapel;
-use App\Models\Semester;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class GuruController extends Controller
 {
     public function index()
     {
-        $guru = Guru::with(['user', 'mapel', 'kelas', 'semester'])->get(); // tambahkan relasi kelas & semester
+        $guru = Guru::with(['user'])->get();
         return view('guru.index', compact('guru'));
     }
 
     public function show($id)
     {
-        $guru = Guru::with(['user', 'mapel', 'kelas', 'semester'])->findOrFail($id);
+        $guru = Guru::with(['user'])->findOrFail($id);
         return view('guru.show', compact('guru'));
     }
 
     public function create()
     {
         $users = User::all();
-        $mapel = Mapel::all();
-        $kelas = Kelas::all();
-        $semesters = Semester::all(); // ambil semua semester
-        return view('guru.create', compact('users', 'mapel', 'kelas', 'semesters'));
+        return view('guru.create', compact('users'));
     }
 
     public function store(Request $request)
@@ -39,9 +33,6 @@ class GuruController extends Controller
             'nip' => 'nullable|string|max:20',
             'nama' => 'required|string|max:100',
             'alamat' => 'nullable|string',
-            'id_mapel' => 'nullable|exists:mapel,id',
-            'id_kelas' => 'nullable|exists:kelas,id',
-    'id_semester' => 'required|exists:semester,id', // <-- diperbaiki di sini
         ]);
 
         Guru::create([
@@ -49,9 +40,6 @@ class GuruController extends Controller
             'nip' => $request->nip,
             'nama' => $request->nama,
             'alamat' => $request->alamat,
-            'id_mapel' => $request->id_mapel,
-            'id_kelas' => $request->id_kelas,
-            'id_semester' => $request->id_semester, // simpan semester sebagai id
         ]);
 
         return redirect()->route('guru.index')->with('success', 'Data guru berhasil ditambahkan.');
@@ -60,10 +48,7 @@ class GuruController extends Controller
     public function edit(Guru $guru)
     {
         $users = User::all();
-        $mapel = Mapel::all();
-        $kelas = Kelas::all();
-        $semesters = Semester::all(); // ambil semua semester
-        return view('guru.edit', compact('guru', 'users', 'mapel', 'kelas', 'semesters'));
+        return view('guru.edit', compact('guru', 'users'));
     }
 
     public function update(Request $request, Guru $guru)
@@ -73,9 +58,6 @@ class GuruController extends Controller
             'nip' => 'nullable|string|max:20',
             'nama' => 'required|string|max:100',
             'alamat' => 'nullable|string',
-            'id_mapel' => 'nullable|exists:mapel,id',
-            'id_kelas' => 'nullable|exists:kelas,id',
-    'id_semester' => 'required|exists:semester,id', // <-- diperbaiki di sini
         ]);
 
         $guru->update([
@@ -83,9 +65,6 @@ class GuruController extends Controller
             'nip' => $request->nip,
             'nama' => $request->nama,
             'alamat' => $request->alamat,
-            'id_mapel' => $request->id_mapel,
-            'id_kelas' => $request->id_kelas,
-            'id_semester' => $request->id_semester,
         ]);
 
         return redirect()->route('guru.index')->with('success', 'Data guru berhasil diupdate.');

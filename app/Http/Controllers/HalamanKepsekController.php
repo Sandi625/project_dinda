@@ -22,21 +22,26 @@ use App\Models\LaporanKinerjaDetail;
 
 class HalamanKepsekController extends Controller
 {
- public function index(Request $request)
+public function index(Request $request)
 {
-    $query = Penilaian::with([
-                'guru', // ✅ ditambahkan
-
-        'user', // Ganti dari 'guru' ke 'user'
-        'kelas',
-        'mapel',
-        'semester',
-        'detailPenilaian.kriteria'
-    ]);
+    $query = Penilaian::query()
+        ->select(
+            'penilaian.*',
+            'semester.semester as semester_nama',
+            'semester.tahun as semester_tahun'
+        )
+        ->leftJoin('semester', 'penilaian.id_semester', '=', 'semester.id')
+        ->with([
+            'guru',
+            'user',
+            'kelas',
+            'mapel',
+            'detailPenilaian.kriteria'
+        ]);
 
     // Filter berdasarkan id_semester
     if ($request->filled('id_semester')) {
-        $query->where('id_semester', $request->id_semester);
+        $query->where('penilaian.id_semester', $request->id_semester);
     }
 
     $penilaian = $query->orderByDesc('tanggal')->get();
@@ -49,15 +54,15 @@ class HalamanKepsekController extends Controller
 }
 
 
+
 public function create()
 {
     $kriterias = KriteriaPenilaian::all();
     $users = User::all();
     $semesters = Semester::all();
-    $gurus = Guru::with(['mapel', 'kelas'])->get();
-
-    $mapels = $gurus->pluck('mapel')->unique('id')->values();
-    $kelas = $gurus->pluck('kelas')->unique('id')->values();
+    $gurus = Guru::all();
+    $mapels = Mapel::all();
+    $kelas = Kelas::all();
 
     return view('kepsek.create', compact(
         'kriterias',
@@ -68,6 +73,8 @@ public function create()
         'gurus'
     ));
 }
+
+
 
 
 

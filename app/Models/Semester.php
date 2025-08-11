@@ -9,20 +9,26 @@ class Semester extends Model
 {
     use HasFactory;
 
-    // Nama tabel (opsional, jika nama model dan tabel berbeda)
     protected $table = 'semester';
+    protected $primaryKey = 'id'; // pastikan sesuai dengan DB
+    public $incrementing = true;
+    protected $keyType = 'int';
 
-    // Kolom yang boleh diisi (jika ingin pakai mass assignment)
     protected $fillable = [
         'semester',
         'tahun',
     ];
 
-
-
     public function penilaians()
     {
         return $this->hasMany(Penilaian::class, 'id_semester', 'id');
     }
+
+    // di App\Models\Semester
+public function getSemesterAttribute($value)
+{
+    return $value ? ucfirst($value) : null;
+}
+
 
 }

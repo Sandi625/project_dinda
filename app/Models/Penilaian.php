@@ -92,6 +92,8 @@ public function semester()
 
 
 
+
+
 // public function semester()
 // {
 //     return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');

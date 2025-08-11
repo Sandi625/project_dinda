@@ -32,42 +32,6 @@
                     <input type="text" name="nama" id="nama" class="form-control" value="{{ old('nama', $guru->nama) }}" required>
                 </div>
 
-                {{-- Dropdown semester --}}
-             <select name="id_semester" id="id_semester" class="form-select" required>
-    <option value="">-- Pilih Semester --</option>
-    @foreach ($semesters as $semester)
-        <option value="{{ $semester->id }}" {{ old('id_semester', $guru->id_semester) == $semester->id ? 'selected' : '' }}>
-            {{ ucfirst($semester->semester) }} - {{ $semester->tahun }}
-        </option>
-    @endforeach
-</select>
-
-
-
-                <div class="mb-3">
-                    <label for="id_mapel" class="form-label">Mata Pelajaran</label>
-                    <select name="id_mapel" id="id_mapel" class="form-select">
-                        <option value="">-- Pilih Mapel --</option>
-                        @foreach ($mapel as $m)
-                            <option value="{{ $m->id }}" {{ $guru->id_mapel == $m->id ? 'selected' : '' }}>
-                                {{ $m->nama_mapel }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label for="id_kelas" class="form-label">Kelas</label>
-                    <select name="id_kelas" id="id_kelas" class="form-select">
-                        <option value="">-- Pilih Kelas --</option>
-                        @foreach($kelas as $k)
-                            <option value="{{ $k->id }}" {{ (old('id_kelas', $guru->id_kelas ?? '') == $k->id) ? 'selected' : '' }}>
-                                {{ $k->nama_kelas }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
                 <div class="mb-3">
                     <label for="alamat" class="form-label">Alamat</label>
                     <textarea name="alamat" id="alamat" class="form-control" rows="3">{{ old('alamat', $guru->alamat) }}</textarea>

@@ -16,50 +16,41 @@
 
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
-              <thead class="table-white">
-    <tr>
-        <th>ID</th>
-        <th>User</th>
-        <th>NIP</th>
-        <th>Nama</th>
-        <th>Mapel</th>
-        <th>Alamat</th>
-        <th>Semester</th>
-        <th>Kelas</th> {{-- ✅ Tambahkan kolom kelas --}}
-        <th class="text-center">Aksi</th>
-    </tr>
-</thead>
+                <thead class="table-white">
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>NIP</th>
+                        <th>Nama</th>
+                        <th>Alamat</th>
+                        <th class="text-center">Aksi</th>
+                    </tr>
+                </thead>
 
-              <tbody>
-    @forelse ($guru as $g)
-        <tr>
-            <td>{{ $g->id_guru }}</td>
-            <td>{{ $g->user->name ?? '-' }}</td>
-            <td>{{ $g->nip ?? '-' }}</td>
-            <td>{{ $g->nama }}</td>
-            <td>{{ $g->mapel->nama_mapel ?? '-' }}</td>
-            <td>{{ $g->alamat ?? '-' }}</td>
-            <td>
-                {{ $g->semester ? ucfirst($g->semester->semester) . ' - ' . $g->semester->tahun : '-' }}
-            </td>
-            <td>{{ $g->kelas->nama_kelas ?? '-' }}</td> {{-- ✅ Menampilkan kelas --}}
-            <td class="text-center">
-                <a href="{{ route('guru.edit', $g->id_guru) }}" class="btn btn-sm btn-warning">Edit</a>
-                <form action="{{ route('guru.destroy', $g->id_guru) }}" method="POST"
-                    style="display:inline-block;" onsubmit="return confirm('Yakin ingin hapus?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                </form>
-            </td>
-        </tr>
-    @empty
-        <tr>
-            <td colspan="9" class="text-center">Tidak ada data guru.</td>
-        </tr>
-    @endforelse
-</tbody>
-
+                <tbody>
+                    @forelse ($guru as $g)
+                        <tr>
+                            <td>{{ $g->id_guru }}</td>
+                            <td>{{ $g->user->name ?? '-' }}</td>
+                            <td>{{ $g->nip ?? '-' }}</td>
+                            <td>{{ $g->nama }}</td>
+                            <td>{{ $g->alamat ?? '-' }}</td>
+                            <td class="text-center">
+                                <a href="{{ route('guru.edit', $g->id_guru) }}" class="btn btn-sm btn-warning">Edit</a>
+                                <form action="{{ route('guru.destroy', $g->id_guru) }}" method="POST"
+                                    style="display:inline-block;" onsubmit="return confirm('Yakin ingin hapus?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center">Tidak ada data guru.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
             </table>
         </div>
     </div>

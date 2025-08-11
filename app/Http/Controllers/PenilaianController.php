@@ -75,11 +75,9 @@ public function create()
     $kriterias = KriteriaPenilaian::all();
     $users = User::all();
     $semesters = Semester::all();
-    $gurus = Guru::with(['mapel', 'kelas'])->get();
-
-    // Ambil hanya mapel dan kelas dari data guru yang ada
-    $mapels = $gurus->pluck('mapel')->unique('id')->values();
-    $kelas = $gurus->pluck('kelas')->unique('id')->values();
+    $gurus = Guru::all();
+    $mapels = Mapel::all();
+    $kelas = Kelas::all();
 
     $tahun = date('Y');
     $periode = $tahun . ' - ' . ($tahun + 1);
@@ -88,6 +86,7 @@ public function create()
         'kriterias', 'users', 'mapels', 'kelas', 'periode', 'semesters', 'gurus'
     ));
 }
+
 
 public function getMapelKelasByGuru($id_guru)
 {

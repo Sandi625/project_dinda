@@ -33,16 +33,26 @@
 </div>
 
 <div class="mb-3">
-    <label for="mapel" class="form-label">Mata Pelajaran</label>
-    <select name="id_mapel" id="mapel" class="form-select" required>
+    <label for="id_mapel" class="form-label">Mata Pelajaran</label>
+    <select name="id_mapel" id="id_mapel" class="form-select" required>
         <option value="">-- Pilih Mapel --</option>
+        @foreach ($mapels as $m)
+            <option value="{{ $m->id }}" {{ old('id_mapel') == $m->id ? 'selected' : '' }}>
+                {{ $m->nama_mapel }}
+            </option>
+        @endforeach
     </select>
 </div>
 
 <div class="mb-3">
-    <label for="kelas" class="form-label">Kelas</label>
-    <select name="id_kelas" id="kelas" class="form-select" required>
+    <label for="id_kelas" class="form-label">Kelas</label>
+    <select name="id_kelas" id="id_kelas" class="form-select" required>
         <option value="">-- Pilih Kelas --</option>
+        @foreach ($kelas as $k)
+            <option value="{{ $k->id }}" {{ old('id_kelas') == $k->id ? 'selected' : '' }}>
+                {{ $k->nama_kelas }}
+            </option>
+        @endforeach
     </select>
 </div>
 

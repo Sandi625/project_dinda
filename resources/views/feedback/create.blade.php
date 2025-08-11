@@ -7,19 +7,21 @@
     <form action="{{ route('feedback.store') }}" method="POST">
         @csrf
 
-   <div class="mb-3">
+ <div class="mb-3">
     <label for="id_penilaian" class="form-label">Penilaian</label>
     <select name="id_penilaian" class="form-select" required>
         <option value="">-- Pilih Penilaian --</option>
         @foreach ($penilaians as $penilaian)
             <option value="{{ $penilaian->id_penilaian }}">
                 User: {{ $penilaian->user->name ?? '-' }} |
-                {{-- Semester: {{ $penilaian->semester->semester ?? '-' }} {{ $penilaian->semester->tahun ?? '' }} |
-                Periode: {{ $penilaian->periode }} --}}
+                Guru: {{ $penilaian->guru->nama ?? '-' }}
+                Periode: {{ $penilaian->semester->tahun ?? '-' }}
+
             </option>
         @endforeach
     </select>
 </div>
+
 
 
 

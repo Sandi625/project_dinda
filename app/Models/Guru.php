@@ -19,10 +19,10 @@ class Guru extends Model
         'nip',
         'nama',
         'alamat',
-        'id_mapel',
-        'id_kelas',     // tetap ada
-        'id_prodi',     // ✅ ditambahkan ke fillable
-        'id_semester', // ✅ sudah diganti dari semester
+        // 'id_mapel',
+        // 'id_kelas',     // tetap ada
+        // 'id_prodi',     // ✅ ditambahkan ke fillable
+        // 'id_semester', // ✅ sudah diganti dari semester
     ];
 
     public function user()
@@ -38,26 +38,26 @@ class Guru extends Model
   // Guru.php
 // Guru.php
 // App\Models\Guru.php
-public function mapel()
-{
-    return $this->belongsTo(Mapel::class, 'id_mapel', 'id');
-}
+// public function mapel()
+// {
+//     return $this->belongsTo(Mapel::class, 'id_mapel', 'id');
+// }
 
 
 
 // Guru.php
-public function kelas()
-{
-    return $this->belongsTo(Kelas::class, 'id_kelas', 'id');
-}
+// public function kelas()
+// {
+//     return $this->belongsTo(Kelas::class, 'id_kelas', 'id');
+// }
 
 
 
 
-  public function prodi()
-    {
-        return $this->belongsTo(Prodi::class, 'id_prodi'); // ✅ eksplisit karena nama kolomnya id_prodi
-    }
+//   public function prodi()
+//     {
+//         return $this->belongsTo(Prodi::class, 'id_prodi'); // ✅ eksplisit karena nama kolomnya id_prodi
+//     }
 
     // Guru.php
 public function laporanKinerja()
@@ -65,10 +65,10 @@ public function laporanKinerja()
     return $this->hasMany(LaporanKinerja::class, 'id_guru', 'id_guru');
 }
 
-public function semester()
-{
-    return $this->belongsTo(Semester::class, 'id_semester', 'id');
-}
+// public function semester()
+// {
+//     return $this->belongsTo(Semester::class, 'id_semester', 'id');
+// }
 
 
 
