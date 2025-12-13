@@ -7,29 +7,31 @@
     <form action="{{ route('kepsek.store') }}" method="POST">
         @csrf
 
-        {{-- User Pembuat --}}
-        <div class="mb-3">
-            <label for="id_user" class="form-label">Beri Akun (agar bisa Login dan melihat nilai)</label>
-            <select name="id_user" class="form-select" required>
-                <option value="">-- Pilih User --</option>
-                @foreach ($users as $user)
-                <option value="{{ $user->id_user }}" {{ old('id_user') == $user->id_user ? 'selected' : '' }}>
-                    {{ $user->name }} ({{ $user->role }})
-                </option>
-                @endforeach
-            </select>
-        </div>
+     {{-- User --}}
+<div class="mb-3">
+    <label for="id_user" class="form-label">Beri Akun (agar bisa Login dan melihat nilai)</label>
+    <select name="id_user" id="id_user" class="form-select" required>
+        <option value="">-- Pilih User --</option>
+        @foreach ($users as $user)
+            <option value="{{ $user->id_user }}" {{ old('id_user') == $user->id_user ? 'selected' : '' }}>
+                {{ $user->name }} ({{ $user->role }})
+            </option>
+        @endforeach
+    </select>
+</div>
 
-        {{-- Guru --}}
-        <div class="mb-3">
-            <label for="id_guru" class="form-label">Guru</label>
-            <select name="id_guru" id="id_guru" class="form-select" required>
-                <option value="">-- Pilih Guru --</option>
-                @foreach ($gurus as $guru)
-                    <option value="{{ $guru->id_guru }}">{{ $guru->nama }}</option>
-                @endforeach
-            </select>
-        </div>
+{{-- Guru --}}
+<div class="mb-3">
+    <label for="id_guru" class="form-label">Guru</label>
+    <select name="id_guru" id="id_guru" class="form-select" required>
+        <option value="">-- Pilih Guru --</option>
+        @foreach ($gurus as $guru)
+            <option value="{{ $guru->id_guru }}" data-id_user="{{ $guru->id_user }}">
+                {{ $guru->nama }}
+            </option>
+        @endforeach
+    </select>
+</div>
 
         {{-- Mapel --}}
         <div class="mb-3">
@@ -89,4 +91,24 @@
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
 </div>
+
+<script>
+document.getElementById('id_user').addEventListener('change', function() {
+    const selectedUserId = this.value;
+    const guruSelect = document.getElementById('id_guru');
+    let found = false;
+
+    for (let option of guruSelect.options) {
+        if (option.getAttribute('data-id_user') === selectedUserId) {
+            option.selected = true;
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        guruSelect.value = ""; // reset jika tidak ada guru yg cocok
+    }
+});
+</script>
 @endsection

@@ -39,19 +39,22 @@ public function index(Request $request)
             'detailPenilaian.kriteria'
         ]);
 
-    // Filter berdasarkan id_semester
+    // Filter berdasarkan id_semester jika dipilih
     if ($request->filled('id_semester')) {
         $query->where('penilaian.id_semester', $request->id_semester);
     }
 
-    $penilaian = $query->orderByDesc('tanggal')->get();
+    // Urutkan berdasarkan waktu pembuatan (data baru di bawah)
+    $penilaian = $query->orderBy('penilaian.created_at', 'asc')->get();
 
+    // Ambil daftar semester untuk filter
     $daftarSemester = \App\Models\Semester::orderByDesc('tahun')
         ->orderBy('semester')
         ->get();
 
     return view('kepsek.index', compact('penilaian', 'daftarSemester'));
 }
+
 
 
 
@@ -214,11 +217,10 @@ public function store(Request $request)
 
 
 
-   public function downloadUntukKepalaSekolah($id)
+public function downloadUntukKepalaSekolah($id)
 {
     $penilaian = Penilaian::with([
-        'guru.mapel',               // memuat relasi mapel guru
-        'guru.kelas',               // memuat relasi kelas guru
+        // 'guru.kelas',               // relasi kelas guru
         'detailPenilaian.kriteria' // memuat detail penilaian
     ])->findOrFail($id);
 
@@ -229,6 +231,7 @@ public function store(Request $request)
 
     return $pdf->stream($namaFile);
 }
+
 
 
 public function nilaiSiswa()
